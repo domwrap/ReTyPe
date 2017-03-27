@@ -42,7 +42,7 @@ class MsgBox {
 		; Add period at end of message if not sent
 		strMessage := ( "." != SubStr( strMessage, StrLen( strMessage ), 1 ) ) ? strMessage "." : strMessage
 		; If exiting, add message to say so
-		strMessage := ( True = blnExit ) ? strMessage " Exiting" : strMessage
+		;strMessage := ( True = blnExit ) ? strMessage " Exiting" : strMessage
 
 		; Do the actual msgbox
 		ErrorLevel := this.show( strMessage, 16, "Fatal Error" )
@@ -65,6 +65,10 @@ class MsgBox {
 
 	yesno( strMessage ) {
 		return this.show( strMessage, 36, "Continue?" )
+	}
+
+	tryagain( strMessage ) {
+		return this.show( strMessage, 70, "Try Again?" )
 	}
 
 	show( strMessage, intType=0, strTitle="" ) {

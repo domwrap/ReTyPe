@@ -65,13 +65,16 @@ class FluidAdminTreeViewSelect extends Fluid {
 			;if ( ( ( 0 < intActiveX & 0 < intActiveY ) OR ( 0 < intInactiveX & 0 < intInactiveY ) ) AND ( 0 < intBrowseX & 0 < intBrowseY ) )  {
 			if ( ( 300 > intTreeH ) AND ( ( 0 < intActiveX & 0 < intActiveY ) OR ( 0 < intInactiveX & 0 < intInactiveY ) ) AND ( !intMenuX & !intMenuY ) )  {
 			;if ( ( 0 < intActiveX & 0 < intActiveY ) OR ( 0 < intInactiveX & 0 < intInactiveY ) ) {
+				; Get RTP window size and resize relative
+				WinGetPos, , , intRtpW, intRtpH, A
+
 				; Array of controls that all need to be resized, with their sizes
 				; Original code was existing-width + 100 but that just happened
 				; repeatedly so need to hard-code numbers
 				arrControls := {}
 				arrControls.Insert( { strControl:"WindowsForms10.Window.8.app.0.30495d1_r11_ad19", intWx:291, intHx:16 } ) ; X button
-				arrControls.Insert( { strControl:"WindowsForms10.Window.8.app.0.30495d1_r11_ad111", intWx:285, intHx:560 } ) ; Browse Fieldset
-				arrControls.Insert( { strControl:"WindowsForms10.SysTreeView32.app.0.30495d1_r11_ad11", intWx:275, intHx:535 } ) ; Product treeview
+				arrControls.Insert( { strControl:"WindowsForms10.Window.8.app.0.30495d1_r11_ad111", intWx:285, intHx:intRtpH*0.75 } ) ; Browse Fieldset
+				arrControls.Insert( { strControl:"WindowsForms10.SysTreeView32.app.0.30495d1_r11_ad11", intWx:275, intHx:((intRtpH*0.75)-25) } ) ; Product treeview
 				; Loop controls and action width and height changes
 				for intIndex, objControl in arrControls {
 					ControlMove, % objControl.strControl, , , % objControl.intWx, % objControl.intHx, A

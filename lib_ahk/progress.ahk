@@ -50,10 +50,10 @@ class Progress {
 	}
 
 	p_progress( mixParam, strSubText=false, strMainText=false, strTitle=false, strFont=false ) {
-		strSubText	:= ( false = strSubText ) ? this.strSubText : ( 0 = StrLen( strSubText ) ) ? " " : strSubText
-		strMainText := ( false = strMainText ) ? this.strMainText : strMainText
-		strTitle 	:= ( false = strTitle ) ? this.strTitle : strTitle
-		strFont 	:= ( false = strFont ) ? this.strFont : strFont
+		strSubText	:= ( false = strSubText )	? this.strSubText 	: ( 0 = StrLen( strSubText ) ) ? " " : strSubText
+		strMainText := ( false = strMainText )	? this.strMainText 	: strMainText
+		strTitle 	:= ( false = strTitle )		? this.strTitle 	: strTitle
+		strFont 	:= ( false = strFont )		? this.strFont 		: strFont
 
 		; Draw stuff
 		Progress, %mixParam%, %strSubText%, %strMainText%, %strTitle%, %strFont%

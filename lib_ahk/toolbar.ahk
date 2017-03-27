@@ -116,7 +116,9 @@ class Toolbar {
 
 		return
 
-
+		/**
+		 * MENU HANDLE
+		 */
 		fnMenu_Handle:
 			global objRetype
 
@@ -130,11 +132,17 @@ class Toolbar {
 			objRetype.arrMenuHotkeys[strMenuItem].pour()
 		return
 
+		/**
+		 * BUTTON MENU HANDLE
+		 */
 		fnButton_Menu_Handle:
 			Menu, % "Menu" A_GuiControl, Show, 0, 23
 			;A_GuiControl
 		return
 
+		/**
+		 * NULL HANDLER
+		 */
 		fnNull:
 			; Nothing here, placeholder for disabled menu items
 		return

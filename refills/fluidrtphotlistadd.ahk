@@ -102,6 +102,7 @@ return
 				; Now the damn thing is finally open
 				;
 				; Select hotlist reason
+				strControl := objRetype.objRTP.formatClassNN( "COMBOBOX", this.getConf( "ComboBox", 16 ) )
 				Control, ChooseString, Autocharge Problem, WindowsForms10.COMBOBOX.app.0.30495d1_r11_ad11
 
 				;intTomorrow := A_MM . "/" . A_DD+1 . "/" . A_YYYY
