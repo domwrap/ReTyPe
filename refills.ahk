@@ -5,6 +5,7 @@
 #Include refills\fluidproductinventorytransposeexcel.ahk
 #Include refills\fluidproductpricingbulktransposeexcel.ahk
 #Include refills\fluidproductpricingbulkui.ahk
+#Include refills\fluidproductpricingmerge.ahk
 #Include refills\fluidproductpricingseasoneditenable.ahk
 #Include refills\fluidrtpactivewindow.ahk
 #Include refills\fluidrtpautorecharge.ahk

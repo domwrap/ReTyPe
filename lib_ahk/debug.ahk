@@ -4,7 +4,6 @@
 class Debug {
 
 	static env 	:= "dev"
-
 	static strFileLog	= "debug.log"
 
 	__New() {

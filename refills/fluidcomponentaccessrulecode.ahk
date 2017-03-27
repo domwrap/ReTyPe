@@ -60,7 +60,7 @@ class FluidComponentAccessRuleCode extends Fluid {
 		IfWinActive, ahk_group %strGroup%
 		{
 			; WinActive check isn't good enough in this case, so need to make a visual search too
-			ImageSearch intActiveX, intActiveY, 180, 30, 280, 60, %A_ScriptDir%\img\search_fluidcomponentaccessrulecode_accessproduct.png
+			ImageSearch intActiveX, intActiveY, 180, 30, 280, 60, *50 %A_ScriptDir%\img\search_fluidcomponentaccessrulecode_accessproduct.png
 			If ( !ErrorLevel ) {
 				strControl := objRetype.objRTP.formatClassNN( "COMBOBOX", this.getConf( "ComboBox", 16 ) )
 				WinGetPos, intWinX, intWinY,,,

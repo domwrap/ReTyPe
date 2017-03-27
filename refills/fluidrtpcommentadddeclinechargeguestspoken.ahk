@@ -31,7 +31,7 @@ class FluidRTPCommentAddDeclineChargeGuestSpoken extends Fluid {
 		IfWinActive, ahk_group %strGroup%
 		{
 			; WinActive check isn't good enough in this case, so need to make a visual search too
-			ImageSearch intActiveX, intActiveY, 20, 60, 60, 100, *10 %A_ScriptDir%\img\search_icon_customermanager.png
+			ImageSearch intActiveX, intActiveY, 20, 60, 60, 100, *50 %A_ScriptDir%\img\search_icon_customermanager.png
 			if ( ErrorLevel ) {
 				; At this point we are not in customer manager
 				MsgBox.error( "Can only be run from within Customer Manager" )
