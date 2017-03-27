@@ -31,37 +31,58 @@ class ToolbarRetype extends Toolbar {
 	/**
 	 * Constructor
 	 */
-	__New() {
+	__New( strButtons="" ) {
+
 		; BUTTON: General
-		objBtnGeneral := new Button( "General", "fnButton_Menu_Handle", "G" )
-		this.addButton( objBtnGeneral )
-		objBtnGeneral.addMenu( new Menu( "fnNull", "General", false ) )
-
-		; BUTTON: Admin
-		objBtnAdmin := new Button( "Admin", "fnButton_Menu_Handle", "A" )
-		this.addButton( objBtnAdmin )
-		objBtnAdmin.addMenu( new Menu( "fnNull", "Administration", false ) )
-		objBtnAdmin.addMenu( new Menu( "fnNull", "" ) )
-		; sub menus
-		objMenuAdminProduct := new Menu( "fnMenu_Handle", "Product" )
-		objBtnAdmin.addMenu( objMenuAdminProduct )
-		objMenuAdminComponent := new Menu( "fnMenu_Handle", "Component" )
-		objBtnAdmin.addMenu( objMenuAdminComponent )
-
-		; BUTTON: Customer Manager
-		objBtnCustomer := new Button( "CusMan", "fnButton_Menu_Handle", "C" )
-		this.addButton( objBtnCustomer )
-		objBtnCustomer.addMenu( new Menu( "fnNull", "Customer Manager", false ) )
-
+		If ( InStr( strButtons, "G" ) ) {
+			objBtnGeneral := new Button( "General", "fnButton_Menu_Handle", "G" )
+			this.addButton( objBtnGeneral )
+			objMenuGeneral := new Menu( "fnNull", "General", false )
+			objMenuGeneral.setIcon( A_WinDir "\System32\shell32.dll", 22 )
+			objBtnGeneral.addMenu( objMenuGeneral )
+			objBtnGeneral.addMenu( new Menu( "fnNull", "" ) )
+		}
 		; BUTTON: OneResort
-		objButtonOneResort := new Button( "OneResort", "fnButton_Menu_Handle", "O" )
-		this.addButton( objButtonOneResort )
-		objButtonOneResort.addMenu( new Menu( "fnNull", "ONE|Resort", false ) )
-
+		If ( InStr( strButtons, "O" ) ) {
+			objButtonOneResort := new Button( "OneResort", "fnButton_Menu_Handle", "O" )
+			this.addButton( objButtonOneResort )
+			objMenuOneResort := new Menu( "fnNull", "ONE|Resort", false )
+			objMenuOneResort.setIcon( A_WinDir "\System32\shell32.dll", 16 )
+			objButtonOneResort.addMenu( objMenuOneResort )
+			objButtonOneResort.addMenu( new Menu( "fnNull", "" ) )
+		}
+		; BUTTON: Customer Manager
+		If ( InStr( strButtons, "C" ) ) {
+			objBtnCustomer := new Button( "CusMan", "fnButton_Menu_Handle", "C" )
+			this.addButton( objBtnCustomer )
+			objMenuCustomer := new Menu( "fnNull", "Customer Manager", false )
+			objMenuCustomer.setIcon( A_WinDir "\System32\shell32.dll", 161 )
+			objBtnCustomer.addMenu( objMenuCustomer )
+			objBtnCustomer.addMenu( new Menu( "fnNull", "" ) )
+		}
+		; BUTTON: Admin
+		If ( InStr( strButtons, "A" ) ) {
+			objBtnAdmin := new Button( "Admin", "fnButton_Menu_Handle", "A" )
+			this.addButton( objBtnAdmin )
+			objMenuAdmin := new Menu( "fnNull", "Administration", false )
+			objMenuAdmin.setIcon( A_WinDir "\System32\shell32.dll", 166 )
+			objBtnAdmin.addMenu( objMenuAdmin )
+			objBtnAdmin.addMenu( new Menu( "fnNull", "" ) )
+			; sub menus
+			objMenuAdminProduct := new Menu( "fnMenu_Handle", "Product" )
+			objBtnAdmin.addMenu( objMenuAdminProduct )
+			objMenuAdminComponent := new Menu( "fnMenu_Handle", "Component" )
+			objBtnAdmin.addMenu( objMenuAdminComponent )
+		}
 		; BUTTON: Voucher
-		objButtonVoucher := new Button( "Voucher", "fnButton_Menu_Handle", "V" )
-		this.addButton( objButtonVoucher )
-		objButtonVoucher.addMenu( new Menu( "fnNull", "Voucher", false ) )
+		If ( InStr( strButtons, "V" ) ) {
+			objButtonVoucher := new Button( "Voucher", "fnButton_Menu_Handle", "V" )
+			this.addButton( objButtonVoucher )
+			objMenuVoucher := new Menu( "fnNull", "Voucher", false )
+			objMenuVoucher.setIcon( A_WinDir "\System32\shell32.dll", 55 )
+			objButtonVoucher.addMenu( objMenuVoucher )
+			objButtonVoucher.addMenu( new Menu( "fnNull", "" ) )
+		}
 
 		; BUTTON: Help
 		objBtnHelp := new Button( "Help", "fnButton_Menu_Handle", "?" )
@@ -69,6 +90,9 @@ class ToolbarRetype extends Toolbar {
 		objMenuHelp.setIcon( A_WinDir "\System32\shell32.dll", 24 )
 		objBtnHelp.addMenu( objMenuHelp )
 		objBtnHelp.addMenu( new Menu( "", "" ) )
+		objMenuUpdate := new Menu( "fnNull", "Check for &Updates", false )
+		objMenuUpdate.setIcon( A_WinDir "\System32\shell32.dll", 123 ) ;Alt icons 81,163,167,239,280
+		objBtnHelp.addMenu( objMenuUpdate )
 		objMenuAbout := new Menu( "fnAbout", "&About ReTyPe" )
 		objMenuAbout.setIcon( A_WinDir "\System32\shell32.dll", 278 )
 		objBtnHelp.addMenu( objMenuAbout )
@@ -160,7 +184,11 @@ class ToolbarRetype extends Toolbar {
 				IfWinActive, ahk_class %strRTP%
 				{
 					; Find window position and calculate toolbar position
-					WinGetPos, intWinX, intWinY, intWinW, intWinH, ahk_id %idWinRTP%
+					strParentTitle := objRetype.objRTP.strTitle
+					strParentClass := objRetype.objRTP.ClassNN()
+					WinGet, idWinRTPParent, ID, %strParentTitle% ahk_class %strParentClass%
+
+					WinGetPos, intWinX, intWinY, intWinW, intWinH, ahk_id %idWinRTPParent%
 					intGuiX := intWinX + intWinW - ( intWinW / 2 ) + 50
 					intGuiY := intWinY + 2
 

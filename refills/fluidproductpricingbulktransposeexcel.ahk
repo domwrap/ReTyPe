@@ -34,10 +34,12 @@ class FluidProductPricingBulkTransposeExcel extends Fluid {
 	strHotkey		:= "^!h"
 	strMenuPath		:= "/Admin/Product"
 	strMenuText		:= "Bulk Pricing Transpose"
+	intMenuIcon		:= 250
 
 	__New() {
 		strGroup := this.id
-		GroupAdd, %strGroup%, Product Header Pricing Bulk Update ahk_class WindowsForms10.Window.8.app.0.30495d1_r11_ad1, Selected Price Update Details
+		strRTP		:= % objRetype.objRTP.classNN()
+		GroupAdd, %strGroup%, Product Header Pricing Bulk Update ahk_class %strRTP%, Selected Price Update Details
 	}
 
 
@@ -51,7 +53,7 @@ class FluidProductPricingBulkTransposeExcel extends Fluid {
 		strGroup := this.__Class
 		IfWinActive, ahk_group %strGroup%
 		{
-			if ( Window.CheckActiveProcess( "rtponecontainer" ) ) {
+			if ( objRetype.objRTP.isActive() ) {
 				idWinRTP	:= WinActive("A")
 				;~ idWinExcel	:= Window.GetID( "Excel", "Excel", "XLMAIN" )
 

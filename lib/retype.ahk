@@ -55,17 +55,18 @@ class Retype {
 	arrHotkeys		:= {}
 	objToolbar		:= {}
 	objRTP			:= {}
+	strButtons		:= ""
+	arrMenuHotkeys	:= {}
 
 	__New() {
 		;global arrTimers
 		; @todo Singleton?
 
-		; @todo Load ini conf
-		IniRead, blnToolbar, % this.strFileConf, Conf, Toolbar, 1
+		; Toolbar config
+		IniRead, blnToolbar, % this.strFileConf, Toolbar, Enabled, 1
 		this.blnToolbar := blnToolbar ? 1 : 0
-
-		; iniread intTreeCustomerCommon
-		; iniread intTreeCustomerAccess
+		IniRead, strButtons, % this.strFileConf, Toolbar, Buttons, GACOV
+		this.strButtons := strButtons
 
 ; @todo Iterate over refills.ahk instantiate and register each automatically
 ; LoopFile, refills.ahk {
@@ -90,36 +91,55 @@ class Retype {
 
 		; @todo build toolbar and menus
 		if ( this.blnToolbar ) {
-			; build toolbar
-			this.objToolbar := new ToolbarRetype()
+			; Instantiate new toolbar
+			this.objToolbar := new ToolbarRetype( this.strButtons )
 
+			; Iterate registered hotkey fluids and add to Toolbar
 			for idFluid, objFluid in this.arrHotkeys {
-				;msgbox % objFluid.strMenuPath
-				;this.toolbar.add( new MenuFluid( objFluid ) )
+				; Reset loop variables
+				arrPath := {}
+				strMenuPath := ""
+				arrPath2 :=
+				arrPath3 :=
 
-				; Add to button/menu
-; @todo figure out if non-sub-menus work
 				; Get text and hotkey, and make human friendly for menu
-				strMenuText := objFluid.strMenuText "`t" objFluid.strHotKey
+				strHotKey := objFluid.strHotKey
+				StringUpper, strHotKey, strHotKey
+				strMenuText := objFluid.strMenuText "`t" strHotKey
 				StringReplace, strMenuText, strMenuText, +, Shift+
 				StringReplace, strMenuText, strMenuText, !, Alt+
 				StringReplace, strMenuText, strMenuText, ^, Ctrl+
+				StringReplace, strMenuText, strMenuText, <, L
+				StringReplace, strMenuText, strMenuText, >, R
 				; Fetch and split path to find where to add menu
 				strMenuPath := objFluid.strMenuPath
 				StringSplit, arrPath, strMenuPath, /
 				; Create and add object in specified position
 				objMenu := new Menu( "fnMenu_Handle", strMenuText )
-				this.objToolbar.arrButtons[arrPath2].arrMenus[arrPath3].addChild( objMenu )
+				; Add icon if specified
+				if ( objFluid.intMenuIcon ) {
+					objMenu.setIcon( A_WinDir "\System32\shell32.dll", objFluid.intMenuIcon )
+				}
+				; Add to toolbar menus
+				if ( 0 < StrLen( arrPath3 ) ) {
+					this.objToolbar.arrButtons[arrPath2].arrMenus[arrPath3].addChild( objMenu )
+				} else {
+					this.objToolbar.arrButtons[arrPath2].addMenu( objMenu )
+				}
+
+				; Must happen after the addChild as during there the name is built and assigned
+				strText := objFluid.strMenuText
+				StringReplace, strText, strText, %A_Space%,,All
+				strName := objMenu.strName
+				StringReplace, strName, strName, Menu
+				strName := strName strText
+				; Build registry of menus to hotkeys to recall later with menu selections
+				this.arrMenuHotkeys[strName] := objFluid.strHotKey
 			}
 
+			; Now everything has been added, render the toolbar
 			this.objToolbar.render()
 		}
-
-		; Register hotkeys
-		;for idFluid, objFluid in arrHotkeys {
-
-		;}
-;msgbox % debug.exploreObj( this )
 
 		; Master timer for all refills
 		setTimer, lblTimerRefill, %intTimerBase%

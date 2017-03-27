@@ -31,9 +31,9 @@ objRetype.refill( new FluidInventoryTransposeExcel() )
  */
 class FluidInventoryTransposeExcel extends Fluid {
 
-
-	strHotkey := "!^i"
-
+	strHotkey		:= "^!i"
+	strMenuPath		:= "/Admin/Product"
+	strMenuText		:= "Inventory Transpose"
 
 	__New() {
 		strGroup := this.id
@@ -45,6 +45,11 @@ class FluidInventoryTransposeExcel extends Fluid {
 	 *
 	 */
 	pour() {
+		global objRetype
+
+		; Activate RTP (after toolbar has been clicked)
+		objRetype.objRTP.Activate()
+
 		strGroup := this.__Class
 		IfWinActive, ahk_group %strGroup%
 		{
@@ -129,6 +134,8 @@ class FluidInventoryTransposeExcel extends Fluid {
 					SendInput {Space}
 				}
 			}
+		} else {
+			msgbox not right now
 		}
 	}
 

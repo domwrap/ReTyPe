@@ -36,9 +36,9 @@ class Menu {
 ; @todo variadic
 ; @todo CONVERT to http://www.autohotkey.com/board/topic/85512-class-menuahk-work-easily-with-custom-menus/
 	__New( strTarget, strText, blnEnabled=true ) {
-		this.strTarget := strTarget
-		this.strText := strText
-		this.blnEnabled := blnEnabled
+		this.strTarget		:= strTarget
+		this.strText		:= strText
+		this.blnEnabled		:= blnEnabled
 	}
 
 	/**
@@ -65,6 +65,7 @@ class Menu {
 	toggleEnabled() {
 		this.blnEnabled := !this.blnEnabled
 		strToggle := ( this.blnEnabled ) ? "Enable" : "Disable"
+; @todo Wtf does strName come from?
 		Menu, %strName%, %strToggle%, % this.strText
 	}
 

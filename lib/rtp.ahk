@@ -44,6 +44,7 @@ class RTP {
 	 * @return rtp
 	 */
 	__New() {
+		; Class NN elements
 		IniRead, strPrefix, % this.strFileConf, Conf, Prefix, WindowsForms10
 		this.strPrefix := strPrefix
 		IniRead, strType, % this.strFileConf, Conf, Type, Window.8
@@ -54,12 +55,17 @@ class RTP {
 		this.intWindow := intWindow
 		IniRead, intElement, % this.strFileConf, Conf, Element, 1
 		this.intElement := intElement
+		; Window Title to match
 		IniRead, strTitle, % this.strFileConf, Conf, Title, 1
 		this.strTitle := strTitle
-
+		; Construction for RTP identification
 		strRTP := this.ClassNN()
-		WinGet, idWinRTP, ID, %strTitle% ahk_class %strRTP%
+		WinGet, idWinRTP, ID, ahk_class %strRTP%
 		this.idProcess := idWinRTP
+
+		; Treeview config
+		; iniread intTreeCustomerCommon
+		; iniread intTreeCustomerAccess
 	}
 
 	setID( idWin ) {

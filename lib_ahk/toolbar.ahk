@@ -118,23 +118,19 @@ class Toolbar {
 
 
 		fnMenu_Handle:
-global objRetype
-;msgbox % debug.exploreObj( Toolbar.arrButtons )
-;msgbox % debug.exploreObj( Toolbar.arrButtons["Admin"].arrMenus["Product"] )
-;msgbox % Toolbar.arrButtons["Admin"].arrMenus["Product"].strName
-;msgbox % A_ThisMenu " : " A_ThisMenuItem
-strHotkey := objRetype.arrHotKeys["FluidProductPricingBulkTransposeExcel"].strHotkey
-;msgbox % strHotKey
-;GoSub % strHotKey
-;msgbox % "Class " this.__Class " Func " A_ThisFunc " Label " A_ThisLabel
+			global objRetype
 
-;Send !^h
-Send %strHotkey%
-;msgbox % debug.exploreObj( objRetype )
+			strTab := "`t"
+			strMenuItem := A_ThisMenu SubStr( A_ThisMenuItem, 1, InStr( A_ThisMenuItem, strTab )-1 )
+			StringReplace, strMenuItem, strMenuItem, %A_Space%,, All
+			StringReplace, strMenuItem, strMenuItem, Menu
+			strHotkey := objRetype.arrMenuHotkeys[strMenuItem]
+; @todo Make < and > hotkey modifiers work
+			Send %strHotkey%
 		return
 
 		fnButton_Menu_Handle:
-			Menu, % "Menu" A_GuiControl, Show
+			Menu, % "Menu" A_GuiControl, Show, 0, 23
 			;A_GuiControl
 		return
 

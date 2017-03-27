@@ -4,7 +4,6 @@ objRetype.refill( new FluidProductPricingBulkUI() )
 class FluidProductPricingBulkUI extends Fluid {
 
 	static intTimer	:= 500
-	intComboBox		:=
 
 
 	__New() {
@@ -14,8 +13,6 @@ class FluidProductPricingBulkUI extends Fluid {
 		strRTP		:= % objRetype.objRTP.classNN()
 		strGroup	:= this.id
 		GroupAdd, %strGroup%, Product Header Pricing Bulk Update ahk_class %strRTP%, Selected Price Update Details
-
-		this.intComboBox := this.getConf( "ComboBox", 11 )
 	}
 
 
@@ -32,7 +29,7 @@ class FluidProductPricingBulkUI extends Fluid {
 		IfWinActive, ahk_group %strGroup%
 		{
 			if ( Window.CheckActiveProcess( "rtponecontainer" ) ) {
-				strControl := objRetype.objRTP.formatClassNN( "COMBOBOX", this.intComboBox )
+				strControl := objRetype.objRTP.formatClassNN( "COMBOBOX", this.getConf( "ComboBox", 11 ) )
 				ControlMove, %strControl%, , , 400, , A
 			}
 		}

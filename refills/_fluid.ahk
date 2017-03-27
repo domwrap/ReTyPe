@@ -29,10 +29,11 @@
 class Fluid {
 
 	id				:= this.__Class
-	strHotKey		:= 
-	strMenuPath		:=
-	strMenutext		:= 
+	strHotKey		:=
 	strFileConf		:=
+	strMenuPath		:=
+	strMenutext		:=
+	intMenuIcon		:=
 
 	__New() {
 		global objRetype
