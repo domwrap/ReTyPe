@@ -47,63 +47,60 @@ RETURN_ON_USER_CANCEL = False
 
 ;=========================================================
 ^!x:: ; PRICING:		This will DELETE the following X component pricing
-InputBox, intDelete, Pricing Delete, How many prices do you want to delete?, , , , , , , ,1
-if ErrorLevel
+
+; Did you execute from an RTP window?
+_windowCheckActiveProcess( "rtponecontainer" )
+; Do we only have one instance of RTP Update?
+_windowContinueSingleOnly( "Update" )
+; Are we in the pricing tab of a product header?
+_windowCheckVisibleTextContains( "sales report group", "pricing" )
+; Check which control has focus.  If it's not the pricing ListView then don't proceed
+_windowCheckControlFocus( "WindowsForms10.SysListView32.app.0.30495d1_r11_ad11", "Pricing ListView" )
+
+; Prompt for iteration count
+intDelete := _InputBox( "How many pricing entries do you wish to delete?", 1 )
+
+Loop %intDelete%
 {
-	; user pressed cancel
-	return
-}
-else
-{
-	Loop %intDelete%
-	{
-		WinActivate, Update
-		SendInput {Space}{AppsKey}d{Space}
-	}
+	WinActivate, Update
+	SendInput {Space}{AppsKey}d{Space}
 }
 return
 
 
 ;=========================================================
-^!u:: ; PRICE-BY-SEASON:	This will UPDATE the next X listed components with PRICE
-InputBox, intPrice, Price, What's the NEW product price?, , , , , , , ,9999
-InputBox, intIterate, How many, How many rows are we updating?, , , , , , , ,1
-if ErrorLevel
-{
-	; user pressed cancel
-	return
-}
-else
-{
-	Loop %intIterate%
-	{
-		SendInput {Space}{AppsKey}u
-		WinWait, Pricing, , 5 ; Wait for Pricing update window to load, max of 2 seconds then continue
-		SendInput %intPrice%{Tab}%intPrice%
-		SendInput {Tab 4}{space}{Down}
-	}
-}
-return
+^!u:: ; PRICING:	This will UPDATE the next X listed components with PRICE (detects by Season or by Date)
 
+; Did you execute from an RTP window?
+_windowCheckActiveProcess( "rtponecontainer" )
+; Do we only have one instance of RTP Update?
+_windowContinueSingleOnly( "Update" )
+; Are we in the pricing tab of a product header?
+_windowCheckVisibleTextContains( "sales report group", "pricing" )
+; Check which control has focus.  If it's not the pricing ListView then don't proceed
+_windowCheckControlFocus( "WindowsForms10.SysListView32.app.0.30495d1_r11_ad11", "Pricing ListView" )
 
-;=========================================================
-^!+u:: ; PRICE-BY-DATE:	This will UPDATE the next X listed components with PRICE
-InputBox, intPrice, Price, What's the NEW product price?, , , , , , , ,9999
-InputBox, intIterate, How many, How many rows are we updating?, , , , , , , ,1
-if ErrorLevel
+; Prompt for iteration count
+intPrice := _InputBox( "What's the NEW price?", 9999 )
+intIterate := _InputBox( "How many rows are we updating?", 1 )
+
+; Detect PriceType selection for how we update the pricing with keystrokes
+ControlGet, strSelected, Choice, , WindowsForms10.COMBOBOX.app.0.30495d1_r11_ad18, A
+
+Loop %intIterate%
 {
-	; user pressed cancel
-	return
-}
-else
-{
-	Loop %intIterate%
-	{
-		SendInput {Space}{AppsKey}u
-		WinWait, Pricing, , 5 ; Wait for Pricing update window to load, max of 2 seconds then continue
-		SendInput {Tab 2}%intPrice%{Tab}%intPrice%
-		SendInput {Tab 4}{space}{Down}
+	; Select row in ListView, right-click, choose Update
+	SendInput {Space}{AppsKey}u
+	; Wait for Pricing update window to load, max of 2 seconds then continue
+	WinWait, Pricing, , 5
+	; Send extra tabs for price by date
+	if ( strSelected = "By Date") {
+		SendInput {Tab 2}
 	}
+	; Send the new price for both unit and price
+	SendInput %intPrice%{Tab}%intPrice%
+	; Get to OK button, press it, move down a row
+	SendInput {Tab 4}{space}{Down}
 }
 return
 
@@ -446,26 +443,6 @@ return
 
 
 ;=========================================================
-^!e:: ; COMPONENT:	Process component names. If it contains P2P, prefix z, else add 0 to day number for natural ordering
-Send {Tab 3}^a^c{Home}
-;if InStr( clipboard, "Audit" )
-;	Send ^{Right 2}0
-;Else {
-;	Send z
-;	return
-;}
-
-if InStr( clipboard, "P2P" )
-	Send {Home}z
-Else
-	Send ^{Right 2}0
-	;Send {right}{backspace}
-	;Send 0{end}{backspace 3}(HST)
-;else
-return
-
-
-;=========================================================
 ^!d:: ; PRICE-BY-DATE:	Update next X Effective and Expiry dates
 InputBox, intEffective, Effective Date, Change Effective to what date mm/dd/yyyy (leave blank to skip)?, , , , , , , ,
 InputBox, intExpiration, Expsiration Date, Change Expiration to what date mm/dd/yyyy (leave blank to skip)?, , , , , , , ,
@@ -611,27 +588,51 @@ return
 
 ;=========================================================
 ^!r:: ; PRODUCT RETURN:	Return X items in RTP ONE|Resort Tools (must have already searched by TranID with focus still in text box)
-InputBox, intIterate, Return, Return how many items?, , , , , , , ,1
-if ErrorLevel
-{
-	; user pressed cancel
-	return
+
+; Did you execute from an RTP window?
+_windowCheckActiveProcess( "rtponecontainer" )
+; Do we only have one instance of RTP Update?
+_windowContinueSingleOnly( "Return Refund Tool" )
+; Prompt for iteration count
+intIterate := _InputBox( "Return how many items?", 1 ) ; Detect tree items possible?
+
+; Move control to the search text box before proceeding
+ControlFocus, WindowsForms10.EDIT.app.0.30495d1_r11_ad11, A
+
+Send {tab 3}{down 3}
+Loop %intIterate% {
+	SendInput {tab 3}{space}+{tab 3}{down}
 }
-else
-{
-	Send {tab 3}{down 3}
-	Loop %intIterate% {
-		Send {tab 3}{space}+{tab 3}{down}
+; Move to last item in treeview so next piece works if not refunded 100% of items in order
+Send {End}
+; Send to next listview for checking
+Send {Tab 3}
+
+; Botch loop to detect when RTP's slow-ass has finished returning products
+Loop {
+	ControlGetFocus, strFocus, Return Refund Tool
+	if ( strFocus = "WindowsForms10.Window.8.app.0.30495d1_r11_ad11" ) {
+		break
+	} else {
+		Sleep 300
 	}
-	Sleep 300
-	; -- Not working yet:
-	; Possible use: http://www.autohotkey.com/docs/commands/ControlGet.htm
-	;Loop %intIterate% {
-	;	Sleep 300
-	;	Click 390, 540 + ( %intIterate% * 18 )
-	;}
-	;Tickbox coordinates: 389,540/561/577/97
 }
+
+; Auto apply items returned?
+MsgBox, 68, RTP Macro Information, Auto "Apply" items refunded?
+IfMsgBox, No
+	exit
+Else {
+	Send ^{Space}
+	Send {Tab 4}
+	Loop %intIterate% {
+		Send {Space}{Down}{Tab}+{Tab}
+	}
+}
+; Shift focus to OK button
+ControlFocus, OK, A
+
+; IDEA: Tab to treeview, down three (to first item), on each item down check if RETURN button is Enabled and if so, return it
 return
 
 
@@ -696,15 +697,24 @@ if ( blnProp = False )
 
 
 ;=========================================================
-;=========================================================
+^!e:: ; COMPONENT:	Process component names. If it contains P2P, prefix z, else add 0 to day number for natural ordering
+Send {Tab 3}^a^c{Home}
+;if InStr( clipboard, "Audit" )
+;	Send ^{Right 2}0
+;Else {
+;	Send z
+;	return
+;}
 
-
-^+1:: ; Reserved for quick throw-away macros to save 5 mins
-	Send {Tab 3}{Home}^{Right}{Left}.
+if InStr( clipboard, "P2P" )
+	Send {Home}z
+Else
+	Send ^{Right 2}0
+	;Send {right}{backspace}
+	;Send 0{end}{backspace 3}(HST)
+;else
 return
 
-^+2:: ; Reserved for quick throw-away macros to save 5 mins
-return
 
 ^!1:: ; DELETE:		1-Tab Delete (Product: Sales Location/Sales Channel/Component entry)
 ; update discount entry
@@ -721,6 +731,19 @@ return
 	Sleep 100
 	Send {space}
 return
+
+
+;=========================================================
+;=========================================================
+
+
+^+1:: ; Reserved for quick throw-away macros to save 5 mins
+	Send {Tab 3}{Home}^{Right}{Left}.
+return
+
+^+2:: ; Reserved for quick throw-away macros to save 5 mins
+return
+
 
 ;=========================================================
 ;=========================================================

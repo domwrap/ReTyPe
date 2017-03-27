@@ -261,6 +261,34 @@ _windowCheckVisibleTextDoesNotContain( strFirst, strSecond="thisisnevergoingtobe
 
 
 /**
+ * Checks the required control has focus
+ * 
+ * @param string strTargetFocus ClassNN of the control requiring focus
+ *
+ * @return bool Success (or exit on global setting)
+ */
+_windowCheckControlFocus( strTargetFocus, strTargetFriendly ) {
+	Loop {
+		ControlGetFocus, strControlFocus, A
+		if ( strControlFocus != strTargetFocus ) {
+			MsgBox, 69, RTP Macro Information,Execution error: %strTargetFriendly% must have focus before continuing.
+			IfMsgBox, Cancel
+			{
+				if ( True != _RETURN_ON_USER_CANCEL() )
+					Exit
+				else
+					return False
+			}
+		} else {
+			break
+		}
+	}
+
+	return True
+}
+
+
+/**
  * Displays an input box to ask the user to enter a string
  * 
  * @param string strMessage The message to display on the input dialogue

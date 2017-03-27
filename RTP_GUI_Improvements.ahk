@@ -98,6 +98,12 @@ MsgBox % intCh
 return
 
 
+;=========================================================
+#IfWinActive
+>!i:: ;		CONTEXTUAL: Makes small 'changes' to the RTP UI relevent to the current window
+	MsgBox, 16, Macro Information, Not in RTP or not an area that has programmed modifications
+return
+
 
 ; MUST BE LAST LINE IN FILE
 ; Close this stuff off, otherwise no other macros work

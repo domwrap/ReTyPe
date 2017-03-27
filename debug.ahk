@@ -72,9 +72,14 @@ return
 return
 
 
+#F4::
+
+return
+
 
 #F3::
-	WindowsForms10.Window.8.app.0.30495d1_r11_ad16
+	ControlGetFocus, strFocus, A
+	MsgBox % strFocus
 return
 
 
@@ -86,3 +91,6 @@ return
 	WinGet, ControlList, ControlList, A
 	ToolTip, %ControlList%
 return
+
+
+
