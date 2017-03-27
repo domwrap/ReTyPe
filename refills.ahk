@@ -1,2 +1,4 @@
-#Include refills\fluidproductbulkpricing.ahk
-#Include refills\fluidproductbulkpricingexceltranspose.ahk
+#Include refills\fluidproductdeletepricing.ahk
+#Include refills\fluidproductinventorytransposeexcel.ahk
+#Include refills\fluidproductpricingbulktransposeexcel.ahk
+#Include refills\fluidproductpricingbulkui.ahk

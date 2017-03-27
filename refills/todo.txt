@@ -2,6 +2,14 @@ TRANSPOSE:
 
 Ctrl+Alt+[x,u,p,m,v,i,a]
 
+Ctrl+Alt+1/2/3:
+Merge in to single deleting loop macro that uses pseudocode:
+ListView = controlgetfocus()
+Loop %count% {
+	ControlClick("delete")
+	ControlFocus( ListView )
+}
+
 
 
 NEW ADDITIONS:
@@ -18,3 +26,5 @@ INVENTORY
 	Transfers
 		Post & Print button - auto-run report from report server for front-line
 
+ONE|Resort
+	Refund - detect type from "search text" and alter combo-box accordingly (LEFT(search, 3) = IWB) = Access Code

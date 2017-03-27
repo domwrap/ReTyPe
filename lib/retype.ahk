@@ -1,7 +1,27 @@
+/**
+ * ReTyPe engine.  This is the object to which all refills are automatically added
+ * and depending on the configuration, added to toolbar menus, hotkeys registered,
+ * and timers configured for UI alterations
+ *
+ * AutoHotKey v1.1.13.01+
+ *
+ * LICENSE: This work is licensed under a version 4.0 of the
+ * Creative Commons Attribution-ShareAlike 4.0 International License
+ * that is available through the world-wide-web at the following URI:
+ * http://creativecommons.org/licenses/by-sa/4.0/deed.en_US
+ *
+ * @category	Automation
+ * @package		ReTyPe
+ * @author		Dominic Wrapson <dwrapson@whistlerblackcomb.com>
+ * @copyright	2013 Dominic Wrapson
+ * @license		Creative Commons Attribution-ShareAlike 4.0 International License http://creativecommons.org/licenses/by-sa/4.0/deed.en_US
+ */
+
 #include lib\window.ahk
 #Include lib\msgbox.ahk
 #Include lib\inputbox.ahk
 #Include lib\hotkey.ahk
+#Include lib\send.ahk
 
 arrFluidTimers := {}
 intTimerBase := 100
@@ -14,6 +34,7 @@ class Retype {
 	; Config
 	strFileConf			:= "retype.ini"
 	blnToolbar			:= false
+	idRtpClassNN		:= 
 	; Variables
 	arrFluidTimers		:= 
 	arrFluidHotkeys		:= 
@@ -28,6 +49,9 @@ class Retype {
 		this.blnToolbar := blnToolbar ? 1 : 0
 		; iniread intTreeCustomerCommon
 		; iniread intTreeCustomerAccess
+
+		IniRead, idRtpClassNN, this.strFileConf, Conf, RtpClassNN, WindowsForms10.Window.8.app.0.30495d1_r11_ad1
+		this.idRtpClassNN := idRtpClassNN
 	}
 
 

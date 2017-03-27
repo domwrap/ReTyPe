@@ -15,10 +15,7 @@
  * @license		Creative Commons Attribution-ShareAlike 4.0 International License http://creativecommons.org/licenses/by-sa/4.0/deed.en_US
  */
 
-
-class Window {
-
-	RETURN_ON_USER_CANCEL := false
+class Window extends _returnableClass {
 
 
 	__New() {
@@ -276,9 +273,5 @@ class Window {
 		}
 	}
 
-
-	_RETURN_ON_USER_CANCEL() {
-		return this.RETURN_ON_USER_CANCEL
-	}
 
 }
