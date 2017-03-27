@@ -3,12 +3,20 @@ objRetype.refill( new FluidProductPricingBulkUI() )
 
 class FluidProductPricingBulkUI extends Fluid {
 
-	static intTimer		:= 500
+	static intTimer	:= 500
+	intComboBox		:=
 
 
 	__New() {
-		strGroup := this.id
-		GroupAdd, %strGroup%, Product Header Pricing Bulk Update ahk_class WindowsForms10.Window.8.app.0.30495d1_r11_ad1, Selected Price Update Details
+		global objRetype
+		base.__New()
+
+		strRTP		:= % objRetype.objRTP.classNN()
+		strGroup	:= this.id
+		GroupAdd, %strGroup%, Product Header Pricing Bulk Update ahk_class %strRTP%, Selected Price Update Details
+
+		IniRead, intComboBox, % this.strFileConf, Conf, ComboBox, 11
+		this.intComboBox := intComboBox
 	}
 
 
@@ -18,12 +26,14 @@ class FluidProductPricingBulkUI extends Fluid {
 
 
 	pour() {
+		global objRetype
+
 		; BULK PRICING:	Resize the pricing season drop-down
 		strGroup := this.__Class
 		IfWinActive, ahk_group %strGroup%
 		{
 			if ( Window.CheckActiveProcess( "rtponecontainer" ) ) {
-				strControl = WindowsForms10.COMBOBOX.app.0.30495d1_r11_ad11
+				strControl := objRetype.objRTP.formatClassNN( "COMBOBOX", this.intComboBox )
 				ControlMove, %strControl%, , , 400, , A
 			}
 		}

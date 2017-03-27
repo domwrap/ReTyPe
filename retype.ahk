@@ -41,7 +41,7 @@
 #SingleInstance Force
 
 #Include %A_ScriptDir%
-#Include lib\debug.ahk
+#Include lib_ahk\debug.ahk
 #Include lib\retype.ahk
 ; This include must be last as it changes the include path
 #Include %A_ScriptDir%\refills\_fluid.ahk

@@ -221,7 +221,15 @@ class Window extends _returnableClass {
 		return True
 	}
 
-
+	/**
+	 * Gets ID of specified window
+	 * 
+	 * @param string strWinTitle Window title of target
+	 * @Param string strWinFriendly Friendly name for use in messaging
+	 * @param string strWinClass ahk_class to help identify window
+	 *
+	 * @return int ID of window
+	 */
 	GetID( strWinTitle, strWinFriendly, strWinClass="" ) {
 		global strProgramName
 		idWin = 
@@ -265,6 +273,10 @@ class Window extends _returnableClass {
 	}
 
 
+	/**
+	 * Restores a window (from minimized) and activates
+	 * @return void
+	 */
 	ActivateRestore( idWin ) {
 		WinActivate, ahk_id %idWin%
 		WinGet, intState, MinMax, ahk_id %idWin%

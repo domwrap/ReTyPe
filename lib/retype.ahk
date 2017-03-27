@@ -18,12 +18,14 @@
  */
 
 ; Dependencies
-#Include %A_ScriptDir%\Lib
+#Include %A_ScriptDir%\lib_ahk
 #include window.ahk
 #Include msgbox.ahk
 #Include inputbox.ahk
 #Include hotkey.ahk
 #Include send.ahk
+#Include %A_ScriptDir%\lib
+#Include rtp.ahk
 #Include toolbarretype.ahk
 
 ; Global variables so they can be used within labels
@@ -39,28 +41,29 @@ intTimerCount := 0
  * @category	Automation
  * @package		ReTyPe
  * @author		Dominic Wrapson <dwrapson@whistlerblackcomb.com>
- * @copyright	2014 Dominic Wrapson
+ * @copyright	2013 Dominic Wrapson
  */
 class Retype {
 ; @todo abstract main functionality, extend to RTP specific version
 
 	;static objRetype	= 
 	; Config
-	strFileConf			:= "retype.ini"
-	blnToolbar			:= false
+	strFileConf		:= "retype.ini"
+	blnToolbar		:= false
 	; Variables
 	arrTimers		:= {}
 	arrHotkeys		:= {}
-	objToolbar			:= {}
-	objRTP				:= {}
+	objToolbar		:= {}
+	objRTP			:= {}
 
 	__New() {
 		;global arrTimers
 		; @todo Singleton?
 
 		; @todo Load ini conf
-		IniRead, blnToolbar, this.strFileConf, Conf, Toolbar, 1
+		IniRead, blnToolbar, % this.strFileConf, Conf, Toolbar, 1
 		this.blnToolbar := blnToolbar ? 1 : 0
+
 		; iniread intTreeCustomerCommon
 		; iniread intTreeCustomerAccess
 
@@ -69,7 +72,6 @@ class Retype {
 ;	strRefill := SubStr( A_LoopValue, /, . )
 ; 	this.refill( new %strRefill% )
 ; }
-
 
 
 		this.objRTP := new RTP()
@@ -87,7 +89,7 @@ class Retype {
 		global intTimerCount, intTimerBase
 
 		; @todo build toolbar and menus
-		; if ( blnToolbar ) {
+		if ( this.blnToolbar ) {
 			; build toolbar
 			this.objToolbar := new ToolbarRetype()
 			this.objToolbar.render()
@@ -95,7 +97,7 @@ class Retype {
 			;for idFluid, objFluid in arrHotkeys {
 			;	this.toolbar.add( new MenuFluid( objFluid ) )
 			;}
-		;}
+		}
 
 		; Register hotkeys
 		;for idFluid, objFluid in arrHotkeys {

@@ -1,4 +1,4 @@
-
+#Include %A_ScriptDir%\lib_ahk
 #Include toolbar.ahk
 
 

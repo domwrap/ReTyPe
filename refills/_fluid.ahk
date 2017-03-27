@@ -28,10 +28,19 @@
  */
 class Fluid {
 
-	id := this.__Class
-	strHotkey := 
-	strMenu :=
-	strMenutext := 
+	id				:= this.__Class
+	strHotKey		:= 
+	strMenu			:=
+	strMenutext		:= 
+	strFileConf		:=
+
+	__New() {
+		global objRetype
+
+		strFileConf := A_ScriptDir "\refills\" this.id ".ini"
+		StringLower, strFileConf, strFileConf
+		this.strFileConf := strFileConf
+	}
 
 	/**
 	 * Prepares the Fluid for use (being "refilled")

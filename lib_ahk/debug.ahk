@@ -6,6 +6,8 @@ class Debug {
 	static strFileLog	= "debug.log"
 
 	__New() {
+		; @todo use ini environment parameter (dev/prod)
+
 		; @todo Do we need headers?
 		; @todo Maybe store in JSON
 		FileAppend, Headers, this.strFileLog
