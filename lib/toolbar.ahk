@@ -53,10 +53,11 @@ class Toolbar {
 	 * Must be of type menu or button
 	 */
 	add( objMixed ) {
+; @todo make add variadic so can accept multiple buttons and menus at once
 		try {
 			objMixed.setToolbar( this )
 
-			if ( objMixed.HasKey( "strParent" ) ) {
+			if ( objMixed.HasKey( "arrMenus" ) ) {
 				this.p_addMenu( objMixed )
 			} else if ( objMixed.HasKey( "strTarget" ) ) {
 				this.p_addButton( objMixed )
@@ -85,13 +86,24 @@ class Toolbar {
 	 * @param object Menu Instance of Menu class
 	 */
 	p_addMenu( objMenu ) {
-		; Ensure sub-menus are added after higher level menus
-		if ( false != objMenu.strParent ) {
-; @todo count appearances of "Sub" and put in that level array, then go 0-down to draw
-			this.arrMenus[1].insert( objMenu )
-		} else {
-			this.arrMenus[0].insert( objMenu )
-		}
+;@todo remove these now superfluous "protected" functions
+		;this.arrMenus[objMenu.strName] := objMenu
+		this.arrMenus.Insert( objMenu )
+	}
+
+
+	getMenu( strName ) {
+		return this.arrMenus[%strName%]
+	}
+
+
+	p_prerender() {
+
+	}
+
+
+	p_postrender() {
+
 	}
 
 
@@ -108,17 +120,8 @@ class Toolbar {
 		Gui, %strToolbar%:Margin, 0, 0
 
 		; Add menus before buttons else cannot attach
-		; Iterate the top level menu array (separates parents, from children)
-		for intDepth, arrMenu in this.arrMenus {
-			; Next iterate over respective arrays of menus
-			for objMenu in arrMenu {
-				; Create menu item
-				Menu, objMenu.strMenu, Add, % objMenu.strText, Menu_Handle
-				; If it's a sub-menu, add it to its parent
-				if ( 1 > intDepth) {
-					Menu, objMenu.strParent, Add, Second item, :objMenu.strMenu
-				}
-			}
+		for intMenu, objMenu in this.arrMenus {
+			objMenu.render()
 		}
 
 		; Add buttons that can now point to menus
@@ -137,6 +140,10 @@ class Toolbar {
 		Menu_Handle:
 			Toolbar.arrMenus()
 			;A_ThisMenuItem
+		return
+
+		fnHeaderNull:
+			; Nothing here, placeholder for disabled menu items
 		return
 	}
 
@@ -192,6 +199,11 @@ class Toolbar {
 ;; First add all the menu items
 ;; ------ Product
 ;Menu, MenuAdminProduct, Add, Bulk Pricing, fnRtpGuiCancel
+;Menu, MenuAdmin, Add, Product, :MenuAdminProduct
+;Menu, MenuAdmin, Add, Component, :MenuAdminComponent
+;Menu, MenuAdmin, Add, Discount, :MenuAdminDiscount
+;Menu, MenuAdmin, Add, Inventory, :MenuAdminInventory
+;Menu, MenuAdmin, Add, Bstore, :MenuAdminBstore
 ;; ------ Component
 ;Menu, MenuAdminComponent, Add, First section, fnRtpGuiCancel
 ;; ------ Discount
@@ -200,11 +212,5 @@ class Toolbar {
 ;Menu, MenuAdminInventory, Add, Auto-populate, fnRtpGuiCancel
 ;; ------ bStore
 ;Menu, MenuAdminBstore, Add, Second section, fnRtpGuiCancel
-;; Then string them all together
-;Menu, MenuAdmin, Add, Product, :MenuAdminProduct
-;Menu, MenuAdmin, Add, Component, :MenuAdminComponent
-;Menu, MenuAdmin, Add, Discount, :MenuAdminDiscount
-;Menu, MenuAdmin, Add, Inventory, :MenuAdminInventory
-;Menu, MenuAdmin, Add, Bstore, :MenuAdminBstore
 ;; --- HELP menu
 

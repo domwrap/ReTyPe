@@ -1,8 +1,7 @@
 class Menu {
 
 	objToolbar := {}
-	strParent := "MenuParent"
-	strTarget := "Menu"
+	strTarget := "fnHeaderNull"
 	strText := "Menu"
 	strName := "Menu"
 	arrMenus := {}
@@ -22,11 +21,27 @@ class Menu {
 	}
 
 	addMenu( objMenu ) {
+		objMenu.strName := this.strName objMenu.strName
 		this.arrMenus.Insert( objMenu )
 	}
 
+; @todo shortcut key display
 	render() {
-		Menu, % this.strName, Add, % this.strText, % this.strTarget
+		strName := "Menu" this.strName
+
+		if ( 0 < this.arrMenus.MaxIndex() ) {
+			for intMenu, objMenu in this.arrMenus {
+				objMenu.render()
+				strTarget := ":Menu" objMenu.strName
+				Menu, %strName%, Add, % this.strText, % strTarget
+			}
+		} else {
+			Menu, %strName%, Add, % this.strText, % this.strTarget
+		}
 	}
 
 }
+
+
+;Menu, MenuAdminProduct, Add, Bulk Pricing, fnRtpGuiCancel
+;Menu, MenuAdmin, Add, Product, :MenuAdminProduct

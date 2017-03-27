@@ -5,10 +5,10 @@
 class ToolbarRetype extends Toolbar {
 
 	__New() {
-		this.p_build()
+
 	}
 
-	p_build() {
+	p_prerender() {
 		this.add( new Button( "fnMenuGeneral", "G" ) )
 		this.add( new Button( "fnMenuAdmin", "A" ) )
 		this.add( new Button( "", "C" ) )
@@ -16,55 +16,76 @@ class ToolbarRetype extends Toolbar {
 		this.add( new Button( "", "V" ) )
 		this.add( new Button( "fnMenuHelp", "?" ) )
 
+
 		; ------- Build the menus -------
 		; --- GENERAL Menu
-		Menu, MenuGeneral, Add, First section, fnMenuGeneral
+		this.add( new Menu( "General", "fnMenuGeneral", "Menu Item" ) )
 		; --- ADMIN Menu
-		; ------ First create all the headers
-		;Menu, MenuAdminProduct, Add
-		; ------ Then add children to parents
-		Menu, MenuAdmin, Add, Administration, fnHeaderNull
-		Menu, MenuAdmin, Add  ; Separator line.
-		;Menu, MenuAdmin, Add, Product, :MenuAdminProduct
+		this.add( new Menu( "Admin", "fnHeaderNull", "Administration" ) )
+		this.add( new Menu( "Admin", "fnHeaderNull" ) )
+		objMenuAdminProduct := new Menu( "Admin", "fnMenuAdmin", "Product" )
+		objMenuAdminProduct.addMenu( new Menu( "Product", "fnAbout", "Bulk Pricing" ) )
+		objMenuAdminProduct.addMenu( new Menu( "Product", "fnHeaderNull", "Bulk Update" ) )
+		this.add( objMenuAdminProduct )
+		objMenuAdminComponent := new Menu( "Admin", "fnAbout", "Component" )
+		objSub := new Menu( "Component", "fnHeaderNull", "Testing11" )
+		objSub.addMenu( new Menu( "Component", "fnHeaderNull", "Third Level" ) )
+		objMenuAdminComponent.addMenu( objSub )
+		this.add( objMenuAdminComponent )
 		; --- HELP Menu
-		Menu, MenuHelp, Add, &F1 Help, fnHeaderNull
-		Menu, MenuHelp, Add  ; Add a separator line.
-		Menu, MenuHelp, Add, About ReTyPe, fnAbout
+		this.add( new Menu( "Help", "fnHeaderNull", "&F1 Help" ) )
+		this.add( new Menu( "Help" ) )
+		this.add( new Menu( "Help", "fnAbout", "About ReTyPe" ) )
 
 		; Get out now before we start activating menus
 		return
 
 		fnMenuGeneral:
+;msgbox % A_GuiControl " : " A_Gui " : " A_GuiEvent " : " A_EventInfo
 			Menu, MenuGeneral, Show
 		return
 
 		fnMenuAdmin:
-		Menu, MenuAdmin, Disable, Administration
+			;Menu, MenuAdmin, Disable, Administration
 			Menu, MenuAdmin, Show
 		return
 
 		fnMenuHelp:
-			Menu, MenuHelp, Disable, &F1 Help
+; @todo Singleton accessor on Toolbar to disable menu items by object
 			Menu, MenuHelp, Show
 		return
 
 		fnAbout:
-msgbox % A_ThisMenu ":" A_ThisMenuItem
+;msgbox % A_ThisMenu ":" A_ThisMenuItem
 			MsgBox % "ReTyPe`nRTP: Emending Your Errors`n`n" . chr(169) . " Dominic Wrapson, 2014"
 		return
 
-		fnHeaderNull:
-
-		return
 	}
 
+
+	p_postrender() {
+		Menu, MenuAdmin, Disable, Administration
+		Menu, MenuHelp, Disable, &F1 Help
+	}
+
+	/**
+	 * Check if menu being added to exists in list and exception if not
+	 */
+	p_addMenu( objMenu ) {
+		base.p_addMenu( objMenu )
+	}
+
+
 	render() {
+		this.p_prerender()
 		; Do the parent's stuff first
 		base.render()
 
 		; Load timer
 		SetTimer, fnToolbarRetype, 100
 		; return here so we don't drop in to the label beneath it (that's for the timer only)
+
+		this.p_postrender()
 		return
 
 		fnToolbarRetype:
