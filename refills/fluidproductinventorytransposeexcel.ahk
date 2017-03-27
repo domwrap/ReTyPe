@@ -17,8 +17,6 @@
  */
 
 
- ; Abstract fluid class
-#Include %A_ScriptDir%\refills\_fluid.ahk
 ; Trigger my damn self (in a horrible way due to AHK limitations)
 objRetype.refill( new FluidInventoryTransposeExcel() )
 
@@ -33,20 +31,22 @@ objRetype.refill( new FluidInventoryTransposeExcel() )
  */
 class FluidInventoryTransposeExcel extends Fluid {
 
-	fill() {
-		; build class.method to pass through (cannot do it inline)
-		strMethod := % this.id() ".pour"
-		; Bind and add the hotkey
-		Hotkey, IfWinActive, Update ahk_class WindowsForms10.Window.8.app.0.30495d1_r11_ad1, Inventory Pool Type
-; @todo Hotkey.restrict( "WinTitle", "WinText" )
-		Hotkey.add( "!^i", strMethod, "" )
+
+	hotkey := "!^i"
+
+
+	__New() {
+		strGroup := this.id
+		GroupAdd, %strGroup%, Update ahk_class WindowsForms10.Window.8.app.0.30495d1_r11_ad1, Inventory Pool Type
 	}
+
 
 	/**
 	 *
 	 */
 	pour() {
-		If WinActive( Update ahk_class WindowsForms10.Window.8.app.0.30495d1_r11_ad1, Inventory Pool Type )
+		strGroup := this.__Class
+		IfWinActive, ahk_group %strGroup%
 		{
 			if ( Window.CheckActiveProcess( "rtponecontainer" ) ) {
 ; @todo ImageSearch?
@@ -102,7 +102,7 @@ class FluidInventoryTransposeExcel extends Fluid {
 						WinActivate, %strWinInvAdd%
 						blnDate := Send.date( dtDate )
 						if ( !blnDate ) {
-							MsgBox.stop( "Invalid date [" dtDate "] found in cell " objExcel.ActiveCell.Offset( intRow, intCol ).Address )
+							MsgBox.stop( "Invalid date [" dtDate "] found in cell: " objExcel.ActiveCell.Offset( intRow, intCol ).Address )
 ; @todo show "blank" if blank date
 						}
 						SendInput {Tab}
@@ -113,7 +113,7 @@ class FluidInventoryTransposeExcel extends Fluid {
 						intCol += 1
 						intLevel := objExcel.ActiveCell.Offset( intRow, intCol ).Value
 						if intLevel is not number
-							MsgBox.stop( "Invalid Level detected (non integer/decimal) in cell " objExcel.ActiveCell.Offset( intRow, intCol ).Address )
+							MsgBox.stop( "Invalid Level detected (non integer/decimal) in cell: " objExcel.ActiveCell.Offset( intRow, intCol ).Address )
 						intLevel := SubStr( intLevel, 1, InStr( intLevel, "." ) -1 )
 						WinActivate, %strWinInvAdd%
 						SendInput %intLevel%{Tab}

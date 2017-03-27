@@ -43,6 +43,7 @@
 #Include lib\debug.ahk
 ; This include must be last as it changes the include path
 #Include lib\retype.ahk
+#Include refills\_fluid.ahk
 
 
 ; UI changes

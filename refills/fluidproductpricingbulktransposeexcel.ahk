@@ -17,8 +17,6 @@
  */
 
 
- ; Abstract fluid class
-#Include %A_ScriptDir%\refills\_fluid.ahk
 ; Trigger my damn self (in a horrible way due to AHK limitations)
 objRetype.refill( new FluidProductPricingBulkTransposeExcel() )
 
@@ -33,32 +31,20 @@ objRetype.refill( new FluidProductPricingBulkTransposeExcel() )
  */
 class FluidProductPricingBulkTransposeExcel extends Fluid {
 
-	fill() {
-		; @todo code here to register menu
+	hotkey := "!^h"
 
-		; ### Register hotkey
-		; build class.method to pass through (cannot do it inline)
-		strMethod := % this.id() ".pour"
-		; Bind the hotkey about to be created to particular window, therefore it doesn't get run somewhere it shouldn't
-		; and also allows us to use the same hotkey in multiple places but for different things
-		Hotkey, IfWinActive, Product Header Pricing Bulk Update ahk_class WindowsForms10.Window.8.app.0.30495d1_r11_ad1, Selected Price Update Details
-		; Adds hotkey [The last "" param appears to be required otherwise the dynamic class.method call doesn't work]
-		Hotkey.add( "!^h", strMethod, "" )
-		; return here so we don't action the label beneath
-		return
 
-		lblFluidProductPricingBulkTransposeExcel:
-			;Gosub ^!s
-			Gosub this.hotkey
-		return
+	__New() {
+		strGroup := this.id
+		GroupAdd, %strGroup%, Product Header Pricing Bulk Update ahk_class WindowsForms10.Window.8.app.0.30495d1_r11_ad1, Selected Price Update Details
 	}
 
 
 	pour() {
 		; BULK PRICING:	Resize the pricing season drop-down
-		IfWinActive, Product Header Pricing Bulk Update ahk_class WindowsForms10.Window.8.app.0.30495d1_r11_ad1, Selected Price Update Details
+		strGroup := this.__Class
+		IfWinActive, ahk_group %strGroup%
 		{
-
 			if ( Window.CheckActiveProcess( "rtponecontainer" ) ) {
 				idWinRTP	:= WinActive("A")
 				;~ idWinExcel	:= Window.GetID( "Excel", "Excel", "XLMAIN" )
@@ -75,6 +61,7 @@ class FluidProductPricingBulkTransposeExcel extends Fluid {
 				; @see http://msdn.microsoft.com/en-us/library/bb257110(v=office.12).aspx
 
 				; Prompt for components and channels
+;@todo Pass in last used value for convenience's sake (may need to globalise variable)
 				intIterate := InputBox.show( "Transpose how many Excel rows?", 1 )
 				intChannels := InputBox.show( "How many Sales Channels do we have?", 3 )
 
@@ -97,12 +84,12 @@ class FluidProductPricingBulkTransposeExcel extends Fluid {
 
 					; Check for formulae
 					if ( InStr( mixValue, "=" ) ) {
-						MsgBox.stop( "Formula in pricing input cell " objExcel.ActiveCell.Address )
+						MsgBox.stop( "Formula in pricing input cell: " objExcel.ActiveCell.Address )
 ; @todo Change to continue:yes/no and if yes, skip next %intChannels% and continue
 					}
 					; Check value contents (should be an integer number!)
 					if mixValue is not number
-						MsgBox.stop( "Invalid pricing detected (non integer/decimal) in cell " objExcel.ActiveCell.Address )
+						MsgBox.stop( "Invalid pricing detected, (non integer/decimal) in cell: " objExcel.ActiveCell.Address )
 
 					; If we're here we're good, input pricing
 					Loop %intChannels% {

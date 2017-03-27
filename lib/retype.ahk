@@ -17,16 +17,28 @@
  * @license		Creative Commons Attribution-ShareAlike 4.0 International License http://creativecommons.org/licenses/by-sa/4.0/deed.en_US
  */
 
+; Dependencies
 #include lib\window.ahk
 #Include lib\msgbox.ahk
 #Include lib\inputbox.ahk
 #Include lib\hotkey.ahk
 #Include lib\send.ahk
 
+; Global variables so they can be used within labels
 arrFluidTimers := {}
 intTimerBase := 100
 intTimerCount := 0
 
+/**
+ * Entry in to the framework that rounds up Fluid objects, refills them in
+ * to the ReTyPe bottle, and either presents them for use or triggers them
+ * by timer
+ *
+ * @category	Automation
+ * @package		ReTyPe
+ * @author		Dominic Wrapson <dwrapson@whistlerblackcomb.com>
+ * @copyright	2014 Dominic Wrapson
+ */
 class Retype {
 
 
@@ -50,6 +62,14 @@ class Retype {
 		; iniread intTreeCustomerCommon
 		; iniread intTreeCustomerAccess
 
+; @todo Iterate over refills.ahk instantiate and register each automatically
+; LoopFile, refills.ahk {
+;	strRefill := SubStr( A_LoopValue, /, . )
+; 	this.refill( new %strRefill% )
+; }
+
+; @todo Move to RTP class
+; Not currently being used anyway
 		IniRead, idRtpClassNN, this.strFileConf, Conf, RtpClassNN, WindowsForms10.Window.8.app.0.30495d1_r11_ad1
 		this.idRtpClassNN := idRtpClassNN
 	}
@@ -74,8 +94,9 @@ class Retype {
 			;}
 		;}
 
+		; Register hotkeys
 		;for idFluid, objFluid in arrFluidHotkeys {
-			
+
 		;}
 
 		; Master timer for all refills
