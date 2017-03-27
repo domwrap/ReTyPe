@@ -79,7 +79,7 @@ class Fluid {
 			strGroup := this.id
 			; Add the Retype Toolbar to the allowed group otherwise it'll never
 			; allow hotkey activation from menu clicks
-	
+
 			; Restrict the hotkey usage to the specified group
 	; @todo This doesn't work!  Can run hotkey with keyboard from toolbar, but not from menu click
 	;Hotkey, IfWinActive, ahk_group %strGroup%

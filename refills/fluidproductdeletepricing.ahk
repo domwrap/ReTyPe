@@ -3,34 +3,53 @@ objRetype.refill( new FluidProductDeletePricing() )
 
 class FluidProductDeletePricing extends Fluid {
 
+	strHotkey := "^!x"
+	strMenuPath		:= "/Admin/Product"
+	strMenuText		:= "Pricing Delete"
+	intMenuIcon		:= 272
 
-	;strHotkey := "!^x"
-
-
+	/**
+	 * Setup controls, window group, etc
+	 */
 	__New() {
-		strGroup := this.id
-		GroupAdd, %strGroup%, Add ahk_class WindowsForms10.Window.8.app.0.30495d1_r11_ad1, Available Offline
-		GroupAdd, %strGroup%, Update ahk_class WindowsForms10.Window.8.app.0.30495d1_r11_ad1, Available Offline
-; @todo Hotkey, IfWinActive, Update ahk_class % Rtp.ClassNN, Available Offline
+		global objRetype
+		base.__New()
 
-	;~ ; Group the RTP and Retype windows together as it's the only way !WinActive will work
-	;~ GroupAdd, grpWinRtp, ahk_id %idWinRTP%
-	;~ GroupAdd, grpWinRtp, ahk_id %idWinRetype%
-	;~ If !WinActive("ahk_group grpWinRtp")
-	;~ {
+		strGroup 	:= this.id
+		strRTP		:= % objRetype.objRTP.classNN()
+		GroupAdd, %strGroup%, Add ahk_class %strRTP%, Sales Report Group
+		GroupAdd, %strGroup%, Update ahk_class %strRTP%, Sales Report Group
 	}
 
-
+	/**
+	 * Where the magic happens
+	 */
 	pour() {
-; @todo if rtp.window( "visible text" )
-; Can also check process (rtpone.exe), abstract more code
+		global objRetype
+		static intIterate := 1
 
-		; BULK PRICING:	Resize the pricing season drop-down
+		; Activate RTP (after toolbar has been clicked)
+		objRetype.objRTP.Activate()
+
+		; Run if it's ready!
 		strGroup := this.__Class
 		IfWinActive, ahk_group %strGroup%
 		{
-			if ( Window.CheckActiveProcess( "rtponecontainer" ) ) {
-msgbox pour
+			; Did you execute from an RTP window?
+			if ( objRetype.objRTP.isActive() ) {
+				idWinRTP	:= WinActive("A")
+
+				; Check which control has focus.  If it's not the pricing ListView then don't proceed
+				Window.CheckControlFocus( objRetype.objRTP.formatClassNN( "SysListView32", this.getConf( "ListPricing", 11 ) ), "Pricing ListView" )
+
+				; Prompt for iteration count
+				intIterate := InputBox.show( "How many pricing entries do you wish to delete?", 1 )
+
+				Loop %intIterate%
+				{
+					WinActivate, ahk_id %idWinRTP%
+					SendInput {Space}{AppsKey}d{Space}
+				}
 			}
 		}
 	}

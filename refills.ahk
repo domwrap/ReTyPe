@@ -7,6 +7,7 @@
 #Include refills\fluidproductpricingbulkui.ahk
 #Include refills\fluidproductpricingmerge.ahk
 #Include refills\fluidproductpricingseasoneditenable.ahk
+#Include refills\fluidrentalinventorypostprint.ahk
 #Include refills\fluidrtpactivewindow.ahk
 #Include refills\fluidrtpautorecharge.ahk
 #Include refills\fluidrtpcommentaddchargedeclinedtl.ahk

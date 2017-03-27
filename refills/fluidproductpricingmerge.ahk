@@ -32,7 +32,7 @@ objRetype.refill( new FluidProductPricingMerge() )
  */
 class FluidProductPricingMerge extends Fluid {
 
-	strHotkey		:= "^!+g"
+	strHotkey		:= "^!f"
 	strMenuPath		:= "/Admin/Product"
 	strMenuText		:= "Pricing Merge"
 	intMenuIcon		:= 25 ; 88 ; 306
@@ -49,6 +49,9 @@ class FluidProductPricingMerge extends Fluid {
 		GroupAdd, %strGroup%, Update ahk_class %strRTP%, Sales Report Group
 	}
 
+	/**
+	 * Where the magic happens
+	 */
 	pour() {
 		global objRetype
 		static intIterate := 1
@@ -109,6 +112,7 @@ class FluidProductPricingMerge extends Fluid {
 						Send {Tab}
 						ControlGetFocus, strControlPrice2, A
 						ControlGetText, intPrice2, %strControlPrice2%, A
+						Send +{Tab}%intPrice2%{Tab}
 						intPriceTotal := intPrice1 + intPrice2
 						Send {BackSpace}%intPriceTotal%
 						ControlClick, OK, A

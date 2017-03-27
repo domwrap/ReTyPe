@@ -1,0 +1,193 @@
+/**
+ * File containing Refill class to modify button behaviour in Rental Inventory Transfer
+ * Class will add itself to the parent retype instance
+ *
+ * AutoHotKey v1.1.13.01+
+ *
+ * LICENSE: This work is licensed under a version 4.0 of the
+ * Creative Commons Attribution-ShareAlike 4.0 International License
+ * that is available through the world-wide-web at the following URI:
+ * http://creativecommons.org/licenses/by-sa/4.0/deed.en_US
+ *
+ * @category	Automation
+ * @package		ReTyPe
+ * @author		Dominic Wrapson <dwrapson@whistlerblackcomb.com>
+ * @copyright	2014 Dominic Wrapson
+ * @license		Creative Commons Attribution-ShareAlike 4.0 International License http://creativecommons.org/licenses/by-sa/4.0/deed.en_US
+ */
+
+
+; Trigger my damn self (in a horrible way due to AHK limitations)
+objRetype.refill( new FluidRentalInventoryPostPrint() )
+
+
+/**
+ * Refill for Rental Inventory Transfer to remove print button and change Post button to Post and Print
+ *
+ * @category	Automation
+ * @package		ReTyPe
+ * @author		Dominic Wrapson <dwrapson@whistlerblackcomb.com>
+ * @copyright	2014 Dominic Wrapson
+ */
+class FluidRentalInventoryPostPrint extends Fluid {
+
+	static intTimer		:= 200
+	strRTP 				:= 
+	idWinRTP 			:=
+	strTitle 			:= "Rental Tools Navigator"
+
+	/**
+	 * Setup controls, window group, etc
+	 */
+	__New() {
+		global objRetype
+		base.__New()
+
+		strGroup		:= this.id
+		strRTP			:= % objRetype.objRTP.classNN()
+		this.strRTP 	:= strRTP
+		strTitle 	 	:= % this.strTitle
+		GroupAdd, %strGroup%, ahk_class %strRTP%, %strTitle%
+	}
+
+	/**
+	 * Add text-searching for access codes to components
+	 */
+	pour() {
+		Global ; all vars are global
+
+		; Get RTP window for later reference
+		strRTP		:= % objRetype.objRTP.classNN()
+
+		; Build the GUI and do stuff
+		strGroup := this.__Class
+		IfWinActive, ahk_group %strGroup%
+		{
+			; WinActive check isn't good enough in this case, so need to make a visual search too
+			ImageSearch intActiveX, intActiveY, 40, 60, 370, 100, *50 %A_ScriptDir%\img\search_icon_rentalinventorytransfer.png
+			If ( !ErrorLevel ) {
+				idWinRTP := WinExist("A")
+				this.idWinRTP := idWinRTP
+
+				; Hide the Print button as it doesn't work anyway
+				Control, Hide, , Print, ahk_id %idWinRTP%
+				; Hide the Post button so it can't be clicked unintentionally
+				Control, Hide, , Post, ahk_id %idWinRTP%
+
+				; Find Post button so we can lay a new one over the top
+				WinGetPos, intWinX, intWinY,,,
+				ControlGetPos, intCtlX, intCtlY, intCtlW, intCtlH, View/Edit,
+				; Calculate X and Y for button based on window width + position of existing button (Same for Y)
+				intGuiX := intWinX + intCtlX + intCtlW + 5
+				intGuiY := intWinY + intCtlY
+
+; @todo check x/y values before proceeding in case config or combo not found and fails
+
+				if ( 0 < intCtlX && 0 < intCtlY ) {
+					IfWinExist, PostPrint ahk_class AutoHotkeyGUI
+					{
+						Gui, PostPrint:Show, NA x%intGuiX% y%intGuiY%, PostPrint
+					} else {
+						Gui, PostPrint:Add, Button, x0 y0 w%intCtlW% gfnSearchInventoryPrintPost -wrap, Post && Print
+						Gui, PostPrint:Margin, 0, 0
+						Gui, PostPrint:-SysMenu +ToolWindow -Caption -Border +AlwaysOnTop
+						Gui, PostPrint:Show, NoActivate x%intGuiX% y%intGuiY%, PostPrint
+						WinGet, idWinRetype, ID, PostPrint ahk_class AutoHotkeyGUI
+					}
+					WinActivate, ahk_group %strGroup%
+				} else {
+					;( "CtlX: " intCtlX  "`nCtlY: " intCtlY "`nWinX: " intWinX "`nWinY: " intWinY "`nGuiX: " intGuiX "`nGuiY: " intGuiY )
+					Gui, PostPrint:Hide
+				}
+			} else {
+				Gui, PostPrint:Destroy
+			}
+		}
+
+		IfWinNotExist, ahk_group %strGroup%
+		{
+			Gui, PostPrint:Hide
+		}
+
+		; Group the RTP and Retype windows together as it's the only way !WinActive will work
+		GroupAdd, grpWinPostPrint, ahk_id %idWinRTP%
+		GroupAdd, grpWinPostPrint, ahk_id %idWinRetype%
+		If !WinActive("ahk_group grpWinPostPrint")
+		{
+			; This code stops toolbar showing in other apps
+			Gui, PostPrint:Destroy
+		}
+
+		; GTFO before the label here below
+		return
+
+		/**
+		 * Adds a border-less UI with a single button next to the disabled PostPrint combobox
+		 * Appears to "add" a button to the UI when in fact it floats above it but never steals focus
+		 * Now that's MAGIC!
+		 */
+		fnSearchInventoryPrintPost:
+			; Get RTP window for later reference
+			strClassRTP := % objRetype.objRTP.classNN()
+			strTitleRTP := "Rental Tools Navigator"
+			WinGet, idWinRTP, ID, ahk_class %strClassRTP%, %strTitleRTP%
+			WinActivate, ahk_id %idWinRTP%
+
+			; Focus View/Edit button as it's the only one visible left on screen
+			ControlFocus, View/Edit, ahk_id %idWinRTP%
+
+			; Reverse tab in to the list control, then space to re-select un-selected item
+			Send +{Tab}{Space}
+
+			; Get selected transferid from list view
+			ControlGetFocus, strControlList, A
+			ControlGet, idTransfer, List, Selected Col1, %strControlList%, ahk_id %idWinRTP%
+			if ( 0 = strLen( idTransfer ) ) {
+				msgbox.error( "No batch to transfer" )
+				return
+			}
+
+			; Click the Post button
+			WinActivate, ahk_id %idWinRTP%
+			ControlFocus, %strControlList%, ahk_id %idWinRTP%
+			Control, Show, , Post, ahk_id %idWinRTP%
+			Send {Tab 2}{Space}
+			Control, Hide, , Post, ahk_id %idWinRTP%
+
+			; Wait for the posting confirmation window to be closed (either OK or Cancel)
+			WinWaitNotActive, Post Confirmation
+			if ( 1 = ErrorLevel ) {
+				msgbox.error( "Timed out waiting for Batch Post" )
+			}
+
+			; Grab teh RTP id here again as it seems to get lost, even though the other vars are just fine!
+			WinGet, idWinRTP, ID, ahk_class %strClassRTP%, %strTitleRTP%
+
+			; Wait for focus to return to RTP (may have clicked elsewhere first)
+			WinWaitActive, ahk_id %idWinRTP%
+			if ( 1 = ErrorLevel ) {
+				msgbox.error( "Timed out waiting for RTP")
+			} else
+
+			; Get list of batches IDs still listed
+			ControlGet, arrTransfer, List, Col1, %strControlList%, ahk_id %idWinRTP%
+			blnPosted := true
+			; See if the posted ID is still in the list and if it was they can't have clicked OK
+			Loop, Parse, arrTransfer, `n
+			{
+				if ( idTransfer = A_LoopField ) {
+					blnPosted := false
+					break
+				}
+			}
+
+			if ( blnPosted ) {
+				Run, http://rtp_reporting/ReportServer/Pages/ReportViewer.aspx?/Custom+Reports/Rental+Reports/Rental+Inventory+Reports/Rental+Inventory+-+Transfer+PickList&TransferId=%idTransfer%
+			} else {
+				msgbox.info( "Batch post cancelled" )
+			}
+		return
+	}
+
+ }
+ 

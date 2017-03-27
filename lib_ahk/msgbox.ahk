@@ -67,6 +67,10 @@ class MsgBox {
 		return this.show( strMessage, 36, "Continue?" )
 	}
 
+	info( strMessage ) {
+		return this.show( strMessage, 32, "Info" )
+	}
+
 	tryagain( strMessage ) {
 		return this.show( strMessage, 70, "Try Again?" )
 	}
