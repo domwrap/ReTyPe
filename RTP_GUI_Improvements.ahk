@@ -72,10 +72,21 @@ return
 #IfWinActive Update, Products and Payments
 >!i:: ; 	PRICING SEASONS:	Enable sorting in bStore window (IN PROGRESS)
 	strControl = WindowsForms10.SysListView32.app.0.30495d1_r11_ad11
-	WinGet, idWindow, ID, A
-MsgBox hello
-	Control, Style, ^LVS_NOCOLUMNHEADER, %strControl%, ahk_id %idWindow%
+MsgBox Applyin!
+	; http://www.autohotkey.com/docs/misc/Styles.htm
+	; I've played with these a lot, and I cannot make the headers sort
+	;Control, Style, +0x1, %strControl%, A ; LVS_REPORT
+	;Control, Style, -0x4000, %strControl%, A ; LVS_NOCOLUMNHEADER
+	;Control, Style, -0x8000, %strControl%, A ; LVS_NOSORTHEADER
+	;Control, Style, +0x20, %strControl%, A ; LVS_SORTDESCENDING
+
+	PostMessage, 0x8000
+
+	;Control, Style, ^0x4, %strControl%, A ; LVS_SINGLESEL
 	;ControlMove, %strControl%, 420, , ,
+
+	WinSet, Redraw,, A
+	;WinMove, 0, 0
 return
 
 
@@ -103,6 +114,12 @@ return
 >!i:: ;		CONTEXTUAL: Makes small 'changes' to the RTP UI relevent to the current window
 	MsgBox, 16, Macro Information, Not in RTP or not an area that has programmed modifications
 return
+
+
+
+;@todo Right-click copy on product code box in update window
+;@todo make tree navigation window box for header and component bigger
+
 
 
 ; MUST BE LAST LINE IN FILE

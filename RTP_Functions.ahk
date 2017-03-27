@@ -288,6 +288,11 @@ _windowCheckControlFocus( strTargetFocus, strTargetFriendly ) {
 }
 
 
+_screenImageSearch( topX, topY, botX, botY, strImagePath ) {
+
+}
+
+
 /**
  * Displays an input box to ask the user to enter a string
  * 
@@ -307,6 +312,8 @@ _InputBox( strMessage, mixDefault="" ) {
 	}
 	return %mixVar%
 }
+
+
 
 
 _RETURN_ON_USER_CANCEL() {

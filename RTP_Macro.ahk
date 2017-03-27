@@ -25,6 +25,13 @@
  */
 
 
+; Avoids checking empty variables to see if they are environment variables (recommended for all new scripts).
+#NoEnv
+; Fastest send mode
+; BREAKS things like media output it's TOO FAST!
+; http://www.autohotkey.com/docs/commands/Send.htm#SendInput
+;SendMode, Input
+
 /*
  * 1: A window's title must start with the specified WinTitle to be a match.
  * 2: A window's title can contain WinTitle anywhere inside it to be a match. 
@@ -276,12 +283,19 @@ _windowCheckActiveProcess( "rtponecontainer" )
 ; Do we only have one instance of RTP Update?
 _windowContinueSingleOnly( "Update" )
 ; Are we in the output tab of a component?
+; @todo This does not work as well as we would like because of the way RTP overlays all GUI components
+;		as it loads them so if you switch to voucher then back to Output, it breaks
 _windowCheckVisibleTextContains( "deferral", "output" )
-_windowCheckVisibleTextDoesNotContain( "report output" )
+; Fortunately however, this is a lot more effective!  This searches the screen for a VISUAL match against an image to check it can be seen!
+ImageSearch intX, intY, 170, 20, 260, 70, search_images\component_tab_output.png
+if ( !intX or !intY ) {
+	MsgBox, 48, RTP Macro Information,Execution error: Macro attempted in wrong window or panel.
+	return
+}
 
 ; Botch around the fact that I cannot seem to apply focus to a SysListView32 control
 ControlFocus, Add, A
-Send {Down}{Space}
+Send {Down}{Home}
 
 ; Prompt for components and channels
 intIterate := _InputBox( "To how many more Sales Channels will we copy the first?", 4 )
@@ -296,9 +310,11 @@ Send {Home}{Tab}{Space}{Tab 5}
 Loop 8
 {
 	; Copy contents of text input
-	Send ^a^c
+	Send ^a^c{Tab}{Home}
 	; Prepend to next field, separate by field delimeter
-	Send {Tab}{Home}^v|
+	SendInput %clipboard%
+	Sleep 5
+	Send |
 }
 Send ^a^c{Tab 2}{Space}
 ; Update next X sales channels
@@ -313,12 +329,13 @@ Loop %intIterate%
 	; Iterate delimited clipboard and paste per label
 	Loop, parse, clipboard, |
 	{
-		Send ^a{BackSpace}%A_LoopField%{Tab}
+		SendInput ^a{BackSpace}%A_LoopField%{Tab}
 	}
 	; Final tab on loop puts us on Update button, hit space to confirm
 	Send {Space}
 }
 return
+
 
 ;=========================================================
 ^!v:: ; VOUCHER:		Duplicate text from first output entry to next X entries
@@ -330,7 +347,13 @@ _windowCheckActiveProcess( "rtponecontainer" )
 ; Do we only have one instance of RTP Update?
 _windowContinueSingleOnly( "Update" )
 ; Are we in the voucher tab of a component?
-_windowCheckVisibleTextContains( "deferral", "voucher quantity" )
+_windowCheckVisibleTextContains( "deferral", "voucher quantity", "output" )
+; Visual search for correct header in the correct place
+ImageSearch intX, intY, 170, 20, 350, 70, search_images\component_tab_voucherproduct.png
+if ( !intX or !intY ) {
+	MsgBox, 48, RTP Macro Information,Execution error: Macro attempted in wrong window or panel.
+	return
+}
 
 ; Botch around the fact that I cannot seem to apply focus to a SysListView32 control
 ControlFocus, Add, A
@@ -344,8 +367,11 @@ Send {Home}{Tab 2}{Space}{Tab 4}
 ; Copy box and pre-pend to next then copy again
 Loop 8
 {
-	Send ^a^c{Tab}{Home}^v
-	; Field delimeter
+	; Copy contents of text input
+	Send ^a^c{Tab}{Home}
+	; Prepend to next field, separate by field delimeter
+	SendInput %clipboard%
+	Sleep 5
 	Send |
 }
 Send ^a^c{Tab 2}{Space}
@@ -361,7 +387,7 @@ Loop %intIterate%
 	; Iterate delimited clipboard and paste per label
 	Loop, parse, clipboard, |
 	{
-		Send ^a{BackSpace}%A_LoopField%{Tab}
+		SendInput ^a{BackSpace}%A_LoopField%{Tab}
 	}
 	; Final tab on loop puts us on Update button, hit space to confirm
 	Send {Space}
@@ -599,7 +625,7 @@ intIterate := _InputBox( "Return how many items?", 1 ) ; Detect tree items possi
 ; Move control to the search text box before proceeding
 ControlFocus, WindowsForms10.EDIT.app.0.30495d1_r11_ad11, A
 
-Send {tab 3}{down 3}
+Send {tab 3}{Home}{down 3}
 Loop %intIterate% {
 	SendInput {tab 3}{space}+{tab 3}{down}
 }

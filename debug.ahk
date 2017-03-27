@@ -1,8 +1,51 @@
 ; DEBUG CRAP HERE!
 
+!^F12::
+	strControl = WindowsForms10.STATIC.app.0.30495d1_r11_ad15
+
+	;PostMessage, 0x132, #FF0,, %strControl%, A
+	;PostMessage, 0x133, #FF0,, %strControl%, A
+	;PostMessage, 0x134, #FF0,, %strControl%, A
+	;PostMessage, 0x135, #FF0,, %strControl%, A
+	;PostMessage, 0x136, #FF0,, %strControl%, A
+	;PostMessage, 0x137, #FF0,, %strControl%, A
+	;PostMessage, 0x138, #FF0,, %strControl%, A
+
+	ControlGetText, strLabel, %strControl%, A
+	IfNotInString, strLabel, DEV
+		ControlSetText, %strControl%, DEV - %strLabel%, A
+	Control, Style, ^0x800000, %strControl%, A
+	;WinSet, Redraw,, A
+return
+
+!^F11::
+MsgBox Trying
+	strControl = WindowsForms10.Window.8.app.0.30495d1_r11_ad18
+	;PostMessage, 0x132, #FF0,, %strControl%, A
+	;PostMessage, 0x133, #FF0,, %strControl%, A
+	;PostMessage, 0x134, #FF0,, %strControl%, A
+	;PostMessage, 0x135, #FF0,, %strControl%, A
+	;PostMessage, 0x136, #FF0,, %strControl%, A
+	;PostMessage, 0x137, #FF0,, %strControl%, A
+	;PostMessage, 0x138, #FF0,, %strControl%, A
+	Control, Style, 0x9, %strControl%, A
+	;WinSet, Redraw,, A
+	;WinMove, 0,0
+	WinHide, A
+	WinShow, A
+return
+
+#F12::
+	#Persistent
+	SetTimer, WatchActiveWindow, 200
+	return
+	WatchActiveWindow:
+	WinGet, ControlList, ControlList, A
+	ToolTip, %ControlList%
+return
 
 
-#F8::
+#F11::
 	WinGet, id, list,,, Program Manager
 
 	Loop, %id%
@@ -14,6 +57,18 @@
 	    MsgBox, 4, , Visiting All Windows`n%a_index% of %id%`nahk_id %this_id%`nahk_class %this_class%`n%this_title%`n`nContinue?
 	    IfMsgBox, NO, break
 	}
+return
+
+
+#F9::
+	MouseGetPos, intX, intY, idWindow, strControl
+	ControlGet, strList, List, , %strControl%, A
+	ControlGetText, strText, %strControl%, A
+	ControlGet, blnChecked, Checked,, %A_LoopField%, A
+	ControlGet, blnEnabled, Enabled,, %A_LoopField%, A
+	ControlGet, blnVisible, Visible,, %A_LoopField%, A
+
+	MsgBox X: %intX% Y: %intY%`nWindow: %idWindow%`nControl: %strControl%`n`nList: %strList%`nText: %strText%`n`nChecked: %blnChecked%`nEnabled: %blnEnabled%`nVisible: %blnVisible%
 return
 
 
@@ -61,36 +116,57 @@ return
 	ControlGet, blnEnabled, Enabled,, %A_LoopField%, ahk_id %idWindow%
 	ControlGet, blnVisible, Visible,, %A_LoopField%, ahk_id %idWindow%
 
-	MsgBox, , , Contents of control`n%strControl%`n`n%strList%`n`n%strText%`nChecked: %blnChecked%`nEnabled: %blnEnabled%`nVisible: %blnVisible%
+	MsgBox, , , Contents of control`nControl: %strControl%`n`nList: %strList%`nText: %strText%`n`nChecked: %blnChecked%`nEnabled: %blnEnabled%`nVisible: %blnVisible%
 return
 
 
 #F5::
-	strControl = WindowsForms10.SysListView32.app.0.30495d1_r11_ad11
-	Gui, TreeView, strControl
-	MsgBox % TV_GetCount()
+	ControlGetFocus, strControl, A
+
+	ControlGet, strList, List, , %strControl%, A
+	ControlGetText, strText, %strControl%, A
+	ControlGet, blnChecked, Checked,, %A_LoopField%, A
+	ControlGet, blnEnabled, Enabled,, %A_LoopField%, A
+	ControlGet, blnVisible, Visible,, %A_LoopField%, A
+
+	MsgBox, , , Contents of control`nControl: %strControl%`n`nList: %strList%`nText: %strText%`n`nChecked: %blnChecked%`nEnabled: %blnEnabled%`nVisible: %blnVisible%
 return
 
 
 #F4::
-
+	MsgBox % WinActive("A")
 return
 
 
 #F3::
-	ControlGetFocus, strFocus, A
-	MsgBox % strFocus
-return
-
-
-#F12::
-	#Persistent
-	SetTimer, WatchActiveWindow, 200
-	return
-	WatchActiveWindow:
-	WinGet, ControlList, ControlList, A
-	ToolTip, %ControlList%
+	MsgBox % A_Cursor
 return
 
 
 
+
+
+
+
+;TREEVIEW FAIL
+;	#Include TreeView/Const_TreeView.ahk
+;	#Include TreeView/Const_Process.ahk
+;	#Include TreeView/Const_Memory.ahk
+;	#Include TreeView/RemoteTreeViewClass.ahk
+
+;	strControl = WindowsForms10.SysListView32.app.0.30495d1_r11_ad113
+;	WinGet, idWindow, ID, A
+
+;	ControlGet, TVid, Hwnd, , %strControl%, ahk_id %idWindow%
+
+;	MyTV := new RemoteTreeView(TVId)
+;	hItem = 0  ; Causes the loop's first iteration to start the search at the top of the tree.
+;	Loop
+;	{
+;		hItem := MyTV.GetNext(hItem, "Full")
+;		if not hItem  ; No more items in tree.
+;			break
+;		ItemText := MyTV.GetText(hItem)
+;		MsgBox, 4, ,The next Item is %hItem%, whose text is "%ItemText%"`n`nContinue?
+;		IfMsgBox, No, Break
+;	}
