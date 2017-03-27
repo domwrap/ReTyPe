@@ -1,4 +1,4 @@
-
+	
 #NoEnv
 
 #Include RTP_Functions.ahk
@@ -18,9 +18,13 @@
 strProgramName = Pass Admin Macro
 idWinRTP = 
 idWinExcel = 
+; RTP
 idIPCode = 
 idIPCodeSearchLastMatched =
 strUsername := A_UserName
+; Stats
+blnStats = true
+intStatClicks = 0
 
 
 SysGet, intResX, 16
@@ -33,11 +37,17 @@ Gui, Add, Text,, Excel:
 Gui, Add, Text,, IP Code:
 Gui, Add, Text,,
 ; Macro buttons
-Gui, Add, Button, vbtnAutoCharge x25 w100 gfnAutoCharge, &Autocharge
+Gui, Add, Button,  x25 w100, Process &Report
+Gui, Add, Text,,
+Gui, Add, Button, vbtnAutoCharge w100 gfnAutoCharge, &Autocharge
 Gui, Add, Button, vbtnComment w100 gfnMenuComment, &Comment
 Gui, Add, Button, vbtnHotlist w100 gfnHotlist, &Hotlist
 Gui, Add, Text,,
-Gui, Add, Button,  w100, &Stats
+Gui, Add, Text,, Click Stats:
+Gui, Add, Button,  w30 gfnStatStart, Star&t
+Gui, Add, Text, vlblStatClicks x92 y268 w30 Right, 0
+Gui, Add, Button, x60 y287 w30 gfnStatStop, Sto&p
+Gui, Add, Button, x95 y287 w30 gfnStatReset -wrap, R&eset
 Gui, Add, Text,,
 ; Target buttons
 Gui, Add, Button, w16 h18 x%intIconX% y5 gTargetRTP, +
@@ -80,14 +90,13 @@ Menu, MenuComment, Add, Guest Contacted, fnCommentGuestSpokeTo
 Menu, MenuComment, Add  ; Add a separator line below the submenu.
 Menu, MenuComment, Add, Item3, MenuHandler  ; Add another menu item beneath the submenu.
 
-
-#Persistent
-SetTimer, buttonDisable, 250
+; Control the button availability
+SetTimer, guiUpdate, 250
 return
 
 
 
-buttonDisable:
+guiUpdate:
 ; Check if the targetted windows still exist
 IfWinNotExist, ahk_id %idWinRTP%
 {
@@ -116,6 +125,8 @@ if ( !idWinExcel ) {
 	GuiControl, Enable, btnTargetIPCode
 }
 
+GuiControl,,lblStatClicks,%intStatClicks%
+
 return
 
 
@@ -124,6 +135,28 @@ GuiClose:
 ExitApp
 
 
+
+; Capture click event for stat counting
+~*LButton::
+~*RButton::
+	If ( true = blnStats ) {
+		intStatClicks++
+	}
+return
+
+;========================================================
+fnStatStart:
+	blnStats := true
+return
+
+fnStatStop:
+	blnStats := false
+return
+
+fnStatReset:
+	blnStats := false
+	intStatClicks = 0
+return
 
 
 TargetRTP:
@@ -141,8 +174,31 @@ TargetRTP:
 return
 
 TargetExcel:
+	idWinExcel = 
+
 	; Locate Excel window ID
-	idWinExcel := _windowGetID( "Microsoft Excel -", "Excel", "XLMAIN" )
+	Loop {
+		intWinExcel := _windowGetID( "Microsoft Excel -", "Excel", "XLMAIN" )
+		clipboard = 
+
+		WinActivate, ahk_id %intWinExcel%
+		Send ^{Home}{Up 2}
+		Send {F2}+{Home}^c{Tab}
+
+		if ( clipboard != "Failed Auto Charge Report With CC Update" ) {
+			MsgBox, 69, %strProgramName%, That doesn't look like the correct Excel report.  Would you like to try again?
+			IfMsgBox Cancel
+				break
+
+			continue
+		}
+
+		; if we get to here we must've found it
+		idWinExcel := intWinExcel
+		; sneaky little goto
+		break
+	}
+
 	; Update GUI with window ID
 	GuiControl,,lblWinExcel,%idWinExcel%
 return
@@ -418,3 +474,5 @@ return
 
 
 
+; @todo add Hostrings for comments
+; http://www.autohotkey.com/docs/Hotstrings.htm

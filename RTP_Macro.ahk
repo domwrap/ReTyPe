@@ -114,6 +114,10 @@ return
 
 ;=========================================================
 ^!p:: ; BULK PRICING:	This will UPDATE the next X listed components with PRICE
+
+; Did you execute from an RTP window?
+_windowCheckActiveProcess( "rtponecontainer" )
+
 InputBox, intPrice, Price, What's the NEW product price?, , , , , , , ,9999
 InputBox, intIterate, How many, How many components are we updating?, , , , , , , ,3
 if ErrorLevel
@@ -134,6 +138,10 @@ return
 
 ;=========================================================
 ^!+p:: ; BULK PRICING:	This will UPDATE the next X listed components with PRICE, then move down X rows
+
+; Did you execute from an RTP window?
+_windowCheckActiveProcess( "rtponecontainer" )
+
 InputBox, intPrice, Price, What's the NEW product price?, , , , , , , ,9999
 InputBox, intIterate, How many, How many components are we updating?, , , , , , , ,3
 if ErrorLevel
@@ -206,6 +214,10 @@ return
 
 ;=========================================================
 ^!i:: ; INVENTORY: 	Copy pools from Excel in to RTP inventory administration
+
+; Did you execute from an RTP window?
+_windowCheckActiveProcess( "rtponecontainer" )
+
 ; Variable setup
 strWinExcel		= Microsoft Excel - Inventory Pool Automated Entry Official Spreadsheet
 strWinInvAdd	= Add Inventory Pool Location
@@ -397,7 +409,10 @@ return
 
 ;=========================================================
 ^!c:: ; COMMISSION:	Populate per-product commission class
-;
+
+; Did you execute from an RTP window?
+_windowCheckActiveProcess( "rtponecontainer" )
+
 ; COLUMN LISTING MUST BE ACTIVE AREA
 InputBox, intCommission, Commission, What commission rate?, , , , , , , ,25
 InputBox, intIterate, Products, How many products?, , , , , , , ,1
@@ -418,6 +433,10 @@ return
 
 ;=========================================================
 ^!a:: ; ACCOUNTING:	Copy Earned to Override
+
+; Did you execute from an RTP window?
+_windowCheckActiveProcess( "rtponecontainer" )
+
 Loop 7
 {
 	Send ^a^c{Tab}{Home}^v
@@ -438,6 +457,10 @@ return
 
 ;=========================================================
 ^!+a:: ; ACCOUNTING:	Copy Earned to Override X times
+
+; Did you execute from an RTP window?
+_windowCheckActiveProcess( "rtponecontainer" )
+
 InputBox, intIterate, Accounting, Duplicate this row how many times down (not including the source line)?, , , , , , , ,1
 if ErrorLevel
 {
@@ -470,6 +493,10 @@ return
 
 ;=========================================================
 ^!d:: ; PRICE-BY-DATE:	Update next X Effective and Expiry dates
+
+; Did you execute from an RTP window?
+_windowCheckActiveProcess( "rtponecontainer" )
+
 InputBox, intEffective, Effective Date, Change Effective to what date mm/dd/yyyy (leave blank to skip)?, , , , , , , ,
 InputBox, intExpiration, Expsiration Date, Change Expiration to what date mm/dd/yyyy (leave blank to skip)?, , , , , , , ,
 InputBox, intIterate, Pricing, Update how many rows?, , , , , , , ,1
@@ -501,6 +528,10 @@ return
 
 ;=========================================================
 ^!g:: ; DISCOUNT:		Update next X Expiry dates
+
+; Did you execute from an RTP window?
+_windowCheckActiveProcess( "rtponecontainer" )
+
 InputBox, intExpiration, Expiration Date, Set Expiration to what date mm/dd/yyyy?, , , , , , , ,
 InputBox, intIterate, Pricing, Update how many rows?, , , , , , , ,1
 if ErrorLevel
@@ -523,6 +554,10 @@ return
 
 ;=========================================================
 ^!+g:: ; DISCOUNT:		Copy next X discounts with EFFECTIVE and EXPIRY dates
+
+; Did you execute from an RTP window?
+_windowCheckActiveProcess( "rtponecontainer" )
+
 InputBox, intEffective, Effective Date, Set Effective to what date [mm/dd/yyyy]?, , , , , , , ,%intEffective%
 InputBox, intExpiration, Expiration Date, Set Expiration to what date [mm/dd/yyyy]?, , , , , , , ,%intExpiration%
 InputBox, intDiscount, Discount Amount, Set discount to what value? (leave BLANK to clone), , , , , , , ,
@@ -565,6 +600,10 @@ return
 
 ;=========================================================
 !+g:: ; DISCOUNT:		Update next X rows to DISCOUNT
+
+; Did you execute from an RTP window?
+_windowCheckActiveProcess( "rtponecontainer" )
+
 InputBox, intDiscount, Discount Amount, Set discount to what value? (leave BLANK to clone), , , , , , , ,
 InputBox, intIterate, Pricing, Update how many rows?, , , , , , , ,1
 if ErrorLevel
@@ -593,6 +632,10 @@ return
 
 ;=========================================================
 ^!o:: ; DISPLAY CATEGORY:	Re-number X display category product headers by increment X
+
+; Did you execute from an RTP window?
+_windowCheckActiveProcess( "rtponecontainer" )
+
 InputBox, intIterate, Headers, Update how many headers?, , , , , , , ,1
 InputBox, intIncrement, Increment, Increment each Display Order by?, , , , , , , ,10
 InputBox, intDisplayOrder, Start Value, Starting from what value?, , , , , , , ,%intIncrement%
@@ -665,6 +708,10 @@ return
 
 ;=========================================================
 ^!b:: ; B-STORE:		Add seasonal Lift and Rental products to bStore with option for KSF
+
+; Did you execute from an RTP window?
+_windowCheckActiveProcess( "rtponecontainer" )
+
 WinGetTitle, strBstore, A
 ;strBill := SubStr( strBstore, InStr(strBstore, "(")+1, InStr(strBstore, ")"-1 ) )
 StringReplace, strBstore, strBstore, %A_SPACE%,, All
@@ -725,6 +772,10 @@ if ( blnProp = False )
 
 ;=========================================================
 ^!e:: ; COMPONENT:	Process component names. If it contains P2P, prefix z, else add 0 to day number for natural ordering
+
+; Did you execute from an RTP window?
+_windowCheckActiveProcess( "rtponecontainer" )
+
 Send {Tab 3}^a^c{Home}
 ;if InStr( clipboard, "Audit" )
 ;	Send ^{Right 2}0
@@ -744,16 +795,17 @@ return
 
 
 ^!1:: ; DELETE:		1-Tab Delete (Product: Sales Location/Sales Channel/Component entry)
-; update discount entry
+	_windowCheckActiveProcess( "rtponecontainer" )
 	Send {tab}{space 2}
 return
 
 ^!2:: ; DELETE:		2-Tab Delete (Component Output)
-; update discount entry
+	_windowCheckActiveProcess( "rtponecontainer" )
 	Send {tab 2}{space 2}+{Tab}{Space}
 return
 
 ^!3:: ; DELETE:		3-Tab Delete (Discount/bStore entry)
+	_windowCheckActiveProcess( "rtponecontainer" )
 	Send {tab 3}{space 2}
 	Sleep 100
 	Send {space}
@@ -778,6 +830,8 @@ return
 
 
 ; http://www.autohotkey.com/board/topic/56946-is-there-a-universal-abort-method-for-ahk-commands/
+
+; A hotkey label can be used as the target of a Gosub or Goto. For example: Gosub ^!s
 
 
 

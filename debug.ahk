@@ -96,7 +96,7 @@ return
 	ControlGet, blnVisible, Visible,, %A_LoopField%, ahk_id %idWindow%
 	ControlGet, intTab, Tab,, %A_LoopField%, ahk_id %idWindow%
 
-	MsgBox, , , Contents of control`nControl: %strControl%`n`nList: %strList%`nList Count:%intListCount%`n`nText: %strText%`n`nChecked: %blnChecked%`nEnabled: %blnEnabled%`nVisible: %blnVisible%`nTab: %intTab%
+	MsgBox, , , Contents of control`nControl: %strControl%`n`nList: %strList%`nList Count: %intListCount%`n`nText: %strText%`n`nChecked: %blnChecked%`nEnabled: %blnEnabled%`nVisible: %blnVisible%`nTab: %intTab%
 return
 
 
@@ -119,7 +119,7 @@ return
 	ControlGet, blnVisible, Visible,, %A_LoopField%, A
 	ControlGet, intTab, Tab,, %A_LoopField%, A
 
-	MsgBox, , , Contents of control`nControl: %strControl%`n`nList: %strList%`nList Count:%intListCount%`n`nText: %strText%`n`nChecked: %blnChecked%`nEnabled: %blnEnabled%`nVisible: %blnVisible%`nTab: %intTab%
+	MsgBox, , , Contents of control`nControl: %strControl%`n`nList: %strList%`nList Count: %intListCount%`n`nText: %strText%`n`nChecked: %blnChecked%`nEnabled: %blnEnabled%`nVisible: %blnVisible%`nTab: %intTab%
 return
 
 
