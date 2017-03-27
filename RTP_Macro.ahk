@@ -43,7 +43,7 @@ SetTitleMatchMode 1
  * True: Return from functions where user cancels and decide flow within program
  * False: Issue exit command when user cancels or function fails
  */
-RETURN_ON_USER_CANCEL = False
+RETURN_ON_USER_CANCEL := False
 
 ; Includes that mean we can keep things separated and tidy
 #Include debug.ahk
