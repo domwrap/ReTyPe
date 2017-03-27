@@ -1,13 +1,13 @@
 
-objRetype.refill( new FluidRTPCommentAddDeclineChargeGuestEmail() )
+objRetype.refill( new FluidCommentAddDeclineChargeGuestEmail() )
 
 ; @todo Make generic commenting class (with prompt), and extend to pass admin / config file editable sub-class
-class FluidRTPCommentAddDeclineChargeGuestEmail extends Fluid {
+class FluidCommentAddDeclineChargeGuestEmail extends Fluid {
 
 	;strHotkey		:= "^!+c"
 	strMenuPath		:= "/CusMan/Comments"
 	strMenuText		:= "Guest Emailed"
-	intMenuIcon		:= 217
+	intMenuIcon		:= 157 ;217
 
 	/**
 	 * Setup controls, window group, etc

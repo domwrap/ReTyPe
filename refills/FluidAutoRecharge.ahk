@@ -1,8 +1,8 @@
 
-objRetype.refill( new FluidRTPAutoRecharge() )
+objRetype.refill( new FluidAutoRecharge() )
 
 ; @todo Make generic commenting class (with prompt), and extend to pass admin / config file editable sub-class
-class FluidRTPAutoRecharge extends Fluid {
+class FluidAutoRecharge extends Fluid {
 
 	;strHotkey		:= "^!+c"
 	strMenuPath		:= "/OneResort"

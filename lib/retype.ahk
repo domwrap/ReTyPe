@@ -50,7 +50,7 @@ class Retype {
 	;static objRetype	= 
 	; Config
 	strDirConf		:= A_AppData "\ReTyPe\"
-	strFileConf		:= this.strDirConf "retype.ini"
+	strFileConf		:= this.strDirConf "Retype.ini"
 	blnToolbar		:= false
 	; Variables
 	arrTimers		:= {}
@@ -103,20 +103,21 @@ class Retype {
 			; Iterate registered hotkey fluids and add to Toolbar
 			for idFluid, objFluid in this.arrHotkeys {
 				; Reset loop variables
-				arrPath := {}
+				arrPath 	:= {}
 				strMenuPath := ""
-				arrPath2 :=
-				arrPath3 :=
+				arrPath2 	:=
+				arrPath3 	:=
 
 				; Get text and hotkey, and make human friendly for menu
 				strHotKey := objFluid.strHotKey
 				StringUpper, strHotKey, strHotKey
 				strMenuText := objFluid.strMenuText "`t" strHotKey
-				StringReplace, strMenuText, strMenuText, +, Shift+
-				StringReplace, strMenuText, strMenuText, !, Alt+
-				StringReplace, strMenuText, strMenuText, ^, Ctrl+
-				StringReplace, strMenuText, strMenuText, <, L
-				StringReplace, strMenuText, strMenuText, >, R
+				StringReplace, strMenuText, strMenuText, +, Shift+, 1
+				StringReplace, strMenuText, strMenuText, !, Alt+, 1
+				StringReplace, strMenuText, strMenuText, ^, Ctrl+, 1
+				StringReplace, strMenuText, strMenuText, <, L, 1
+				StringReplace, strMenuText, strMenuText, >, R, 1
+				StringReplace, strMenuText, strMenuText, #, Win, 1
 
 				; Fetch and split path to find where to add menu
 				strMenuPath := objFluid.strMenuPath
@@ -127,7 +128,9 @@ class Retype {
 
 				; Add icon if specified
 				if ( objFluid.intMenuIcon ) {
-					objMenu.setIcon( A_WinDir "\System32\shell32.dll", objFluid.intMenuIcon )
+					EnvGet, RootDirectory, SystemDrive
+					RootDirectory := RootDirectory "\Windows"
+					objMenu.setIcon( RootDirectory "\System32\shell32.dll", objFluid.intMenuIcon )
 				}
 
 				; Add to toolbar menus (depending on specified depth)
@@ -195,6 +198,11 @@ class Retype {
 
 ; @todo Make buttons on the toolbar flash (bold) and menu items highlighted (bold)
 ; when they open a relevant window/area to prompt users to use available macros
+; https://www.autohotkey.com/docs/commands/GuiControl.htm
+;   See section Font
+; Also see button_color.ahk in _test directory
+;   Using example from this link http://www.autohotkey.com/board/topic/102379-add-background-color-to-a-gui-button/?p=635432
+
 		} catch e {
 			; http://www.autohotkey.com/docs/commands/_ErrorStdOut.htm
 			Debug.log( e )

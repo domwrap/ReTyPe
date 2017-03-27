@@ -26,7 +26,7 @@
 class RTP {
 	; Config file
 	strDirConf		:= A_AppData "\ReTyPe\"
-	strFileConf		:= this.strDirConf "rtp.ini"
+	strFileConf		:= this.strDirConf "RTP.ini"
 
 	; Instance config
 	strProcess		:= "rtponecontainer"
@@ -163,7 +163,7 @@ class RTP {
 
 		; Control definition (in case they change later because let's be honest, they probably will!)
 		IniRead, strCustomerListViewControl, % this.strFileConf, Controls, CustomerListView, 11
-		strCustomerListView := this.formatClassNN( "SysListView32", strCustomerListViewControl ) ; Well yeah, or is it actually the comments? Who the fuck knows
+		strCustomerListView := this.formatClassNN( "SysListView32", strCustomerListViewControl ) ; Well yeah, or is it actually the comments? Who the hell knows
 		IniRead, strCustomerTabControl, % this.strFileConf, Controls, CustomerTab, 11
 		strCustomerTab := this.formatClassNN( "SysTabControl32", strCustomerTabControl )
 		IniRead, strSearchEditControl, % this.strFileConf, Controls, SearchEdit, 11
@@ -179,7 +179,7 @@ class RTP {
 		; the Search Results ListView ID (yes, identifier!) even if that list doesn't ACTUALLY exist as a ListView
 		; in the first place.  WHAT THE BALLS, RTP!?
 		; So, today's workaround of the day is to switch to the search results tab to REMIND RTP which one I'm
-		; actually referring to when I use its unique identifier.  Later on we'll switch back to the View Details tab
+		; actually referring to when I use its unique identifier.  Later on we'll switch back to the View Details tab.
 		; I need a drink
 		SendMessage, 0x1330, 0,, %strCustomerTab%, ahk_id %idWinRTP%  ; 0x1330 is TCM_SETCURFOCUS
 
@@ -197,7 +197,7 @@ class RTP {
 			}
 		}
 
-; @todo Verify which profile is loaded in case searched and then opened dependent.  Thanks to RTP's usual skullfuckery of
+; @todo Verify which profile is loaded in case searched and then opened dependent.  Thanks to RTP's usual mess of
 ; a GUI, we cannot directly reference the IP: xxxxxx field on a profile, instead must search EVERY visible control for text
 ; IP: xxxxxxx and if we get a match, then it's loaded, else re-search.  Yeah, thanks.
 ; write to intCustomerIP
@@ -205,8 +205,8 @@ class RTP {
 
 ;MsgBox intCustomerSearchCount: %intCustomerSearchCount%`nintIP: %intIP%`nintCustomerIP: %intCustomerIP%`nintCustomerLoaded: %intCustomerLoaded%`nidIPCodeSearchLastMatched: %idIPCodeSearchLastMatched%`nblnForceSearch: %blnForceSearch%
 ;exit
-		; This if logic is kinda square peg round hole to get RTP to fuck off and do what I want it to
-		; It could probably be normalised but right now it works, so screw it
+		; This IF logic is kinda square peg round hole to get RTP to do what I want it to.
+		; It could probably be normalised but right now it works, so screw it.
 		; Is customer loaded, and if so is it the one we want, and is it the one actually loaded, and is it the last searched for, or do it anyway
 		if ( !intCustomerLoaded OR intIP != intCustomerLoaded OR blnForceSearch ) {
 ;msgbox Reload it!
@@ -272,18 +272,25 @@ class RTP {
 		; Switch to comment view
 		While !blnComments AND A_Index < 5 {
 			if ( A_Index < 4 ) {
+				; Make three attempts at switching using the shortcut key Alt+C
 				Send !c
 			} else {
+				; If that didn't work, do the ghetto treeview traverse
 				this.CustomerResetTreeview()
 
+				; Get tree position of CommonProfiles from config file
 				IniRead, intTreeCommon, % this.strFileConf, TreeCustomer, Common, 4
+				; Reduce it by one as the first one in the tree is the 0th position
 				intTreeCommon--
 
-				; Move to comments
-				Send {Down %intTreeCommon%}{Right}{Down 3}\
+				; Traverse the tree to comments
+				Send {Down %intTreeCommon%}{Right}{Down}
 			}
 
-			ImageSearch blnComments, , 300, 120, 440, 140, %A_ScriptDir%\img\search_cusman_commentprofile.png
+			; Make an image search for Comment Profile header to ensure we're in the correct place
+			ImageSearch blnComments, , 300, 120, 440, 140, *100 %A_ScriptDir%\img\search_cusman_commentprofile.png
+
+			; Momentary pause so RTP doesn't crap the bed
 			Sleep 100
 		}
 
@@ -376,6 +383,34 @@ class RTP {
 		MouseClick, Left, 45, %intDown%
 
 		return %intRow%
+	}
+
+	/**
+	 * Updates a date input with specified date (mm/dd/yyyy)
+	 *
+	 * Takes a specified date (mm/dd/yyyy) and transposes to a date input.
+	 * Due to RTP's inherent date-validity checking, if there are start-and-end
+	 * inputs the year must be either incremented or decremented by an amount
+	 * before a new date can be entered.
+	 * Depending on if you are changing an effective-date or an expiration date,
+	 * you will need to specify either to increment or decrement the year first
+	 * 
+	 * 
+	 * @param bool blnUp Control whether to increment or decrement a date input year before transposing
+	 *
+	 * @return void This function does not return a value
+	 */
+	dateInput( dtDate, blnUp=1 ) {
+		Send {right 2}
+		If blnUp
+			Send {Up 2}
+		else
+			Send {Down 2}
+		Send {left 2}
+		Loop, parse, dtDate, /
+		{
+			Send %A_LoopField%{right}
+		}
 	}
 
 }

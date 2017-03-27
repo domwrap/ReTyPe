@@ -1,12 +1,13 @@
 
-objRetype.refill( new FluidRTPCommentAddChargeDeclineRC() )
+objRetype.refill( new FluidCommentAddDeclineChargeGuestVoicemail() )
 
 ; @todo Make generic commenting class (with prompt), and extend to pass admin / config file editable sub-class
-class FluidRTPCommentAddChargeDeclineRC extends Fluid {
+class FluidCommentAddDeclineChargeGuestVoicemail extends Fluid {
 
+	;strHotkey		:= "^!+c"
 	strMenuPath		:= "/CusMan/Comments"
-	strMenuText		:= "Declined Resort Charge"
-	intMenuIcon		:= 133
+	strMenuText		:= "Guest Voicemail"
+	intMenuIcon		:= 106
 
 	/**
 	 * Setup controls, window group, etc
@@ -42,19 +43,20 @@ class FluidRTPCommentAddChargeDeclineRC extends Fluid {
 ; @todo Validation
 				; 6 <= Len( IP ) <= 7
 
-				; Get sale date, format (mm/dd/yyyy)
-				intSaleDate		:= InputBox.show( "Enter charge date", "mm/dd/yyyy" )
-				; isDate( )
-
-				; Get total owed (decimal)
-				intAmountOwed	:= InputBox.show( "Enter charge amount (without $ prefix)" )
-
+				; Make sure in RTP, then find customer
 				objRetype.objRTP.Activate()
 				objRetype.objRTP.CustomerSearchAndSelect( intIP )
 
-				strSubject = Owes $%intAmountOwed% (RC charge)
-				strComment = For %intSaleDate%. Need to check CC on file. Emailed guest. %A_UserName% x7055
+				; Construct subject and comment
+				strSubject = Phoned guest, left msg
+				strComment = Re: DTL charge owing and hotlist. %A_UserName% x7055
+
+				; Add comment to profile
 				objRetype.objRTP.CustomerAddComment( strSubject, strComment )
+/*
+	strSubject = Phoned guest, left msg
+	strComment = Re: DTL charge owing and hotlist.  %strUsername% x7055
+*/
 			}
 		}
 	}

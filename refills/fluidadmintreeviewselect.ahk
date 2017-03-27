@@ -40,6 +40,7 @@ class FluidAdminTreeViewSelect extends Fluid {
 		global objRetype
 		base.__New()
 
+		;this.strFileConf := "fluidadmintreeviewselect.ini"
 		strGroup := this.id
 		strRTP		:= % objRetype.objRTP.classNN()
 		GroupAdd, %strGroup%, ahk_class %strRTP%, Browse
@@ -47,6 +48,7 @@ class FluidAdminTreeViewSelect extends Fluid {
 
 
 	pour() {
+		global objRetype
 ; @todo Goes a bit nuts if you open the Go Menu (and always thereafter even if you close it again)
 ; @todo Change "Browse" to "Browse Bigger" to be an indicator it's already been changed?
 		; Administration select listview
@@ -59,7 +61,10 @@ class FluidAdminTreeViewSelect extends Fluid {
 			;ImageSearch intBrowseX, intBrowseY, 550, 90, 800, 130, %A_ScriptDir%\img\search_fluidadmintreeviewselect_browse.png
 			ImageSearch intMenuX, intMenuY, 150, 400, 300, 550, %A_ScriptDir%\img\search_fluidadmintreeviewselect_gomenu.png
 ;msgbox % intMenuX " - " intMenuY
-			ControlGetPos, , , intTreeW, intTreeH, WindowsForms10.SysTreeView32.app.0.30495d1_r11_ad111, A
+			strControlTreeview := objRetype.objRTP.formatClassNN( "SysTreeView32", this.getConf( "Treeview", 11 ) )
+			;strControlTreeview := "WindowsForms10.SysTreeView32.app.0.30495d1_r9_ad11"
+			ControlGetPos, , , intTreeW, intTreeH, %strControlTreeview%, A
+			;ControlGetPos, , , intTreeW, intTreeH, WindowsForms10.SysTreeView32.app.0.30495d1_r9_ad111, A
 ;msgbox % intTreeW " - " intTreeH
 			; Make sure it's been found
 			;if ( ( ( 0 < intActiveX & 0 < intActiveY ) OR ( 0 < intInactiveX & 0 < intInactiveY ) ) AND ( 0 < intBrowseX & 0 < intBrowseY ) )  {
@@ -68,19 +73,27 @@ class FluidAdminTreeViewSelect extends Fluid {
 				; Get RTP window size and resize relative
 				WinGetPos, , , intRtpW, intRtpH, A
 
-				; Array of controls that all need to be resized, with their sizes
-				; Original code was existing-width + 100 but that just happened
-				; repeatedly so need to hard-code numbers
+				; Array of controls that all need to be resized, with their sizes relative to RTP window (75%)
 				arrControls := {}
-				arrControls.Insert( { strControl:"WindowsForms10.Window.8.app.0.30495d1_r11_ad19", intWx:291, intHx:16 } ) ; X button
-				arrControls.Insert( { strControl:"WindowsForms10.Window.8.app.0.30495d1_r11_ad111", intWx:285, intHx:intRtpH*0.75 } ) ; Browse Fieldset
-				arrControls.Insert( { strControl:"WindowsForms10.SysTreeView32.app.0.30495d1_r11_ad11", intWx:275, intHx:((intRtpH*0.75)-25) } ) ; Product treeview
+				strControlButton := objRetype.objRTP.formatClassNN( "Window.8", this.getConf( "Button", 19 ) )
+				arrControls.Insert( { strControl:strControlButton, intWx:291, intHx:16 } ) ; X button
+				; strControlTreeview already defined above
+				arrControls.Insert( { strControl:strControlTreeview, intWx:275, intHx:Floor((intRtpH*0.7)-25) } ) ; Product treeview
+				strControlFieldset := objRetype.objRTP.formatClassNN( "Window.8", this.getConf( "Fieldset", 111 ) )
+				arrControls.Insert( { strControl:strControlFieldset, intWx:285, intHx:((intRtpH*0.7)) } ) ; Browse Fieldset
+
 				; Loop controls and action width and height changes
 				for intIndex, objControl in arrControls {
+;MSgBox % objControl.strControl " - " objControl.intWx " - " objControl.intHx
 					ControlMove, % objControl.strControl, , , % objControl.intWx, % objControl.intHx, A
 				}
+
 			}
+
 		}
 	}
 
 }
+
+
+

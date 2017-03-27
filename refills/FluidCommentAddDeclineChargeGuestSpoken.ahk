@@ -1,13 +1,12 @@
 
-objRetype.refill( new FluidRTPCommentAddChargeDeclineDTL() )
+objRetype.refill( new FluidCommentAddDeclineChargeGuestSpoken() )
 
 ; @todo Make generic commenting class (with prompt), and extend to pass admin / config file editable sub-class
-class FluidRTPCommentAddChargeDeclineDTL extends Fluid {
+class FluidCommentAddDeclineChargeGuestSpoken extends Fluid {
 
-	;strHotkey		:= "^!+c"
 	strMenuPath		:= "/CusMan/Comments"
-	strMenuText		:= "Declined DTL"
-	;intMenuIcon		:= 217 ; or 133
+	strMenuText		:= "Guest Spoken To"
+	intMenuIcon		:= 161
 
 	/**
 	 * Setup controls, window group, etc
@@ -22,9 +21,6 @@ class FluidRTPCommentAddChargeDeclineDTL extends Fluid {
 		GroupAdd, %strGroup%, ahk_class %strRTP%
 	}
 
-	/**
-	 * Make the magic happen
-	 */
 	pour() {
 		global objRetype
 
@@ -46,31 +42,26 @@ class FluidRTPCommentAddChargeDeclineDTL extends Fluid {
 ; @todo Validation
 				; 6 <= Len( IP ) <= 7
 
-				; Get sale date, format (mm/dd/yyyy)
-				intSaleDate		:= InputBox.show( "Enter charge date", "mm/dd/yyyy" )
-				; isDate( )
-
-				; Get total owed (decimal)
-				intAmountOwed	:= InputBox.show( "Enter charge amount (without $ prefix)" )
-				; substr( intAmountOwed, 0, 1 ) = "$"
-				; isFloat || isInt
-				; 2 decimal places
-
+				; Name of contact
+				strGuest		:= InputBox.show( "With whom did you speak?" )
+				; Check for blank input
 
 				; Make sure in RTP, then find customer
 				objRetype.objRTP.Activate()
 				objRetype.objRTP.CustomerSearchAndSelect( intIP )
 
 				; Construct subject and comment
-				strSubject = Owes $%intAmountOwed% (DTL charge)
-				strComment = For %intSaleDate%. Need to check CC on file. Emailed guest. %A_UserName% x7055
+				strSubject = Phoned guest, spoke to %strGuest%
+				strComment = Re: RC charge owing. Guest says they will contact their CC company and remove the hold. Will call us back when we can retry CC. %A_UserName% x7055
 
 				; Add comment to profile
 				objRetype.objRTP.CustomerAddComment( strSubject, strComment )
+/*
+	strSubject = Phoned guest, spoke to %strGuest%
+	strComment = Re: RC charge owing.  Guest says they will contact their CC company and remove the hold.  Will call us back when we can retry CC.  %strUsername% x7055
+*/
 			}
 		}
 	}
 
 }
-
-; McWrap: 2993249

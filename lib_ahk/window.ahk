@@ -170,12 +170,12 @@ class Window extends _returnableClass {
 	/**
 	 * Checks up to four strings ARE NOT visible in the active window
 	 * 
-	 * @param mixed strFirst First string to match
-	 * @param mixed strSecond Second string to match
-	 * @param mixed strThird Third string to match
-	 * @param mixed strFourth Fourth string to match
+	 * @param mixed strFirst First string to match. Required
+	 * @param mixed strSecond Second string to match. Optional
+	 * @param mixed strThird Third string to match. Optional
+	 * @param mixed strFourth Fourth string to match. Optional
 	 *
-	 * @return bool True or false for success
+	 * @return bool True or false for success if returning, else exit
 	 */
 	CheckVisibleTextDoesNotContain( strFirst, strSecond="thisisnevergoingtobefoundanywhere", strThird="thisisnevergoingtobefoundanywhere", strFourth="thisisnevergoingtobefoundanywhere" ) {
 		DetectHiddenText, off
@@ -204,6 +204,7 @@ class Window extends _returnableClass {
 	CheckControlFocus( strTargetFocus, strTargetFriendly ) {
 		Loop {
 			ControlGetFocus, strControlFocus, A
+
 			if ( strControlFocus != strTargetFocus ) {
 				MsgBox, 69, RTP Macro Information,Execution error: %strTargetFriendly% must have focus before continuing.
 				IfMsgBox, Cancel

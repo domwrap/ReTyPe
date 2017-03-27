@@ -25,12 +25,12 @@
  */
 class Button {
 
-	objToolbar := {}
-	strName := "Button"
-	strTarget := "Button"
-	strText := "Button"
-	arrMenus := {}
-	arrMenuOrder := {}
+	objToolbar		:= {}
+	strName 		:= "Button"
+	strTarget 		:= "Button"
+	strText 		:= "Button"
+	arrMenus 		:= {}
+	arrMenuOrder 	:= {}
 
 	/**
 	 * Constructor and defaults
@@ -40,9 +40,9 @@ class Button {
 	 * @param Toolbar Toolbar object to which to add
 	 */
 	__New( strName, strTarget, strText, objToolbar=false ) {
-		this.strName := strName
-		this.strTarget := strTarget
-		this.strText := strText
+		this.strName 	:= strName
+		this.strTarget 	:= strTarget
+		this.strText 	:= strText
 
 		; Why doesn't obj.haskey work here?
 		if ( false != objToolbar ) {
@@ -85,8 +85,8 @@ class Button {
 	render( strOptions ) {
 		global
 		local strToolbar := this.objToolbar.strToolbar
-		local strTarget := "g" this.strTarget
-		local strName := "v" this.strName
+		local strTarget  := "g" this.strTarget
+		local strName 	 := "v" this.strName
 
 		; Render menu first so it can be attached to the button
 		;for intMenu, objMenu in this.arrMenus {

@@ -4,6 +4,7 @@
 class Debug {
 
 	static env 	:= "dev"
+
 	static strFileLog	= "debug.log"
 
 	__New() {
@@ -25,7 +26,7 @@ class Debug {
 			strFile := this.strFileLog
 			FileAppend, %strDebug%, %strFile%
 		} else {
-			; @todo some array shit
+			; @todo some array stuff
 		}
 	}
 

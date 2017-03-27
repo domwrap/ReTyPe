@@ -18,7 +18,7 @@
 
 
 ; Trigger my damn self (in a horrible way due to AHK limitations)
-objRetype.refill( new FluidProductPricingBulkTransposeExcel() )
+objRetype.refill( new FluidProductPricingTransposeExcel() )
 
 
 /**
@@ -29,11 +29,11 @@ objRetype.refill( new FluidProductPricingBulkTransposeExcel() )
  * @author		Dominic Wrapson <dwrapson@whistlerblackcomb.com>
  * @copyright	2013 Dominic Wrapson
  */
-class FluidProductPricingBulkTransposeExcel extends Fluid {
+class FluidProductPricingTransposeExcel extends Fluid {
 
 	strHotkey		:= "^!h"
 	strMenuPath		:= "/Admin/Product"
-	strMenuText		:= "Bulk Pricing Transpose"
+	strMenuText		:= "Transpose from Excel"
 	intMenuIcon		:= 250
 
 	/**

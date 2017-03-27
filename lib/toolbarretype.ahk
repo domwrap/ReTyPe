@@ -33,12 +33,15 @@ class ToolbarRetype extends Toolbar {
 	 */
 	__New( strButtons="" ) {
 
+		EnvGet, RootDirectory, SystemDrive
+		RootDirectory := RootDirectory "\Windows"
+
 		; BUTTON: General
 		If ( InStr( strButtons, "G" ) ) {
 			objBtnGeneral := new Button( "General", "fnButton_Menu_Handle", "G" )
 			this.addButton( objBtnGeneral )
 			objMenuGeneral := new Menu( "fnNull", "General", false )
-			objMenuGeneral.setIcon( A_WinDir "\System32\shell32.dll", 22 )
+			objMenuGeneral.setIcon( RootDirectory "\System32\shell32.dll", 22 )
 			objBtnGeneral.addMenu( objMenuGeneral )
 			objBtnGeneral.addMenu( new Menu( "fnNull", "" ) )
 		}
@@ -47,7 +50,7 @@ class ToolbarRetype extends Toolbar {
 			objButtonOneResort := new Button( "OneResort", "fnButton_Menu_Handle", "O" )
 			this.addButton( objButtonOneResort )
 			objMenuOneResort := new Menu( "fnNull", "ONE|Resort", false )
-			objMenuOneResort.setIcon( A_WinDir "\System32\shell32.dll", 16 )
+			objMenuOneResort.setIcon( RootDirectory "\System32\shell32.dll", 16 )
 			objButtonOneResort.addMenu( objMenuOneResort )
 			objButtonOneResort.addMenu( new Menu( "fnNull", "" ) )
 		}
@@ -56,7 +59,7 @@ class ToolbarRetype extends Toolbar {
 			objBtnCustomer := new Button( "CusMan", "fnButton_Menu_Handle", "C" )
 			this.addButton( objBtnCustomer )
 			objMenuCustomer := new Menu( "fnNull", "Customer Manager", false )
-			objMenuCustomer.setIcon( A_WinDir "\System32\shell32.dll", 161 )
+			objMenuCustomer.setIcon( RootDirectory "\System32\shell32.dll", 161 )
 			objBtnCustomer.addMenu( objMenuCustomer )
 			objBtnCustomer.addMenu( new Menu( "fnNull", "" ) )
 			; Sub menus
@@ -68,7 +71,7 @@ class ToolbarRetype extends Toolbar {
 			objBtnAdmin := new Button( "Admin", "fnButton_Menu_Handle", "A" )
 			this.addButton( objBtnAdmin )
 			objMenuAdmin := new Menu( "fnNull", "Administration", false )
-			objMenuAdmin.setIcon( A_WinDir "\System32\shell32.dll", 166 )
+			objMenuAdmin.setIcon( RootDirectory "\System32\shell32.dll", 166 )
 			objBtnAdmin.addMenu( objMenuAdmin )
 			objBtnAdmin.addMenu( new Menu( "fnNull", "" ) )
 			; sub menus
@@ -76,13 +79,19 @@ class ToolbarRetype extends Toolbar {
 			objBtnAdmin.addMenu( objMenuAdminProduct )
 			objMenuAdminComponent := new Menu( "fnMenu_Handle", "Component" )
 			objBtnAdmin.addMenu( objMenuAdminComponent )
+			objMenuAdminInventory := new Menu( "fnMenu_Handle", "Inventory" )
+			objBtnAdmin.addMenu( objMenuAdminInventory )
+			objMenuAdminDiscount := new Menu( "fnMenu_Handle", "Discount" )
+			objBtnAdmin.addMenu( objMenuAdminDiscount )
+			objMenuAdminCommission := new Menu( "fnMenu_Handle", "Commission" )
+			objBtnAdmin.addMenu( objMenuAdminCommission )
 		}
 		; BUTTON: Voucher
 		If ( InStr( strButtons, "V" ) ) {
 			objButtonVoucher := new Button( "Voucher", "fnButton_Menu_Handle", "V" )
 			this.addButton( objButtonVoucher )
 			objMenuVoucher := new Menu( "fnNull", "Voucher Tools", false )
-			objMenuVoucher.setIcon( A_WinDir "\System32\shell32.dll", 55 )
+			objMenuVoucher.setIcon( RootDirectory "\System32\shell32.dll", 55 )
 			objButtonVoucher.addMenu( objMenuVoucher )
 			objButtonVoucher.addMenu( new Menu( "fnNull", "" ) )
 		}
@@ -91,28 +100,37 @@ class ToolbarRetype extends Toolbar {
 			objButtonUAT := new Button( "UAT", "fnButton_Menu_Handle", "U" )
 			this.addButton( objButtonUAT )
 			objMenuUAT := new Menu( "fnNull", "User Acceptance Testing", false )
-			objMenuUAT.setIcon( A_WinDir "\System32\shell32.dll", 81 )
+			objMenuUAT.setIcon( RootDirectory "\System32\shell32.dll", 81 )
 			objButtonUAT.addMenu( objMenuUAT )
 			objButtonUAT.addMenu( new Menu( "fnNull", "" ) )
+		}
+		; BUTTON: DEBUG
+		If ( InStr( strButtons, "D" ) ) {
+			objButtonDebug := new Button( "Debug", "fnButton_Menu_Handle", "D" )
+			this.addButton( objButtonDebug )
+			objMenuDebug := new Menu( "fnNull", "Debug Tools", false )
+			objMenuDebug.setIcon( RootDirectory "\System32\shell32.dll", 91 )
+			objButtonDebug.addMenu( objMenuDebug )
+			objButtonDebug.addMenu( new Menu( "fnNull", "" ) )
 		}
 
 		; BUTTON: Help
 		objBtnHelp := new Button( "Help", "fnButton_Menu_Handle", "?" )
 		objMenuHelp := new Menu( "fnNull", "&Help`tWin+F1", false )
-		objMenuHelp.setIcon( A_WinDir "\System32\shell32.dll", 24 )
+		objMenuHelp.setIcon( RootDirectory "\System32\shell32.dll", 24 )
 		objBtnHelp.addMenu( objMenuHelp )
 		objMenuAbout := new Menu( "fnAbout", "&About ReTyPe" )
-		objMenuAbout.setIcon( A_WinDir "\System32\shell32.dll", 278 )
+		objMenuAbout.setIcon( RootDirectory "\System32\shell32.dll", 278 )
 		objBtnHelp.addMenu( objMenuAbout )
 		objBtnHelp.addMenu( new Menu( "", "" ) )
 		objMenuUpdate := new Menu( "fnNull", "Check for &Updates", false )
-		objMenuUpdate.setIcon( A_WinDir "\System32\shell32.dll", 123 ) ;Alt icons 81,163,167,239,280
+		objMenuUpdate.setIcon( RootDirectory "\System32\shell32.dll", 123 ) ;Alt icons 81,163,167,239,280
 		objBtnHelp.addMenu( objMenuUpdate )
 		objMenuReload := new Menu( "fnReload", "&Reload ReTyPe" )
-		objMenuReload.setIcon( A_WinDir "\System32\shell32.dll", 81 )
+		objMenuReload.setIcon( RootDirectory "\System32\shell32.dll", 152 )
 		objBtnHelp.addMenu( objMenuReload )
 		objMenuExit := new Menu( "fnExit", "E&xit" )
-		objMenuExit.setIcon( A_WinDir "\System32\shell32.dll", 28 )
+		objMenuExit.setIcon( RootDirectory "\System32\shell32.dll", 28 )
 		objBtnHelp.addMenu( objMenuExit )
 		;A_WinDir
 		this.addButton( objBtnHelp )

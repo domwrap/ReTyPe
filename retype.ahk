@@ -50,7 +50,7 @@ CoordMode, Pixel, Relative
 
 
 ; UI changes
-Menu, tray, icon, retype.ico, , 1
+Menu, tray, icon, %A_ScriptDir%\retype.ico, , 1
 Menu, Tray, Tip, ReTyPe
 ;Menu, tray, NoStandard
 ;Menu, tray, add, RetypeExit
@@ -59,28 +59,31 @@ Menu, Tray, Tip, ReTyPe
 ; Build the retype!
 objRetype := new Retype()
 
-; #Include can't recurse or accept loop parameters (apparently?!)
-; Therefore we must iterate the refill dir, and append each
-; filename to an refills.ahk file, which is then included here
-; Not forgetting first we've got to delete the old copy.
-; I would love to have this code within the Retype::__New() method
-; but apparently defining a new class whilst still technically
-; defining one isn't liked very much by AHK
-; @see http://ahkscript.org/docs/commands/LoopFile.htm
-; @todo change to File object? http://ahkscript.org/docs/commands/FileOpen.htm
-FileDelete, %A_ScriptDir%\refills.ahk
-FileAppend, #Include %A_ScriptDir%`n, %A_ScriptDir%\refills.ahk
-Loop, %A_ScriptDir%\refills\*.ahk
-{
-	FileAppend, #Include refills\%A_LoopFileName%`n, %A_ScriptDir%\refills.ahk
+; Only do all the following if we're not compiled
+if ( !A_IsCompiled ) {
+	; #Include can't recurse or accept loop parameters (apparently?!)
+	; Therefore we must iterate the refill dir, and append each
+	; filename to an refills.ahk file, which is then included here
+	; Not forgetting first we've got to delete the old copy.
+	; I would love to have this code within the Retype::__New() method
+	; but apparently defining a new class whilst still technically
+	; defining one isn't liked very much by AHK
+	; @see http://ahkscript.org/docs/commands/LoopFile.htm
+	; @todo change to File object? http://ahkscript.org/docs/commands/FileOpen.htm
+	FileDelete, %A_ScriptDir%\refills.ahk
+	FileAppend, #Include %A_ScriptDir%`n, %A_ScriptDir%\refills.ahk
+	Loop, %A_ScriptDir%\refills\*.ahk
+	{
+		FileAppend, #Include refills\%A_LoopFileName%`n, %A_ScriptDir%\refills.ahk
+	}
+	; This include is actually evaluated before any other code (all Include commands are)
+	; meaning that if you change the name of a refill, you must empty the existing file
+	; rather than deleting it else it will try to be included before it is created
+	; The first execution after an empty refills.ahk will be broken as it would have
+	; been included empty.  The second execution will work as expected as the file will
+	; have been populated with the correct files on execution one.  Comprendes?
+	#Include %A_ScriptDir%\refills.ahk
 }
-; This include is actually evaluated before any other code (all Include commands are)
-; meaning that if you change the name of a refill, you must empty the existing file
-; rather than deleting it else it will try to be included before it is created
-; The first execution after an empty refills.ahk will be broken as it would have
-; been included empty.  The second execution will work as expected as the file will
-; have been populated with the correct files on execution one.  Comprendes?
-#Include %A_ScriptDir%\refills.ahk
 
 ; Make stuff happen!
 objRetype.go()

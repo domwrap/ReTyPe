@@ -1,13 +1,13 @@
 
-objRetype.refill( new FluidRTPHotlistAdd() )
+objRetype.refill( new FluidHotlistAdd() )
 
 ; @todo Make generic commenting class (with prompt), and extend to pass admin / config file editable sub-class
-class FluidRTPHotlistAdd extends Fluid {
+class FluidHotlistAdd extends Fluid {
 
 	;strHotkey		:= "^!+c"
 	strMenuPath		:= "/CusMan"
 	strMenuText		:= "Add Hotlist"
-	intMenuIcon		:= 272
+	intMenuIcon		:= 110
 
 	/**
 	 * Setup controls, window group, etc
@@ -91,7 +91,7 @@ return
 
 			; @todo check pass number begins with "(50" otherwise tab to next, check, repeat
 
-				; Seeing as apparently Control Click doesn't work either (RTP controls are such shit)
+				; Seeing as apparently Control Click doesn't work either (RTP controls are such a mess)
 				; we're instead going to have to literally click on it
 				ControlGetPos, intX, intY,,, %strControlFocus%, ahk_id %idWinRTP%
 				intX := intX+5

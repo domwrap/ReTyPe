@@ -1,13 +1,13 @@
 
-objRetype.refill( new FluidRTPCommentChargeSuccess() )
+objRetype.refill( new FluidCommentAddChargeDeclineDTL() )
 
 ; @todo Make generic commenting class (with prompt), and extend to pass admin / config file editable sub-class
-class FluidRTPCommentChargeSuccess extends Fluid {
+class FluidCommentAddChargeDeclineDTL extends Fluid {
 
 	;strHotkey		:= "^!+c"
 	strMenuPath		:= "/CusMan/Comments"
-	strMenuText		:= "Charge Success"
-	;intMenuIcon		:= 217
+	strMenuText		:= "Declined DTL"
+	intMenuIcon		:= 67
 
 	/**
 	 * Setup controls, window group, etc
@@ -22,6 +22,9 @@ class FluidRTPCommentChargeSuccess extends Fluid {
 		GroupAdd, %strGroup%, ahk_class %strRTP%
 	}
 
+	/**
+	 * Make the magic happen
+	 */
 	pour() {
 		global objRetype
 
@@ -53,22 +56,21 @@ class FluidRTPCommentChargeSuccess extends Fluid {
 				; isFloat || isInt
 				; 2 decimal places
 
+
 				; Make sure in RTP, then find customer
 				objRetype.objRTP.Activate()
 				objRetype.objRTP.CustomerSearchAndSelect( intIP )
 
 				; Construct subject and comment
-				strSubject = Paid $%intAmountOwed% (RC Charge)
-				strComment = For %intSaleDate%. CC updated and charges cleared. %A_UserName% x7055
+				strSubject = Owes $%intAmountOwed% (DTL charge)
+				strComment = For %intSaleDate%. Need to check CC on file. Emailed guest. %A_UserName% x7055
 
 				; Add comment to profile
 				objRetype.objRTP.CustomerAddComment( strSubject, strComment )
-/*
-	strSubject = Paid $xx.xx - RC charge
-	strComment = For 09.05.10 – CC updated online and charges cleared. #Name#-7055
-*/
 			}
 		}
 	}
 
 }
+
+; McWrap: 2993249

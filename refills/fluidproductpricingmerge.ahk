@@ -35,7 +35,7 @@ class FluidProductPricingMerge extends Fluid {
 	strHotkey		:= "^!f"
 	strMenuPath		:= "/Admin/Product"
 	strMenuText		:= "Pricing Merge"
-	intMenuIcon		:= 25 ; 88 ; 306
+	intMenuIcon		:= 81 ;25 ; 88 ; 306
 
 	/**
 	 * Setup controls, window group, etc

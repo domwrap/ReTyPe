@@ -31,10 +31,10 @@ objRetype.refill( new FluidInventoryTransposeExcel() )
  */
 class FluidInventoryTransposeExcel extends Fluid {
 
-	;strHotkey		:= "^!i"
-	strMenuPath		:= "/Admin/Product"
-	strMenuText		:= "Inventory Transpose"
-	intMenuIcon		:= 250
+	strHotkey		:= "^!i"
+	strMenuPath		:= "/Admin/Inventory"
+	strMenuText		:= "Transpose from Excel"
+	intMenuIcon		:= 250 ;134
 
 	/**
 	 * Setup controls, window group, etc

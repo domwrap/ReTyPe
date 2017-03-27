@@ -75,7 +75,7 @@ class MsgBox {
 		return this.show( strMessage, 70, "Try Again?" )
 	}
 
-	show( strMessage, intType=0, strTitle="" ) {
+	show( strMessage, intType=0, strTitle="", intTimeout=0 ) {
 		; Some pre-built stuff
 		this.p_conf()
 
@@ -83,6 +83,8 @@ class MsgBox {
 		strTitle := ( 0 < StrLen( strTitle ) ) ? this.strTitle ": " strTitle : this.strTitle
 		; Allows repositioning of msgbox
 		OnMessage(0x44, "WM_COMMNOTIFY")
+		; Make popups always on top
+		intType += 4096
 		; Show the actual box
 		MsgBox, % intType, %strTitle%, % strMessage	
 		return ErrorLevel

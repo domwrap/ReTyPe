@@ -43,15 +43,12 @@ class Fluid {
 		; Build config filename based on classname
 		strFileConf			:= objRetype.strDirConf this.id ".ini"
 		this.strFileConf	:= strFileConf
-
-		StringLower, strFileConf, strFileConf
-		this.strFileConf := strFileConf
 	}
 
 	/**
 	 * Prepares the Fluid for use (being "refilled")
 	 *
-	 * This method prepares the Fluid object before it use use for refill by
+	 * This method prepares the Fluid object before its use for refill by
 	 * the ReTyPe framework.  Code in here could theoretically go in the
 	 * constructor, but validation is performed before refilling that would
 	 * make this harder to achieve.
@@ -69,6 +66,7 @@ class Fluid {
 	fill() {
 		global objRetype
 
+		; Checks to see if we will be using a hotkey to activate refill
 		if ( this.strHotKey ) {
 			; build class.method to pass through (cannot do it inline)
 			strMethod := this.id ".pour"
@@ -79,13 +77,13 @@ class Fluid {
 			strGroup := this.id
 			; Add the Retype Toolbar to the allowed group otherwise it'll never
 			; allow hotkey activation from menu clicks
-
-			; Restrict the hotkey usage to the specified group
-	; @todo This doesn't work!  Can run hotkey with keyboard from toolbar, but not from menu click
-	;Hotkey, IfWinActive, ahk_group %strGroup%
-
-; @todo remove this once the rtp.activate code works in the toolbar
+			; ACTUALLY don't do this as it should have already been done in the refill constructor
 			;GroupAdd, %strGroup%, Retype ahk_class AutoHotkeyGUI
+; @TODO Figure out how to restrict hotkeys to their window groups, also @see hotkey.ahk
+			; Restrict the hotkey usage to the specified group
+			; @todo This doesn't work!  Can run hotkey with keyboard from toolbar, but not from menu click
+			;#IfWinActive, ahk_group %strGroup%
+			;Hotkey, IfWinActive, ahk_group %strGroup%
 
 			; Adds hotkey [The last "" param appears to be required otherwise the dynamic class.method call doesn't work]
 			Hotkey.add( this, "" )
