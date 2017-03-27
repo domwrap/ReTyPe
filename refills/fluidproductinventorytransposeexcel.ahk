@@ -48,7 +48,7 @@ class FluidInventoryTransposeExcel {
 				; Grab active Excel window
 ; @todo Detect Excel windows, if more than one provide means of selecting which to use
 				try {
-					objExcel := ComObjActive("Excel.Application")
+					objExcel := ComObjActive( "Excel.Application" )
 				} catch e {
 					Debug.log( e )
 					MsgBox.stop( "Could not attach to Excel spreadsheet" )
@@ -83,7 +83,7 @@ class FluidInventoryTransposeExcel {
 					{
 						; Column set in inner loop so we get two columns for every one row	
 						intCol := A_Index -1
-				;~ msgbox % "Row: " intRow "`nCol: " intCol "`nInd: " A_Index
+;msgbox % "Row: " intRow "`nCol: " intCol "`nInd: " A_Index
 						; Get date from Excel
 						dtDate := objExcel.ActiveCell.Offset( intRow, intCol ).Value
 						StringReplace, dtDate, dtDate, `r`n, , All

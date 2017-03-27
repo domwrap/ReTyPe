@@ -3,3 +3,4 @@
 *.log
 Thumbs.db
 todo.txt
+**/todo.txt
