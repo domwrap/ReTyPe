@@ -24,6 +24,7 @@
 #Include inputbox.ahk
 #Include hotkey.ahk
 #Include send.ahk
+#Include progress.ahk
 #Include %A_ScriptDir%\lib
 #Include rtp.ahk
 #Include toolbarretype.ahk
@@ -61,6 +62,10 @@ class Retype {
 	__New() {
 		;global arrTimers
 		; @todo Singleton?
+
+		; Environment Config
+		IniRead, strEnv, % this.strFileConf, Conf, Environment, dev
+		Debug.env := strEnv
 
 		; Toolbar config
 		IniRead, blnToolbar, % this.strFileConf, Toolbar, Enabled, 1
@@ -111,16 +116,20 @@ class Retype {
 				StringReplace, strMenuText, strMenuText, ^, Ctrl+
 				StringReplace, strMenuText, strMenuText, <, L
 				StringReplace, strMenuText, strMenuText, >, R
+
 				; Fetch and split path to find where to add menu
 				strMenuPath := objFluid.strMenuPath
 				StringSplit, arrPath, strMenuPath, /
+
 				; Create and add object in specified position
 				objMenu := new Menu( "fnMenu_Handle", strMenuText )
+
 				; Add icon if specified
 				if ( objFluid.intMenuIcon ) {
 					objMenu.setIcon( A_WinDir "\System32\shell32.dll", objFluid.intMenuIcon )
 				}
-				; Add to toolbar menus
+
+				; Add to toolbar menus (depending on specified depth)
 				if ( 0 < StrLen( arrPath3 ) ) {
 					this.objToolbar.arrButtons[arrPath2].arrMenus[arrPath3].addChild( objMenu )
 				} else {
@@ -133,8 +142,9 @@ class Retype {
 				strName := objMenu.strName
 				StringReplace, strName, strName, Menu
 				strName := strName strText
+
 				; Build registry of menus to hotkeys to recall later with menu selections
-				this.arrMenuHotkeys[strName] := objFluid.strHotKey
+				this.arrMenuHotkeys[strName] := objFluid
 			}
 
 			; Now everything has been added, render the toolbar
@@ -172,7 +182,7 @@ class Retype {
 			; There is no instanceOf so this will do
 			if ( objFluid.intTimer ) {
 				this.arrTimers[objFluid.id] := objFluid
-			} else if ( ObjHasKey( objFluid, "strHotkey" ) ) {
+			} else if ( ObjHasKey( objFluid, "strMenuPath" ) ) {
 				this.arrHotkeys[objFluid.id] := objFluid
 			} else {
 				throw new Exception( "Invalid fluid type" )
@@ -186,7 +196,7 @@ class Retype {
 ; when they open a relevant window/area to prompt users to use available macros
 		} catch e {
 			; http://www.autohotkey.com/docs/commands/_ErrorStdOut.htm
-			Debug.write( e )
+			Debug.log( e )
 		}
 	}
 

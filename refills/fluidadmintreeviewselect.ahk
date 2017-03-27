@@ -33,10 +33,16 @@ class FluidAdminTreeViewSelect extends Fluid {
 
 	static intTimer		:= 500
 
-
+	/**
+	 * Setup controls, window group, etc
+	 */
 	__New() {
+		global objRetype
+		base.__New()
+
 		strGroup := this.id
-		GroupAdd, %strGroup%, ahk_class WindowsForms10.Window.8.app.0.30495d1_r11_ad1, Browse
+		strRTP		:= % objRetype.objRTP.classNN()
+		GroupAdd, %strGroup%, ahk_class %strRTP%, Browse
 	}
 
 

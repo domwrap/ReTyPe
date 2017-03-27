@@ -124,9 +124,10 @@ class Toolbar {
 			strMenuItem := A_ThisMenu SubStr( A_ThisMenuItem, 1, InStr( A_ThisMenuItem, strTab )-1 )
 			StringReplace, strMenuItem, strMenuItem, %A_Space%,, All
 			StringReplace, strMenuItem, strMenuItem, Menu
-			strHotkey := objRetype.arrMenuHotkeys[strMenuItem]
 ; @todo Make < and > hotkey modifiers work
-			Send %strHotkey%
+			;strHotkey := objRetype.arrMenuHotkeys[strMenuItem].strHotKey
+			;Send %strHotkey%
+			objRetype.arrMenuHotkeys[strMenuItem].pour()
 		return
 
 		fnButton_Menu_Handle:

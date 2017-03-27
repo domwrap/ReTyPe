@@ -7,4 +7,11 @@
 #Include refills\fluidproductpricingbulkui.ahk
 #Include refills\fluidproductpricingseasoneditenable.ahk
 #Include refills\fluidrtpactivewindow.ahk
+#Include refills\fluidrtpautorecharge.ahk
+#Include refills\fluidrtpcommentaddchargedeclinedtl.ahk
+#Include refills\fluidrtpcommentaddchargedeclinerc.ahk
+#Include refills\fluidrtpcommentadddeclinechargeguestemail.ahk
+#Include refills\fluidrtpcommentadddeclinechargeguestspoken.ahk
+#Include refills\fluidrtpcommentadddeclinechargeguestvoicemail.ahk
+#Include refills\fluidrtphotlistadd.ahk
 #Include refills\_fluid.ahk

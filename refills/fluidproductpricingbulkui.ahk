@@ -5,7 +5,9 @@ class FluidProductPricingBulkUI extends Fluid {
 
 	static intTimer	:= 500
 
-
+	/**
+	 * Setup controls, window group, etc
+	 */
 	__New() {
 		global objRetype
 		base.__New()
@@ -14,12 +16,6 @@ class FluidProductPricingBulkUI extends Fluid {
 		strGroup	:= this.id
 		GroupAdd, %strGroup%, Product Header Pricing Bulk Update ahk_class %strRTP%, Selected Price Update Details
 	}
-
-
-	fill() {
-
-	}
-
 
 	pour() {
 		global objRetype

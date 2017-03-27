@@ -30,7 +30,9 @@ Right-to-left reading order for Hebrew/Arabic	1048576	0x100000
 */
 class MsgBox {
 
-	static title := "ReTyPe"
+	static blnConf		:= false
+	static strTitle 	:= "Message"
+	static strFileConf	:= "conf\app.ini"
 
 	/**
 	 * Display critical error dialog
@@ -66,9 +68,17 @@ class MsgBox {
 	}
 
 	show( strMessage, intType=0, strTitle="" ) {
-		strTitle := ( 0 < StrLen( strTitle ) ) ? this.title ": " strTitle : this.title
-		MsgBox, % intType, %strTitle%, % strMessage
+		this.p_conf()
+
+		strTitle := ( 0 < StrLen( strTitle ) ) ? this.strTitle ": " strTitle : this.strTitle
+		MsgBox, % intType, %strTitle%, % strMessage	
 		return ErrorLevel
+	}
+
+	p_conf() {
+		this.blnConf := true
+		IniRead, strTitle, % this.strFileConf, Conf, Title, % this.strTitle
+		this.strTitle := strTitle
 	}
 
 }

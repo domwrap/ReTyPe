@@ -30,13 +30,15 @@ class Fluid {
 
 	id				:= this.__Class
 	strHotKey		:=
-	strFileConf		:=
 	strMenuPath		:=
 	strMenutext		:=
 	intMenuIcon		:=
+	strFileConf		:=
 
 	__New() {
 		global objRetype
+
+		this.id := this.__Class
 
 		; Build config filename based on classname
 		strFileConf := "conf\" this.id ".ini"

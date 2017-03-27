@@ -31,15 +31,23 @@ objRetype.refill( new FluidInventoryTransposeExcel() )
  */
 class FluidInventoryTransposeExcel extends Fluid {
 
-	strHotkey		:= "^!i"
+	;strHotkey		:= "^!i"
 	strMenuPath		:= "/Admin/Product"
 	strMenuText		:= "Inventory Transpose"
+	intMenuIcon		:= 250
 
+	/**
+	 * Setup controls, window group, etc
+	 */
 	__New() {
-		strGroup := this.id
-		GroupAdd, %strGroup%, Update ahk_class WindowsForms10.Window.8.app.0.30495d1_r11_ad1, Inventory Pool Type
-	}
+		global objRetype
+		base.__New()
 
+		strGroup	:= this.id
+		strRTP		:= % objRetype.objRTP.classNN()
+		GroupAdd, %strGroup%, Update ahk_class %strRTP%, Inventory Pool Type
+		;GroupAdd, %strGroup%, Retype ahk_class AutoHotkeyGUI
+	}
 
 	/**
 	 *
@@ -53,9 +61,8 @@ class FluidInventoryTransposeExcel extends Fluid {
 		strGroup := this.__Class
 		IfWinActive, ahk_group %strGroup%
 		{
-			if ( Window.CheckActiveProcess( "rtponecontainer" ) ) {
+			if ( objRetype.objRTP.isActive() ) {
 ; @todo ImageSearch?
-
 				; Variable setup
 				idWinUpdate		:= WinActive("A")
 				strWinInvAdd	= Add Inventory Pool Location
@@ -133,9 +140,12 @@ class FluidInventoryTransposeExcel extends Fluid {
 					SendInput {Space}{Tab}
 					SendInput {Space}
 				}
+			} else { 
+				SplashImage, %A_ScriptDir%\img\uhuhuh_sub.gif, b
+				SoundPlay, %A_ScriptDir%\img\uhuhuh.mp3
+				Sleep, 3000
+				SplashImage, Off
 			}
-		} else {
-			msgbox not right now
 		}
 	}
 

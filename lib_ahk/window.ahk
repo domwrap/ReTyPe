@@ -272,7 +272,6 @@ class Window extends _returnableClass {
 		return %idWin%
 	}
 
-
 	/**
 	 * Restores a window (from minimized) and activates
 	 * @return void
@@ -285,5 +284,44 @@ class Window extends _returnableClass {
 		}
 	}
 
+	/**
+	 * Returns a control based on text-matching its contents
+	 * ErrorLevel set to 1 if control not found
+	 *
+	 * This function is HORRIBLY SLOW as it has to parse each control on a page looking for a match
+	 * RTP has dynamically named gui elements so we currently have no other choice
+	 *
+	 * @param String strSearch Text to find within desired control
+	 * @param String idWindow Unique ID of window in which to search for control
+	 *
+	 * @return String strControl string of matched control, if found
+	 */
+	getControlFromContents( strSearch, idWindow ) {
+		WinGet, arrControls, ControlList, ahk_id %idWindow%
+
+		Loop, Parse, arrcontrols, `n
+		{
+			ControlFocus %A_LoopField%, ahk_id %idWindow%
+			ControlGet, strList, List, , %A_LoopField%, ahk_id %idWindow%
+
+			if ( 0 = StrLen(strList) ) {
+				ControlGetText, strText, %A_LoopField%, ahk_id %idWindow%
+				IfNotInString, strText, %strSearch%
+					Continue
+			} else {
+				IfNotInString, strList, %strSearch%
+					Continue
+			}
+			strControl = %A_LoopField%
+			break
+		}
+
+		; ErrorLevel set to 1 if control not found
+		if ( !strControl ) {
+			ErrorLevel = 1
+		}
+
+		return strControl
+	}
 
 }

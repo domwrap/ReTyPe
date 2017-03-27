@@ -59,6 +59,9 @@ class ToolbarRetype extends Toolbar {
 			objMenuCustomer.setIcon( A_WinDir "\System32\shell32.dll", 161 )
 			objBtnCustomer.addMenu( objMenuCustomer )
 			objBtnCustomer.addMenu( new Menu( "fnNull", "" ) )
+			; Sub menus
+			objMenuCusManComment := new Menu( "fnMenu_Handle", "Comments" )
+			objBtnCustomer.addMenu( objMenuCusManComment )
 		}
 		; BUTTON: Admin
 		If ( InStr( strButtons, "A" ) ) {
@@ -78,10 +81,19 @@ class ToolbarRetype extends Toolbar {
 		If ( InStr( strButtons, "V" ) ) {
 			objButtonVoucher := new Button( "Voucher", "fnButton_Menu_Handle", "V" )
 			this.addButton( objButtonVoucher )
-			objMenuVoucher := new Menu( "fnNull", "Voucher", false )
+			objMenuVoucher := new Menu( "fnNull", "Voucher Tools", false )
 			objMenuVoucher.setIcon( A_WinDir "\System32\shell32.dll", 55 )
 			objButtonVoucher.addMenu( objMenuVoucher )
 			objButtonVoucher.addMenu( new Menu( "fnNull", "" ) )
+		}
+		; BUTTON: UAT
+		If ( InStr( strButtons, "U" ) ) {
+			objButtonUAT := new Button( "UAT", "fnButton_Menu_Handle", "U" )
+			this.addButton( objButtonUAT )
+			objMenuUAT := new Menu( "fnNull", "User Acceptance Testing", false )
+			objMenuUAT.setIcon( A_WinDir "\System32\shell32.dll", 81 )
+			objButtonUAT.addMenu( objMenuUAT )
+			objButtonUAT.addMenu( new Menu( "fnNull", "" ) )
 		}
 
 		; BUTTON: Help

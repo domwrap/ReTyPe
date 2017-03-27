@@ -33,47 +33,53 @@ class FluidComponentAccessRuleCode extends Fluid {
 
 	static intTimer		:= 200
 
-
+	/**
+	 * Setup controls, window group, etc
+	 */
 	__New() {
-		strGroup := this.id
-		GroupAdd, %strGroup%, ahk_class WindowsForms10.Window.8.app.0.30495d1_r11_ad1, Access Code Procedure
+		global objRetype
+		base.__New()
+
+		strGroup	:= this.id
+		strRTP		:= % objRetype.objRTP.classNN()
+		GroupAdd, %strGroup%, ahk_class %strRTP%, Access Code Procedure
 	}
-
-
-	fill() {
-	}
-
 
 	; BULK PRICING:	Resize the pricing season drop-down
 	pour() {
 		Global
 
-		strGroup := this.id
-
 		; Get RTP window for later reference
-		WinGet, idWinRTP, ID, ahk_class WindowsForms10.Window.8.app.0.30495d1_r11_ad1, Access Code Procedure
-; @todo VISUAL SEARCH for Access Product dark gray box
+		strRTP		:= % objRetype.objRTP.classNN()
+		WinGet, idWinRTP, ID, ahk_class %strRTP%, Access Code Procedure
+
 		; Build the GUI and do stuff
+		strGroup := this.__Class
 		IfWinActive, ahk_group %strGroup%
 		{
-			strControl = WindowsForms10.COMBOBOX.app.0.30495d1_r11_ad16
-
+			; WinActive check isn't good enough in this case, so need to make a visual search too
+			ImageSearch intActiveX, intActiveY, 180, 30, 280, 60, %A_ScriptDir%\img\search_fluidcomponentaccessrulecode_accessproduct.png
+			If ( !ErrorLevel ) {
+				strControl := objRetype.objRTP.formatClassNN( "COMBOBOX", this.getConf( "ComboBox", 16 ) )
 				WinGetPos, intWinX, intWinY,,,
 				ControlGetPos, intCtlX, intCtlY,,, %strControl%,
 				intGuiX := intWinX + intCtlX -43
 				intGuiY := intWinY + intCtlY
-
-			IfWinExist, AccessCode ahk_class AutoHotkeyGUI
-			{
-				Gui, AccessCode:Show, NA x%intGuiX% y%intGuiY%, AccessCode
+; @todo check x/y values before proceeding in case config or combo not found and fails
+				IfWinExist, AccessCode ahk_class AutoHotkeyGUI
+				{
+					Gui, AccessCode:Show, NA x%intGuiX% y%intGuiY%, AccessCode
+				} else {
+					Gui, AccessCode:Add, Edit, x0 y0 w40 gfnSearchAccessRuleTextbox Limit5 Uppercase vFind
+					Gui, AccessCode:Margin, 0, 0
+					Gui, AccessCode:-SysMenu +ToolWindow -Caption -Border +AlwaysOnTop
+					Gui, AccessCode:Show, NA x%intGuiX% y%intGuiY%, AccessCode
+					WinGet, idWinRetype, ID, AccessCode ahk_class AutoHotkeyGUI
+				}
+				WinActivate, ahk_group %strGroup%
 			} else {
-				Gui, AccessCode:Add, Edit, x0 y0 w40 gfnSearchAccessRuleTextbox Limit5 Uppercase vFind
-				Gui, AccessCode:Margin, 0, 0
-				Gui, AccessCode:-SysMenu +ToolWindow -Caption -Border +AlwaysOnTop
-				Gui, AccessCode:Show, NA x%intGuiX% y%intGuiY%, AccessCode
-				WinGet, idWinRetype, ID, AccessCode ahk_class AutoHotkeyGUI
+				Gui, AccessCode:Destroy
 			}
-			WinActivate, ahk_group %strGroup%
 		}
 
 		IfWinNotExist, ahk_group %strGroup%
@@ -99,10 +105,12 @@ class FluidComponentAccessRuleCode extends Fluid {
 		 * Now that's MAGIC!
 		 */
 		fnSearchAccessRuleTextbox:
-			WinGet, idWin, ID, ahk_class WindowsForms10.Window.8.app.0.30495d1_r11_ad1, Access Code Procedure
+			; Get RTP window for later reference
+			strRTP		:= % objRetype.objRTP.classNN()
+			WinGet, idWin, ID, ahk_class %strRTP%, Access Code Procedure
 
 			GuiControlGet, strFind,, Find
-			strControl = WindowsForms10.COMBOBOX.app.0.30495d1_r11_ad16
+			strControl := objRetype.objRTP.formatClassNN( "COMBOBOX", FluidComponentAccessRuleCode.getConf( "ComboBox", 16 ) )
 			Control, ChooseString, %strFind% , %strControl%, ahk_id %idWin%
 			;WinActivate, Update ahk_id %idWin%
 

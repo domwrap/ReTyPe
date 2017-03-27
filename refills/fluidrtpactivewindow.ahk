@@ -18,16 +18,11 @@ class FluidRTPActiveWindow extends Fluid {
 		;GroupAdd, %strGroup%, %strTitleRTP% ahk_class %strClassRTP%
 	}
 
-
-	fill() {
-
-	}
-
-
 	pour() {
 		global objRetype
 
-		strGroup := this.__Class
+		; BULK PRICING:	Resize the pricing season drop-down
+		strGroup := this.id
 		IfWinActive, ahk_group %strGroup%
 		{
 			objRetype.objRTP.setID( WinActive( ahk_group %strGroup% ) )

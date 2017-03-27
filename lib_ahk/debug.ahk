@@ -3,6 +3,8 @@
 
 class Debug {
 
+	static env 	:= "dev"
+
 	static strFileLog	= "debug.log"
 
 	__New() {
@@ -13,8 +15,7 @@ class Debug {
 		FileAppend, Headers, this.strFileLog
 	}
 
-
-	write( e ) {
+	log( e ) {
 		if ( isObject( e ) ) {
 			strDebug := this.jsonEncode( e ) "`n"
 			;~ strDebug := % "Exception thrown{when:" A_Now "|what:" e.what "|file:" e.file "|line:" e.line "|message:" e.message "|extra:" e.extra "}`n"

@@ -34,7 +34,8 @@ class Menu {
 	strIcon		:= ""
 
 ; @todo variadic
-; @todo CONVERT to http://www.autohotkey.com/board/topic/85512-class-menuahk-work-easily-with-custom-menus/
+; @todo CONVERT THIS WHOLE THING TO http://www.autohotkey.com/board/topic/85512-class-menuahk-work-easily-with-custom-menus/
+; @see http://www.autohotkey.com/board/topic/85789-menu-creator-easily-build-menus-for-your-scripts/
 	__New( strTarget, strText, blnEnabled=true ) {
 		this.strTarget		:= strTarget
 		this.strText		:= strText

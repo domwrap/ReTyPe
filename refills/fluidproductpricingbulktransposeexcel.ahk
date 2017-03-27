@@ -36,15 +36,22 @@ class FluidProductPricingBulkTransposeExcel extends Fluid {
 	strMenuText		:= "Bulk Pricing Transpose"
 	intMenuIcon		:= 250
 
+	/**
+	 * Setup controls, window group, etc
+	 */
 	__New() {
-		strGroup := this.id
+		global objRetype
+		base.__New()
+
+		strGroup	:= this.id
 		strRTP		:= % objRetype.objRTP.classNN()
 		GroupAdd, %strGroup%, Product Header Pricing Bulk Update ahk_class %strRTP%, Selected Price Update Details
 	}
 
-
 	pour() {
 		global objRetype
+		static intIterate := 1
+		static intChannels := 3
 
 		; Activate RTP (after toolbar has been clicked)
 		objRetype.objRTP.Activate()
@@ -55,7 +62,6 @@ class FluidProductPricingBulkTransposeExcel extends Fluid {
 		{
 			if ( objRetype.objRTP.isActive() ) {
 				idWinRTP	:= WinActive("A")
-				;~ idWinExcel	:= Window.GetID( "Excel", "Excel", "XLMAIN" )
 
 				; Grab active Excel window
 ; @todo Detect Excel windows, if more than one provide means of selecting which to use
@@ -69,13 +75,11 @@ class FluidProductPricingBulkTransposeExcel extends Fluid {
 				; @see http://msdn.microsoft.com/en-us/library/bb257110(v=office.12).aspx
 
 				; Prompt for components and channels
-;@todo Pass in last used value for convenience's sake (may need to globalise variable)
-				intIterate := InputBox.show( "Transpose how many Excel rows?", 1 )
-				intChannels := InputBox.show( "How many Sales Channels do we have?", 3 )
+				intIterate := InputBox.show( "Transpose how many Excel rows?", intIterate )
+				intChannels := InputBox.show( "How many Sales Channels do we have?", intChannels )
 
 ; @todo Additional input to accept up to four column letters to automate entry for productsXchannelsXpricecolumns
 ;strColumns := InputBox.show( "Which columns contain pricing?`n`nComma separated list: F,N,N,U", "" )
-				
 
 				; Get us to the pricing entry for selected row
 				ControlFocus, OK, ahk_id %idWinRTP%
@@ -104,10 +108,10 @@ class FluidProductPricingBulkTransposeExcel extends Fluid {
 						SendInput %mixValue%{Down}
 					}
 				}
-			}
-		} else {
+			} else {
 ; @todo change this
-			msgbox not for you!
+				msgbox not for you!
+			}
 		}
 	}
 
