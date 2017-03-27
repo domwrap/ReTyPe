@@ -1,0 +1,20 @@
+TRANSPOSE:
+
+Ctrl+Alt+[x,u,p,m,v,i,a]
+
+
+
+NEW ADDITIONS:
+
+
+VOUCHER TOOLS
+	Voucher creation
+		Default selections (modify voucher)
+	Voucher Search
+		Save and Search
+		Restore values to form
+
+INVENTORY
+	Transfers
+		Post & Print button - auto-run report from report server for front-line
+
