@@ -40,10 +40,11 @@
 ; Only allow one copy to run at once.  More would be bad
 #SingleInstance Force
 
+#Include %A_ScriptDir%
 #Include lib\debug.ahk
 ; This include must be last as it changes the include path
 #Include lib\retype.ahk
-#Include refills\_fluid.ahk
+#Include %A_ScriptDir%\refills\_fluid.ahk
 
 
 ; UI changes
@@ -62,7 +63,9 @@ objRetype := new Retype()
 ; but apparently defining a new class whilst still technically
 ; defining one isn't liked very much by AHK
 ; @see http://ahkscript.org/docs/commands/LoopFile.htm
+; @todo change to File object? http://ahkscript.org/docs/commands/FileOpen.htm
 FileDelete, %A_ScriptDir%\refills.ahk
+FileAppend, #Include %A_ScriptDir%`n, %A_ScriptDir%\refills.ahk
 Loop, %A_ScriptDir%\refills\*.ahk
 {
 	FileAppend, #Include refills\%A_LoopFileName%`n, %A_ScriptDir%\refills.ahk

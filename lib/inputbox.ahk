@@ -15,7 +15,7 @@
  * @license		Creative Commons Attribution-ShareAlike 4.0 International License http://creativecommons.org/licenses/by-sa/4.0/deed.en_US
  */
 
-#include lib\_returnableclass.ahk
+#include _returnableclass.ahk
 
 class InputBox extends _returnableClass {
 

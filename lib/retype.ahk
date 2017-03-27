@@ -18,11 +18,13 @@
  */
 
 ; Dependencies
-#include lib\window.ahk
-#Include lib\msgbox.ahk
-#Include lib\inputbox.ahk
-#Include lib\hotkey.ahk
-#Include lib\send.ahk
+#Include %A_ScriptDir%\Lib
+#include window.ahk
+#Include msgbox.ahk
+#Include inputbox.ahk
+#Include hotkey.ahk
+#Include send.ahk
+#Include toolbarretype.ahk
 
 ; Global variables so they can be used within labels
 arrFluidTimers := {}
@@ -48,9 +50,9 @@ class Retype {
 	blnToolbar			:= false
 	idRtpClassNN		:= 
 	; Variables
-	arrFluidTimers		:= 
-	arrFluidHotkeys		:= 
-
+	;arrFluidTimers		:= {}
+	arrFluidHotkeys		:= {}
+	objToolbar			:= {}
 
 	__New() {
 		global arrFluidTimers
@@ -79,16 +81,18 @@ class Retype {
 		; Some destruction stuff here
 	}
 
-
+	/**
+	 * Kick things off to start timers and hotkeys
+	 */
 	go() {
 		global arrFluidTimers, intTimerCount, intTimerBase
 
 		; @todo build toolbar and menus
 		; if ( blnToolbar ) {
 			; build toolbar
-			;this.toolbar = new Toolbar()
-			;this.toolbar.add( new Button( "general", "G" ) )
-			; etc etc
+			this.objToolbar := new ToolbarRetype()
+			this.objToolbar.render()
+
 			;for idFluid, objFluid in arrFluidHotkeys {
 			;	this.toolbar.add( new MenuFluid( objFluid ) )
 			;}
@@ -116,8 +120,13 @@ class Retype {
 		return
 	}
 
-
-	Refill( objFluid ) {
+	/**
+	 * Add (refill) a hotkey (fluid) to the retype class (bottle)
+	 * @param object _Fluid instance Fluid object to be refilled
+	 * @throws Exception
+	 * @return void
+	 */
+	refill( objFluid ) {
 		global arrFluidTimers
 
 		try {
@@ -125,9 +134,10 @@ class Retype {
 			if ( false != objFluid.intTimer ) {
 				arrFluidTimers[objFluid.id] := objFluid
 			} else if ( ObjHasKey( objFluid, "strHotkey" ) ) {
-				arrFluidHotkeys[objFluid.id] := objFluid
+				this.arrFluidHotkeys[objFluid.id] := objFluid
 			} else {
 				throw new Exception( "Invalid fluid type" )
+; @todo Extend Exception to different sub-classes
 			}
 
 			; method that does menus, hotkey, any setup, etc

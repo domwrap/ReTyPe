@@ -23,7 +23,7 @@ class Debug {
 		}
 	}
 
-
+; @todo abstract json in to its own class
 	jsonDecode( strJSON ) {
 		return json_toobj( strJSON )
 	}
