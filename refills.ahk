@@ -6,4 +6,5 @@
 #Include refills\fluidproductpricingbulktransposeexcel.ahk
 #Include refills\fluidproductpricingbulkui.ahk
 #Include refills\fluidproductpricingseasoneditenable.ahk
+#Include refills\fluidrtpactivewindow.ahk
 #Include refills\_fluid.ahk

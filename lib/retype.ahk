@@ -48,7 +48,7 @@ class Retype {
 
 	;static objRetype	= 
 	; Config
-	strFileConf		:= "retype.ini"
+	strFileConf		:= "conf\retype.ini"
 	blnToolbar		:= false
 	; Variables
 	arrTimers		:= {}
@@ -92,11 +92,27 @@ class Retype {
 		if ( this.blnToolbar ) {
 			; build toolbar
 			this.objToolbar := new ToolbarRetype()
-			this.objToolbar.render()
 
-			;for idFluid, objFluid in arrHotkeys {
-			;	this.toolbar.add( new MenuFluid( objFluid ) )
-			;}
+			for idFluid, objFluid in this.arrHotkeys {
+				;msgbox % objFluid.strMenuPath
+				;this.toolbar.add( new MenuFluid( objFluid ) )
+
+				; Add to button/menu
+; @todo figure out if non-sub-menus work
+				; Get text and hotkey, and make human friendly for menu
+				strMenuText := objFluid.strMenuText "`t" objFluid.strHotKey
+				StringReplace, strMenuText, strMenuText, +, Shift+
+				StringReplace, strMenuText, strMenuText, !, Alt+
+				StringReplace, strMenuText, strMenuText, ^, Ctrl+
+				; Fetch and split path to find where to add menu
+				strMenuPath := objFluid.strMenuPath
+				StringSplit, arrPath, strMenuPath, /
+				; Create and add object in specified position
+				objMenu := new Menu( "fnMenu_Handle", strMenuText )
+				this.objToolbar.arrButtons[arrPath2].arrMenus[arrPath3].addChild( objMenu )
+			}
+
+			this.objToolbar.render()
 		}
 
 		; Register hotkeys

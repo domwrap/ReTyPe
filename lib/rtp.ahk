@@ -25,9 +25,9 @@
  */
 class RTP {
 
-	strFileConf		:= A_ScriptDir "\lib\rtp.ini"
+	strFileConf		:= "conf\rtp.ini"
 
-	strProcess		:=
+	strProcess		:= "rtponecontainer"
 	idProcess		:=
 
 	strPrefix		:= "WindowsForms10"
@@ -35,6 +35,8 @@ class RTP {
 	strSuffix		:= "app.0.30495d1"
 	intWindow		:= 11
 	intElement		:= 1
+	strTitle		:= "RTP|ONE Container"
+
 
 	/**
 	 * Constructor
@@ -52,16 +54,20 @@ class RTP {
 		this.intWindow := intWindow
 		IniRead, intElement, % this.strFileConf, Conf, Element, 1
 		this.intElement := intElement
+		IniRead, strTitle, % this.strFileConf, Conf, Title, 1
+		this.strTitle := strTitle
 
+		strRTP := this.ClassNN()
+		WinGet, idWinRTP, ID, %strTitle% ahk_class %strRTP%
+		this.idProcess := idWinRTP
 	}
 
-	/**
-	 * Checks if RTP is the active process
-	 *
-	 * @return bool
-	 */
-	isActive() {
-		return Window.checkActiveProcess( "rtponecontainer" )
+	setID( idWin ) {
+		this.idProcess := idWin
+	}
+
+	getID() {
+		return this.idProcess
 	}
 
 	/**
@@ -86,5 +92,22 @@ class RTP {
 		return % this.strPrefix "." strType "." this.strSuffix "_r" this.intWindow "_ad" intElement
 	}
 
+	/**
+	 * Restore (if needed) and activate RTP window
+	 *
+	 * @return void
+	 */
+	Activate() {
+		Window.ActivateRestore( this.idProcess )
+	}
+
+	/**
+	 * Checks if RTP is the active process
+	 *
+	 * @return bool
+	 */
+	isActive() {
+		return Window.checkActiveProcess( this.strProcess )
+	}
 
 }

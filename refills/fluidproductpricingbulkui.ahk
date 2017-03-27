@@ -15,8 +15,7 @@ class FluidProductPricingBulkUI extends Fluid {
 		strGroup	:= this.id
 		GroupAdd, %strGroup%, Product Header Pricing Bulk Update ahk_class %strRTP%, Selected Price Update Details
 
-		IniRead, intComboBox, % this.strFileConf, Conf, ComboBox, 11
-		this.intComboBox := intComboBox
+		this.intComboBox := this.getConf( "ComboBox", 11 )
 	}
 
 

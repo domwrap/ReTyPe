@@ -31,20 +31,23 @@ objRetype.refill( new FluidProductPricingBulkTransposeExcel() )
  */
 class FluidProductPricingBulkTransposeExcel extends Fluid {
 
-
-	strHotkey := "!^h"
-	strMenuPath := "/Admin/Product"
-	strMenuText := "Bulk Pricing Transpose"
+	strHotkey		:= "^!h"
+	strMenuPath		:= "/Admin/Product"
+	strMenuText		:= "Bulk Pricing Transpose"
 
 	__New() {
 		strGroup := this.id
-		;GroupAdd, %strGroup%, Product Header Pricing Bulk Update ahk_class WindowsForms10.Window.8.app.0.30495d1_r11_ad1, Selected Price Update Details
-		GroupAdd, %strGroup%, ahk_class WindowsForms10.Window.8.app.0.30495d1_r11_ad1
+		GroupAdd, %strGroup%, Product Header Pricing Bulk Update ahk_class WindowsForms10.Window.8.app.0.30495d1_r11_ad1, Selected Price Update Details
 	}
 
 
 	pour() {
-		; BULK PRICING:	Resize the pricing season drop-down
+		global objRetype
+
+		; Activate RTP (after toolbar has been clicked)
+		objRetype.objRTP.Activate()
+
+		; Run if it's ready!
 		strGroup := this.__Class
 		IfWinActive, ahk_group %strGroup%
 		{
@@ -100,6 +103,9 @@ class FluidProductPricingBulkTransposeExcel extends Fluid {
 					}
 				}
 			}
+		} else {
+; @todo change this
+			msgbox not for you!
 		}
 	}
 

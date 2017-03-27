@@ -17,6 +17,14 @@
 
 #include _returnableclass.ahk
 
+/**
+ * Class to encapsulate InputBox funtionality
+ *
+ * @category	Automation
+ * @package		ReTyPe
+ * @author		Dominic Wrapson <dwrapson@whistlerblackcomb.com>
+ * @copyright	2014 Dominic Wrapson
+ */
 class InputBox extends _returnableClass {
 
 	static title := "ReTyPe"

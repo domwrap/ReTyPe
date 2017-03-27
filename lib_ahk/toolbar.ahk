@@ -118,7 +118,7 @@ class Toolbar {
 
 
 		fnMenu_Handle:
-			global objRetype
+global objRetype
 ;msgbox % debug.exploreObj( Toolbar.arrButtons )
 ;msgbox % debug.exploreObj( Toolbar.arrButtons["Admin"].arrMenus["Product"] )
 ;msgbox % Toolbar.arrButtons["Admin"].arrMenus["Product"].strName
@@ -126,10 +126,10 @@ class Toolbar {
 strHotkey := objRetype.arrHotKeys["FluidProductPricingBulkTransposeExcel"].strHotkey
 ;msgbox % strHotKey
 ;GoSub % strHotKey
+;msgbox % "Class " this.__Class " Func " A_ThisFunc " Label " A_ThisLabel
 
-; @todo Activate the last active objRTP.window and then send to circumvent issues with ifwinactive restrictions
-
-Send !^h
+;Send !^h
+Send %strHotkey%
 ;msgbox % debug.exploreObj( objRetype )
 		return
 
@@ -142,6 +142,7 @@ Send !^h
 			; Nothing here, placeholder for disabled menu items
 		return
 	}
+
 
 	show() {
 		strToolbar := this.strToolbar

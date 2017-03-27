@@ -1,52 +1,86 @@
+/**
+ * File containing class for building and rendering ReTyPe UI toolbars
+ *
+ * AutoHotKey v1.1.13.01+
+ *
+ * LICENSE: This work is licensed under a version 4.0 of the
+ * Creative Commons Attribution-ShareAlike 4.0 International License
+ * that is available through the world-wide-web at the following URI:
+ * http://creativecommons.org/licenses/by-sa/4.0/deed.en_US
+ *
+ * @category	Automation
+ * @package		ReTyPe
+ * @author		Dominic Wrapson <dwrapson@whistlerblackcomb.com>
+ * @copyright	2014 Dominic Wrapson
+ * @license		Creative Commons Attribution-ShareAlike 4.0 International License http://creativecommons.org/licenses/by-sa/4.0/deed.en_US
+ */
+
 #Include %A_ScriptDir%\lib_ahk
 #Include toolbar.ahk
 
-
+/**
+ * Class for building and rendering ReTyPe UI toolbars
+ *
+ * @category	Automation
+ * @package		ReTyPe
+ * @author		Dominic Wrapson <dwrapson@whistlerblackcomb.com>
+ * @copyright	2014 Dominic Wrapson
+ */
 class ToolbarRetype extends Toolbar {
 
+	/**
+	 * Constructor
+	 */
 	__New() {
-
-	}
-
-	p_prerender() {
+		; BUTTON: General
 		objBtnGeneral := new Button( "General", "fnButton_Menu_Handle", "G" )
-		objBtnGeneral.addMenu( new Menu( "fnNull", "Menu Item" ) )
 		this.addButton( objBtnGeneral )
+		objBtnGeneral.addMenu( new Menu( "fnNull", "General", false ) )
+
+		; BUTTON: Admin
 		objBtnAdmin := new Button( "Admin", "fnButton_Menu_Handle", "A" )
 		this.addButton( objBtnAdmin )
-
 		objBtnAdmin.addMenu( new Menu( "fnNull", "Administration", false ) )
 		objBtnAdmin.addMenu( new Menu( "fnNull", "" ) )
-
+		; sub menus
 		objMenuAdminProduct := new Menu( "fnMenu_Handle", "Product" )
 		objBtnAdmin.addMenu( objMenuAdminProduct )
-		;objMenuAdminProduct.addChild( new Menu( "fnAbout", "Bulk Pricing" ) )
-		;objMenuAdminProduct.addChild( new Menu( "fnAbout", "Bulk Update", false ) )
-		;objMenuAdminProduct.addChild( new Menu( "fnAbout", "Bulk Third" ) )
-
 		objMenuAdminComponent := new Menu( "fnMenu_Handle", "Component" )
 		objBtnAdmin.addMenu( objMenuAdminComponent )
-		;objSub := new Menu( "fnNull", "Testing11" )
-		;objMenuAdminComponent.addChild( objSub )
-		; Depending on order of addMenu added cannot do third level menus
-		; They either just overwrite all previously added, or sub-menu not defined
-		;objSub.addChild( new Menu( "fnNull", "Third Level" ) )
-		;objMenuAdminComponent.addChild( objSub )
 
-		this.addButton( new Button( "Component", "", "C" ) )
-		this.addButton( new Button( "OneResort", "", "O" ) )
-		this.addButton( new Button( "Voucher", "", "V" ) )
+		; BUTTON: Customer Manager
+		objBtnCustomer := new Button( "CusMan", "fnButton_Menu_Handle", "C" )
+		this.addButton( objBtnCustomer )
+		objBtnCustomer.addMenu( new Menu( "fnNull", "Customer Manager", false ) )
 
+		; BUTTON: OneResort
+		objButtonOneResort := new Button( "OneResort", "fnButton_Menu_Handle", "O" )
+		this.addButton( objButtonOneResort )
+		objButtonOneResort.addMenu( new Menu( "fnNull", "ONE|Resort", false ) )
+
+		; BUTTON: Voucher
+		objButtonVoucher := new Button( "Voucher", "fnButton_Menu_Handle", "V" )
+		this.addButton( objButtonVoucher )
+		objButtonVoucher.addMenu( new Menu( "fnNull", "Voucher", false ) )
+
+		; BUTTON: Help
 		objBtnHelp := new Button( "Help", "fnButton_Menu_Handle", "?" )
-		objBtnHelp.addMenu( new Menu( "fnNull", "&F1 Help", false ) )
+		objMenuHelp := new Menu( "fnNull", "&Help`tWin+F1", false )
+		objMenuHelp.setIcon( A_WinDir "\System32\shell32.dll", 24 )
+		objBtnHelp.addMenu( objMenuHelp )
 		objBtnHelp.addMenu( new Menu( "", "" ) )
-		objBtnHelp.addMenu( new Menu( "fnAbout", "About ReTyPe" ) )
+		objMenuAbout := new Menu( "fnAbout", "&About ReTyPe" )
+		objMenuAbout.setIcon( A_WinDir "\System32\shell32.dll", 278 )
+		objBtnHelp.addMenu( objMenuAbout )
+		;A_WinDir
 		this.addButton( objBtnHelp )
+	}
 
-
-
-
-
+	/**
+	 * Method executed before the main render pass
+	 * @return void
+	 */
+	p_prerender() {
 		;; ------- Build the menus -------
 		;; --- GENERAL Menu
 		;this.add( new Menu( "General", "fnNull", "Menu Item" ) )
@@ -69,7 +103,10 @@ class ToolbarRetype extends Toolbar {
 
 	}
 
-
+	/**
+	 * Method executed after the main render pass
+	 * @return void
+	 */
 	p_postrender() {
 		;Menu, MenuAdmin, Disable, Administration
 		;Menu, MenuHelp, Disable, &F1 Help
@@ -82,49 +119,69 @@ class ToolbarRetype extends Toolbar {
 		; Figure out hierarchy of button/menu and add to end
 	}
 
-
+	/**
+	 * Main render pass
+	 * @return void
+	 */
 	render() {
+		; Pre-render stuff
 		this.p_prerender()
+
 		; Do the parent's stuff first
 		base.render()
 
 		; Load timer
 		SetTimer, fnToolbarRetype, 100
-		; return here so we don't drop in to the label beneath it (that's for the timer only)
 
+		; Any post-rendering stuff
 		this.p_postrender()
+
+		; return here so we don't drop in to the label beneath it (that's for the timer only)
 		return
 
+		; Label declaration to handle above timer
+		; Declared after the method return so as to be compiled, but not executed automatically
 		fnToolbarRetype:
-			strToolbar := ToolbarRetype.strToolbar
+		global objRetype
+		strRTP := % objRetype.objRTP.classNN()
+		strToolbar := ToolbarRetype.strToolbar
 
 			; Get RTP window for later reference
-			WinGet, idWinRTP, ID, RTP|ONE Container ahk_class WindowsForms10.Window.8.app.0.30495d1_r11_ad1
+			;WinGet, idWinRTP, ID, RTP|ONE Container ahk_class %strRTP%
+			idWinRTP := objRetype.objRTP.getID()
 
 			; Hide the toolbar if window is minimized
 			WinGet, intWinRtpMinMax, MinMax, ahk_id %idWinRTP%
 			If ( -1 = intWinRtpMinMax ) {
 				Gui, Retype:Hide
 			} else {
-; @todo change to process check (rtp.exe) so works with child windows
-				IfWinActive, ahk_id %idWinRTP%
+				; Changed check so works with child windows
+				;IfWinActive, ahk_id %idWinRTP%
+				IfWinActive, ahk_class %strRTP%
 				{
 					; Find window position and calculate toolbar position
-					WinGetPos, intWinX, intWinY, intWinW, intWinH
+					WinGetPos, intWinX, intWinY, intWinW, intWinH, ahk_id %idWinRTP%
 					intGuiX := intWinX + intWinW - ( intWinW / 2 ) + 50
 					intGuiY := intWinY + 2
+
 					; Either of these appear to work, though the latter doesn't actually color anything
 					WinSet, Transparent, 175, Retype
 					;WinSet, TransColor, %rgbRtpTitle% 150, Retype
-					; Render!
-					Gui, Retype:Show, NA x%intGuiX% y%intGuiY%, Retype
+
+					; Additional check needed as sometimes window was closed between passing the IfWinActive
+					; but before getting to the render here where X and Y are used
+					IfWinExist, ahk_id %idWinRTP%
+					{
+						; Render!
+						Gui, Retype:Show, NA x%intGuiX% y%intGuiY%, Retype
+					}
 					WinGet, idWinRetype, ID, Retype ahk_class AutoHotkeyGUI
 				}
 			}
 
+			; If RTP don't exist, don't needs no toolbar
 			IfWinNotExist, ahk_id %idWinRTP%
 			{
-				; If RTP don't exist, don't needs no toolbar
 				Gui, %strToolbar%:Hide
 			}
 
@@ -137,6 +194,7 @@ class ToolbarRetype extends Toolbar {
 				Gui, %strToolbar%:Hide
 			}
 		return
+
 	}
 
 }

@@ -30,14 +30,15 @@ class Fluid {
 
 	id				:= this.__Class
 	strHotKey		:= 
-	strMenu			:=
+	strMenuPath		:=
 	strMenutext		:= 
 	strFileConf		:=
 
 	__New() {
 		global objRetype
 
-		strFileConf := A_ScriptDir "\refills\" this.id ".ini"
+		; Build config filename based on classname
+		strFileConf := "conf\" this.id ".ini"
 		StringLower, strFileConf, strFileConf
 		this.strFileConf := strFileConf
 	}
@@ -73,13 +74,14 @@ class Fluid {
 			strGroup := this.id
 			; Add the Retype Toolbar to the allowed group otherwise it'll never
 			; allow hotkey activation from menu clicks
-			if ( objRetype.blnToolbar ) {
-	; @todo remove this once the rtp.activate code works in the toolbar
-				GroupAdd, %strGroup%, Retype ahk_class AutoHotkeyGUI
-			}
-			; Restruct the hotkey usage to the specified group
+	
+			; Restrict the hotkey usage to the specified group
 	; @todo This doesn't work!  Can run hotkey with keyboard from toolbar, but not from menu click
-			Hotkey, IfWinActive, ahk_group %strGroup%
+	;Hotkey, IfWinActive, ahk_group %strGroup%
+
+; @todo remove this once the rtp.activate code works in the toolbar
+			;GroupAdd, %strGroup%, Retype ahk_class AutoHotkeyGUI
+
 			; Adds hotkey [The last "" param appears to be required otherwise the dynamic class.method call doesn't work]
 			Hotkey.add( this, "" )
 		}
@@ -97,6 +99,17 @@ class Fluid {
 	 */
 	getHotkey() {
 		return this.strHotkey
+	}
+
+	/**
+	 * Read key value from ini file, with default on fail
+	 * @param String Key name
+	 * @param Mixed Default value for failure
+	 * @return Mixed Read value on success, or default on failure
+	 */
+	getConf( strKey, mixDefault ) {
+		IniRead, mixValue, % this.strFileConf, Conf, %strKey%, %mixDefault%
+		return %mixValue%
 	}
 
 }
