@@ -29,6 +29,43 @@
 ; http://stackoverflow.com/questions/9176757/autohotkey-window-appear-event
 
 
+!^F12::
+	strControl = WindowsForms10.STATIC.app.0.30495d1_r11_ad15
+
+	;PostMessage, 0x132, #FF0,, %strControl%, A
+	;PostMessage, 0x133, #FF0,, %strControl%, A
+	;PostMessage, 0x134, #FF0,, %strControl%, A
+	;PostMessage, 0x135, #FF0,, %strControl%, A
+	;PostMessage, 0x136, #FF0,, %strControl%, A
+	;PostMessage, 0x137, #FF0,, %strControl%, A
+	;PostMessage, 0x138, #FF0,, %strControl%, A
+
+	ControlGetText, strLabel, %strControl%, A
+	IfNotInString, strLabel, DEV
+		ControlSetText, %strControl%, DEV - %strLabel%, A
+	Control, Style, ^0x800000, %strControl%, A
+	;WinSet, Redraw,, A
+return
+
+!^F11::
+MsgBox Trying
+	strControl = WindowsForms10.Window.8.app.0.30495d1_r11_ad18
+	;PostMessage, 0x132, #FF0,, %strControl%, A
+	;PostMessage, 0x133, #FF0,, %strControl%, A
+	;PostMessage, 0x134, #FF0,, %strControl%, A
+	;PostMessage, 0x135, #FF0,, %strControl%, A
+	;PostMessage, 0x136, #FF0,, %strControl%, A
+	;PostMessage, 0x137, #FF0,, %strControl%, A
+	;PostMessage, 0x138, #FF0,, %strControl%, A
+	Control, Style, 0x9, %strControl%, A
+	;WinSet, Redraw,, A
+	;WinMove, 0,0
+	WinHide, A
+	WinShow, A
+return
+
+
+
 ;=========================================================
 #IfWinActive Product Header Pricing Bulk Update, Selected Price Update Details
 >!i:: ; 	BULK PRICING:	Resize the pricing season drop-down
@@ -119,6 +156,8 @@ return
 
 ;@todo Right-click copy on product code box in update window
 ;@todo make tree navigation window box for header and component bigger
+;@todo Move discount column in Sales Tran
+;@todo Select specific 
 
 
 

@@ -288,11 +288,6 @@ _windowCheckControlFocus( strTargetFocus, strTargetFriendly ) {
 }
 
 
-_screenImageSearch( topX, topY, botX, botY, strImagePath ) {
-
-}
-
-
 /**
  * Displays an input box to ask the user to enter a string
  * 
@@ -311,6 +306,62 @@ _InputBox( strMessage, mixDefault="" ) {
 			return False
 	}
 	return %mixVar%
+}
+
+
+
+; @todo add offset (nth element (skip first X))
+_controlGetMatchString( strText ) {
+	WinGet, idWindow, ID, A
+	WinGet, arrControls, ControlList, ahk_id %idWindow%
+	strControl = False
+
+	Loop, Parse, arrcontrols, `n
+	{
+		ControlFocus %A_LoopField%, ahk_id %idWindow%
+		ControlGet, strList, List, , %A_LoopField%, ahk_id %idWindow%
+
+		if ( 0 = StrLen(strList) ) {
+			ControlGetText, strText, %A_LoopField%, ahk_id %idWindow%
+			ControlGet, blnChecked, Checked,, %A_LoopField%, ahk_id %idWindow%
+			ControlGet, blnEnabled, Enabled,, %A_LoopField%, ahk_id %idWindow%
+			ControlGet, blnVisible, Visible,, %A_LoopField%, ahk_id %idWindow%
+
+			IfNotInString, strText, %strText%
+				Continue
+
+			strControl := A_LoopField
+			break
+		} else {
+			IfNotInString, strList, %strText%
+				Continue
+
+			strControl := A_LoopField
+			break
+		}
+	}
+
+	return %strControl%
+}
+
+
+
+
+
+
+
+
+
+
+_screenImageSearch( topX, topY, botX, botY, strImagePath ) {
+	ImageSearch, intX, intY, %topX%, %topY%, %botX%, %botY%, %strImagePath%
+;msgbox % intX intY
+	If ( intX and intY ) {
+		return True
+	} Else {
+		ErrorLevel = 1
+		return False
+	}
 }
 
 

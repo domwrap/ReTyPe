@@ -37,6 +37,8 @@ Gui, Add, Button, vbtnAutoCharge x25 w100 gfnAutoCharge, &Autocharge
 Gui, Add, Button, vbtnComment w100 gfnMenuComment, &Comment
 Gui, Add, Button, vbtnHotlist w100 gfnHotlist, &Hotlist
 Gui, Add, Text,,
+Gui, Add, Button,  w100, &Stats
+Gui, Add, Text,,
 ; Target buttons
 Gui, Add, Button, w16 h18 x%intIconX% y5 gTargetRTP, +
 Gui, Add, Button, w16 h18 x%intIconX% y30 gTargetExcel, +
@@ -67,9 +69,9 @@ Menu, MenuComment, Add, Resort Charge Decline, fnCommentDeclineResortCharge
 Menu, MenuComment, Add  ; Add a separator line.
 
 ; Create another menu destined to become a submenu of the above menu.
-Menu, MenuComment, Add, Guest Voicemail, MenuHandler
-Menu, MenuComment, Add, Guest Emailed, MenuHandler
-Menu, MenuComment, Add, Guest Contacted, MenuHandler
+Menu, MenuComment, Add, Guest Voicemail, fnCommentGuestVoicemail
+Menu, MenuComment, Add, Guest Emailed, fnCommentGuestEmailed
+Menu, MenuComment, Add, Guest Contacted, fnCommentGuestSpokeTo
 
 ; Create a submenu in the first menu (a right-arrow indicator). When the user selects it, the second menu is displayed.
 ;Menu, MenuCommentContact, Add, Guest Voicemail, MenuHandler
@@ -267,16 +269,9 @@ fnCommentDeclineEdgeDTL:
 	_windowActivateRestore( idWinRTP )
 	_rtpCustomerSearchAndSelect( idIPCode )
 
-	; Move to comments
-	SendInput {Down 2}
-	; Hit add button
-	SendInput {Tab 5}{Space}
-	; Enter subject
-	SendInput {Tab}Owes %intAmountOwed% (DTL charge)
-	; Enter comment
-	SendInput {Tab}For %intSaleDate%. Need to check CC %strCreditCard% on file.  %strUsername% x7055
-	; Save it
-	SendInput {Tab}{Space}
+	strSubject = Owes %intAmountOwed% (DTL charge)
+	strComment = For %intSaleDate%. Need to check CC %strCreditCard% on file.  Emailed guest.  %strUsername% x7055
+	_rtpCustomerAddComment( strSubject, strComment )
 return
 
 
@@ -296,24 +291,129 @@ fnCommentDeclineResortCharge:
 	_windowActivateRestore( idWinRTP )
 	_rtpCustomerSearchAndSelect( idIPCode )
 
-	; Move to comments
-	SendInput {Down 2}
-	; Hit add button
-	SendInput {Tab 5}{Space}
-	; Enter subject
-	SendInput {Tab}Owes %intAmountOwed% (RC charge)
-	; Enter comment
-	SendInput {Tab}For %intSaleDate%. Need to check CC %strCreditCard% on file.  %strUsername% x7055
-	; Save it
-	SendInput {Tab}{Space}
+	strSubject = Owes %intAmountOwed% (RC charge)
+	strComment = For %intSaleDate%. Need to check CC %strCreditCard% on file.  Emailed guest.  %strUsername% x7055
+	_rtpCustomerAddComment( strSubject, strComment )
+return
+
+
+;========================================================
+fnCommentGuestVoicemail:
+	_windowActivateRestore( idWinRTP )
+	_rtpCustomerSearchAndSelect( idIPCode )
+
+	strSubject = Phoned guest, left msg
+	strComment = Re: DTL charge owing and hotlist.  %strUsername% x7055
+	_rtpCustomerAddComment( strSubject, strComment )
+return
+
+
+;========================================================
+fnCommentGuestEmailed:
+	_windowActivateRestore( idWinRTP )
+	_rtpCustomerSearchAndSelect( idIPCode )
+
+	strSubject = Emailed guest
+	strComment = Re: RC/DTL charges owing.  %strUsername% x7055
+	_rtpCustomerAddComment( strSubject, strComment )
+return
+
+
+;========================================================
+fnCommentGuestSpokeTo:
+	strGuest := _InputBox( "With whom did you speak?" )
+; @todo Check for blank input
+
+	_windowActivateRestore( idWinRTP )
+	_rtpCustomerSearchAndSelect( idIPCode )
+
+	strSubject = Phoned guest, spoke to %strGuest%
+	strComment = Re: RC charge owing.  Guest says they will contact their CC company and remove the hold.  Will call us back when we can retry CC.  %strUsername% x7055
+	_rtpCustomerAddComment( strSubject, strComment )
 return
 
 
 ;========================================================
 fnHotlist:
+	; Hunt down the customer
 	_rtpCustomerSearchAndSelect( idIPCode )
 
-	MsgBox I don't do anything yet!
+; @todo SOME CHECKS: Make sure customer is an adult, etc, if PassAdmin want to, else let them decide first and just hit hotlist as appropriate
+
+	blnLoadedPassMediaProfile := _screenImageSearch( 100, 100, 500, 200, "search_images\customermanager_passmediaprofile.png" )
+; WHY ISN'T THIS WORKING!?
+;MsgBox % ErrorLevel
+;return
+	if ( !blnLoadedPassMediaProfile )
+	{
+		_rtpCustomerResetTreeview()
+
+		; Navigate to Pass Media Profile
+		SendInput {Down 3}{Right}{Down}
+		; Wait for the damn thing to finish
+		Loop {
+			Sleep 500
+
+			ControlFocus, WindowsForms10.BUTTON.app.0.30495d1_r11_ad14, ahk_id %idWinRTP%
+			If ErrorLevel
+			{
+				SB_SetText( "Still cannot focus" )
+				continue
+			}
+
+			If ( "Wait" = %A_Cursor% ) {
+				SB_SetText( "Cursor is still wait!" )
+				continue
+			}
+
+			if ( !_screenImageSearch( 290, 110, 460, 150, "search_images/customermanager_passmediaprofile.png" ) )
+			{
+				SB_SetText( "Search still active!" )
+				continue
+			}
+
+			SB_SetText( "Waiting..." )
+			break
+		}
+	} else {
+		ControlFocus, WindowsForms10.BUTTON.app.0.30495d1_r11_ad14, ahk_id %idWinRTP%
+	}
+
+	; Move to first pass in list
+	Send {Tab 2}
+	; Find out which control it is so we can click it (neither space nor enter will click open the profile)
+	ControlGetFocus, strControlFocus, ahk_id %idWinRTP%
+	Sleep 500
+	;ControlClick, %strControlFocus%, ahk_id %idWinRTP%
+
+; @todo check pass number begins with "(50" otherwise tab to next, check, repeat
+
+	; Seeing as apparently Control Click doesn't work either (RTP controls are such shit)
+	; we're instead going to have to literally click on it
+	ControlGetPos, intX, intY,,, %strControlFocus%, ahk_id %idWinRTP%
+	intX := intX+5
+	intY := intY+5
+	Click %intX%, %intY%
+
+	; Wait for it to open
+	WinWait, Pass Media Profile, 5
+
+	; Now the damn thing is finally open
+	;
+	; Select hotlist reason
+	Control, ChooseString, Autocharge Problem, WindowsForms10.COMBOBOX.app.0.30495d1_r11_ad11
+
+	;intTomorrow := A_MM . "/" . A_DD+1 . "/" . A_YYYY
+	;SendInput {Tab 5}%intTomorrow%
+
+	SendInput {Tab 5}{Right}{Up}
+	SendInput {Tab}Pass hotlisted – problem processing charges – please see comments on file.  %strUsername% x7055
+
+
+; @todo Add timeout 5? seconds, if no input, close and save
+	SendInput {Tab}{Space}
+	; Auto apply hotlist?
+	SendInput {Tab 2}{Space}
 return
 
 

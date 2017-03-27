@@ -58,7 +58,7 @@ RETURN_ON_USER_CANCEL = False
 ; Did you execute from an RTP window?
 _windowCheckActiveProcess( "rtponecontainer" )
 ; Do we only have one instance of RTP Update?
-_windowContinueSingleOnly( "Update" )
+;_windowContinueSingleOnly( "Update" )
 ; Are we in the pricing tab of a product header?
 _windowCheckVisibleTextContains( "sales report group", "pricing" )
 ; Check which control has focus.  If it's not the pricing ListView then don't proceed
@@ -81,7 +81,7 @@ return
 ; Did you execute from an RTP window?
 _windowCheckActiveProcess( "rtponecontainer" )
 ; Do we only have one instance of RTP Update?
-_windowContinueSingleOnly( "Update" )
+;_windowContinueSingleOnly( "Update" )
 ; Are we in the pricing tab of a product header?
 _windowCheckVisibleTextContains( "sales report group", "pricing" )
 ; Check which control has focus.  If it's not the pricing ListView then don't proceed
@@ -645,6 +645,7 @@ Loop {
 }
 
 ; Auto apply items returned?
+; @todo inconsitently (normally first use) doesn't reach correct box to tick
 MsgBox, 68, RTP Macro Information, Auto "Apply" items refunded?
 IfMsgBox, No
 	exit
@@ -777,3 +778,8 @@ return
 
 
 ; http://www.autohotkey.com/board/topic/56946-is-there-a-universal-abort-method-for-ahk-commands/
+
+
+
+!^F8::
+	

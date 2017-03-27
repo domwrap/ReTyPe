@@ -1,39 +1,5 @@
 ; DEBUG CRAP HERE!
 
-!^F12::
-	strControl = WindowsForms10.STATIC.app.0.30495d1_r11_ad15
-
-	;PostMessage, 0x132, #FF0,, %strControl%, A
-	;PostMessage, 0x133, #FF0,, %strControl%, A
-	;PostMessage, 0x134, #FF0,, %strControl%, A
-	;PostMessage, 0x135, #FF0,, %strControl%, A
-	;PostMessage, 0x136, #FF0,, %strControl%, A
-	;PostMessage, 0x137, #FF0,, %strControl%, A
-	;PostMessage, 0x138, #FF0,, %strControl%, A
-
-	ControlGetText, strLabel, %strControl%, A
-	IfNotInString, strLabel, DEV
-		ControlSetText, %strControl%, DEV - %strLabel%, A
-	Control, Style, ^0x800000, %strControl%, A
-	;WinSet, Redraw,, A
-return
-
-!^F11::
-MsgBox Trying
-	strControl = WindowsForms10.Window.8.app.0.30495d1_r11_ad18
-	;PostMessage, 0x132, #FF0,, %strControl%, A
-	;PostMessage, 0x133, #FF0,, %strControl%, A
-	;PostMessage, 0x134, #FF0,, %strControl%, A
-	;PostMessage, 0x135, #FF0,, %strControl%, A
-	;PostMessage, 0x136, #FF0,, %strControl%, A
-	;PostMessage, 0x137, #FF0,, %strControl%, A
-	;PostMessage, 0x138, #FF0,, %strControl%, A
-	Control, Style, 0x9, %strControl%, A
-	;WinSet, Redraw,, A
-	;WinMove, 0,0
-	WinHide, A
-	WinShow, A
-return
 
 #F12::
 	#Persistent
@@ -60,6 +26,11 @@ return
 return
 
 
+#F10::
+	MsgBox unused
+return
+
+
 #F9::
 	MouseGetPos, intX, intY, idWindow, strControl
 	ControlGet, strList, List, , %strControl%, A
@@ -69,6 +40,13 @@ return
 	ControlGet, blnVisible, Visible,, %A_LoopField%, A
 
 	MsgBox X: %intX% Y: %intY%`nWindow: %idWindow%`nControl: %strControl%`n`nList: %strList%`nText: %strText%`n`nChecked: %blnChecked%`nEnabled: %blnEnabled%`nVisible: %blnVisible%
+return
+
+
+#F8::
+SendMessage, 0x1304,,, WindowsForms10.SysTabControl32.app.0.30495d1_r11_ad11, A  ; 0x1304 is TCM_GETITEMCOUNT.
+TabCount = %ErrorLevel%
+msgbox % TabCount
 return
 
 
@@ -111,25 +89,37 @@ return
 	WinGet, idWindow, ID, A
 
 	ControlGet, strList, List, , %strControl%, ahk_id %idWindow%
+	ControlGet, intListCount, List, Count, %strControl%, A
 	ControlGetText, strText, %strControl%, ahk_id %idWindow%
 	ControlGet, blnChecked, Checked,, %A_LoopField%, ahk_id %idWindow%
 	ControlGet, blnEnabled, Enabled,, %A_LoopField%, ahk_id %idWindow%
 	ControlGet, blnVisible, Visible,, %A_LoopField%, ahk_id %idWindow%
+	ControlGet, intTab, Tab,, %A_LoopField%, ahk_id %idWindow%
 
-	MsgBox, , , Contents of control`nControl: %strControl%`n`nList: %strList%`nText: %strText%`n`nChecked: %blnChecked%`nEnabled: %blnEnabled%`nVisible: %blnVisible%
+	MsgBox, , , Contents of control`nControl: %strControl%`n`nList: %strList%`nList Count:%intListCount%`n`nText: %strText%`n`nChecked: %blnChecked%`nEnabled: %blnEnabled%`nVisible: %blnVisible%`nTab: %intTab%
 return
 
 
 #F5::
+	strList = 
+	intListCount = 
+	strText = 
+	blnChecked = 
+	blnEnabled = 
+	blnVisible = 
+	intTab = 
+
 	ControlGetFocus, strControl, A
 
 	ControlGet, strList, List, , %strControl%, A
+	ControlGet, intListCount, List, Count, %strControl%, A
 	ControlGetText, strText, %strControl%, A
 	ControlGet, blnChecked, Checked,, %A_LoopField%, A
 	ControlGet, blnEnabled, Enabled,, %A_LoopField%, A
 	ControlGet, blnVisible, Visible,, %A_LoopField%, A
+	ControlGet, intTab, Tab,, %A_LoopField%, A
 
-	MsgBox, , , Contents of control`nControl: %strControl%`n`nList: %strList%`nText: %strText%`n`nChecked: %blnChecked%`nEnabled: %blnEnabled%`nVisible: %blnVisible%
+	MsgBox, , , Contents of control`nControl: %strControl%`n`nList: %strList%`nList Count:%intListCount%`n`nText: %strText%`n`nChecked: %blnChecked%`nEnabled: %blnEnabled%`nVisible: %blnVisible%`nTab: %intTab%
 return
 
 

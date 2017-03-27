@@ -161,31 +161,67 @@ _rtpCustomerSearchAndSelect( intIP, blnForceSearch=False ) {
 	global idWinRTP
 	global idIPCodeSearchLastMatched
 
-	;_rtpWindowSwitch( "Customer Manager" )
-	;_rtpWindowCheck( "Customer Manager" )
-	;if ErrorLevel
-		;return
+	; Control definition (in case they change later because let's be honest, they probably will!)
+	strCustomerListView		= WindowsForms10.SysListView32.app.0.30495d1_r11_ad11 ; Well yeah, or is it actually the comments.  Who the fuck knows
+	strCustomerTab			= WindowsForms10.SysTabControl32.app.0.30495d1_r11_ad11
+	strSearchEdit			= WindowsForms10.EDIT.app.0.30495d1_r11_ad11
+	strSearchRefineEdit		= WindowsForms10.EDIT.app.0.30495d1_r11_ad12
+	strSearchRefineCombo	= WindowsForms10.COMBOBOX.app.0.30495d1_r11_ad11
 
-; @todo check value of customer manager IP: box against current
+	; Switch to customer search tab
+	; OH MY GOD!  So if a comment (or other such item) has recently been added or accessed, the Search Results
+	; ListView is actualy somehow overpopulated with the list of the item you just accessed, thence stealing
+	; the Search Results ListView ID (yes, identifier!) even if that list doesn't ACTUALLY exist as a ListView
+	; in the first place.  WHAT THE BALLS, RTP!?
+	; So, today's workaround of the day is to switch to the search results tab to REMIND RTP which one I'm
+	; actually referring to when I use its unique identifier.  Later on we'll switch back to the View Details tab
+	; I need a drink
+	SendMessage, 0x1330, 0,, %strCustomerTab%, ahk_id %idWinRTP%  ; 0x1330 is TCM_SETCURFOCUS
 
-	if ( intIP != idIPCodeSearchLastMatched OR True = blnForceSearch ) {
+	; Get IP value of first entry in search results
+	ControlGet, intCustomerSearchCount, List, Count, %strCustomerListView%, ahk_id %idWinRTP%
+	ControlGet, arrCustomerLoaded, List, Col3, %strCustomerListView%, ahk_id %idWinRTP%
+	; Pop first one off the listing, depending on how many there are as the parse-loop doesn't work if there's only one result
+	if ( 2 >  intCustomerSearchCount ) {
+		ControlGet, intCustomerLoaded, List, Col3, %strCustomerListView%, ahk_id %idWinRTP%
+	} else {
+		Loop, Parse, arrCustomerLoaded, `n
+		{
+			intCustomerLoaded := A_LoopField
+			break
+		}
+	}
+
+; @todo Verify which profile is loaded in case searched and then opened dependent.  Thanks to RTP's usual skullfuckery of
+; a GUI, we cannot directly reference the IP: xxxxxx field on a profile, instead must search EVERY visible control for text
+; IP: xxxxxxx and if we get a match, then it's loaded, else re-search.  Yeah, thanks.
+; write to intCustomerIP
+	;StringMid, intCustomerIP, intCustomerIP, 5
+
+;MsgBox intCustomerSearchCount: %intCustomerSearchCount%`nintIP: %intIP%`nintCustomerIP: %intCustomerIP%`nintCustomerLoaded: %intCustomerLoaded%`nidIPCodeSearchLastMatched: %idIPCodeSearchLastMatched%`nblnForceSearch: %blnForceSearch%
+;exit
+	; This if logic is kinda square peg round hole to get RTP to fuck off and do what I want it to
+	; It could probably be normalised but right now it works, so screw it
+	; Is customer loaded, and if so is it the one we want, and is it the one actually loaded, and is it the last searched for, or do it anyway
+	if ( !intCustomerLoaded OR intIP != intCustomerLoaded OR blnForceSearch ) {
+;msgbox Reload it!
+;exit
 		; Always default back to the customer search tab (tabindex starts at 0)
-		SendMessage, 0x1330, 0,, WindowsForms10.SysTabControl32.app.0.30495d1_r11_ad11, ahk_id %idWinRTP%  ; 0x1330 is TCM_SETCURFOCUS.
+		SendMessage, 0x1330, 0,, %strCustomerTab%, ahk_id %idWinRTP%  ; 0x1330 is TCM_SETCURFOCUS
 
-		; Activate search box, paste, and find
-		ControlFocus, WindowsForms10.EDIT.app.0.30495d1_r11_ad11, ahk_id %idWinRTP%
+		; Activate search box and empty so doesn't mess with IP search
+		ControlFocus, %strSearchEdit%, ahk_id %idWinRTP%
 		Send {Del}
 
 		; Move to Refine Criteria box and input there
-		; @todo find position of IP in list and move X rows on that in case order changes
-		Control, Choose, 9, WindowsForms10.COMBOBOX.app.0.30495d1_r11_ad11, ahk_id %idWinRTP%
-		ControlFocus, WindowsForms10.EDIT.app.0.30495d1_r11_ad12, ahk_id %idWinRTP%
+		Control, ChooseString, IP Code, %strSearchRefineCombo%, ahk_id %idWinRTP%
+		ControlFocus, %strSearchRefineEdit%, ahk_id %idWinRTP%
 		Send %intIP%{Enter}
 
 		Loop {
 			Sleep 500
 			;Focus refine criteria box
-			ControlFocus, WindowsForms10.EDIT.app.0.30495d1_r11_ad11, ahk_id %idWinRTP%
+			ControlFocus, %strSearchEdit%, ahk_id %idWinRTP%
 			If ErrorLevel
 			{
 				SB_SetText( "Still cannot focus" )
@@ -204,15 +240,51 @@ _rtpCustomerSearchAndSelect( intIP, blnForceSearch=False ) {
 			SB_SetText( "Waiting..." )
 			break
 		}
+
+		; Update global
+		idIPCodeSearchLastMatched := intIP
+
+		; @todo Pull column 3 (IP) match entry against input incase shorter IP matchers multiple people
+		; Open first entry in search result list
+		ControlFocus, %strCustomerListView%, ahk_id %idWinRTP%
+		SendInput {Home}{Space}{Enter}
 	}
 
-	; Update global
-	idIPCodeSearchLastMatched := intIP
+	; Switch to customer detail tab
+	SendMessage, 0x1330, 1,, %strCustomerTab%, ahk_id %idWinRTP%  ; 0x1330 is TCM_SETCURFOCUS
+}
 
-; @todo collapse treeview before traversing (WindowsForms10.SysTreeView32.app.0.30495d1_r11_ad12)
 
-	; @todo Pull column 3 (IP) match entry against input incase shorter IP matchers multiple people
-	; Open first entry in search result list
-	ControlFocus, WindowsForms10.SysListView32.app.0.30495d1_r11_ad12, ahk_id %idWinRTP%
-	SendInput {Home}{Space}{Enter}
+_rtpCustomerAddComment( strSubject, strComment, blnSave=True ) {
+
+	_rtpCustomerResetTreeview()
+
+	; Move to comments
+	Send {Right}{Down 3}
+	; Hit add button
+	Send {Tab 5}{Space}
+	; Enter subject
+	SendInput {Tab}%strSubject%
+	; Enter comment
+	SendInput {Tab}%strComment%
+
+; @todo Add timeout 5? seconds, if no input, close and save
+	if ( blnSave ) {
+		; Save it
+		Send {Tab}{Space}
+	}
+}
+
+
+_rtpCustomerResetTreeview() {
+	global idWinRTP
+	strCustomerTreeView		= WindowsForms10.SysTreeView32.app.0.30495d1_r11_ad12
+
+	; Focus the treeview
+	ControlFocus, %strCustomerTreeView%, ahk_id %idWinRTP%
+	; Reset tree
+	Send {End}
+	Loop 6 {
+		Send {Left 2}{Up}
+	}
 }
