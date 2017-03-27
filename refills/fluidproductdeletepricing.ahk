@@ -4,7 +4,7 @@ objRetype.refill( new FluidProductDeletePricing() )
 class FluidProductDeletePricing extends Fluid {
 
 
-	strHotkey := "!^x"
+	;strHotkey := "!^x"
 
 
 	__New() {

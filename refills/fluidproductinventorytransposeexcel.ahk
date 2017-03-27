@@ -54,7 +54,7 @@ class FluidInventoryTransposeExcel extends Fluid {
 				; Variable setup
 				idWinUpdate		:= WinActive("A")
 				strWinInvAdd	= Add Inventory Pool Location
-				strWinInvUpd	= Update
+				;strWinInvUpd	= Update
 				;~ idWinExcel	:= Window.GetID( "Excel", "Excel", "XLMAIN" )
 
 				; Grab active Excel window
@@ -85,7 +85,7 @@ class FluidInventoryTransposeExcel extends Fluid {
 				{
 					WinActivate, %idWinUpdate%
 					Send {Space}
-					idWinAdd := WinActive("A")
+					;idWinAdd := WinActive("A")
 
 					; Only one built-in counter variable so must set in outer loop
 					intRow := A_Index -1
@@ -99,7 +99,7 @@ class FluidInventoryTransposeExcel extends Fluid {
 						; Get date from Excel
 						dtDate := objExcel.ActiveCell.Offset( intRow, intCol ).Value
 						StringReplace, dtDate, dtDate, `r`n, , All
-						WinActivate, %strWinInvAdd%
+						;WinActivate, %idWinAdd%
 						blnDate := Send.date( dtDate )
 						if ( !blnDate ) {
 							MsgBox.stop( "Invalid date [" dtDate "] found in cell: " objExcel.ActiveCell.Offset( intRow, intCol ).Address )
@@ -115,13 +115,13 @@ class FluidInventoryTransposeExcel extends Fluid {
 						if intLevel is not number
 							MsgBox.stop( "Invalid Level detected (non integer/decimal) in cell: " objExcel.ActiveCell.Offset( intRow, intCol ).Address )
 						intLevel := SubStr( intLevel, 1, InStr( intLevel, "." ) -1 )
-						WinActivate, %strWinInvAdd%
+						;WinActivate, %idWinAdd%
 						SendInput %intLevel%{Tab}
 					}
 					; Tick some boxes
 					Loop 2
 					{
-						WinActivate, %strWinInvAdd%
+						;WinActivate, %idWinAdd%
 						SendInput {Space}{Tab}
 					}
 					SendInput 99{Tab}

@@ -126,6 +126,9 @@ class Toolbar {
 strHotkey := objRetype.arrHotKeys["FluidProductPricingBulkTransposeExcel"].strHotkey
 ;msgbox % strHotKey
 ;GoSub % strHotKey
+
+; @todo Activate the last active objRTP.window and then send to circumvent issues with ifwinactive restrictions
+
 Send !^h
 ;msgbox % debug.exploreObj( objRetype )
 		return

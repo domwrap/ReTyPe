@@ -53,31 +53,27 @@ class Fluid {
 	 */
 	fill() {
 		global objRetype
-		; abstract out code for:
-		; - dynamic method
-		; - Hotkey scope (ifwinactive)
-		; - Hotkey add
-		; Should the abstracted code be in the constructor?
-		; Prob not as there are validity checks before fill() is called
-		; ...
-		; ### Register hotkey
-		; build class.method to pass through (cannot do it inline)
-		strMethod := this.id ".pour"
-		; Bind the hotkey about to be created to particular window, therefore
-		; it doesn't get run somewhere it shouldn't and also allows us to use
-		; the same hotkey in multiple places but for different things
-		; Restrict access to hotkey by defined window group
-		strGroup := this.id
-		; Add the Retype Toolbar to the allowed group otherwise it'll never
-		; allow hotkey activation from menu clicks
-		if ( objRetype.blnToolbar ) {
-			GroupAdd, %strGroup%, Retype ahk_class AutoHotkeyGUI
+
+		if ( this.strHotKey ) {
+			; build class.method to pass through (cannot do it inline)
+			strMethod := this.id ".pour"
+			; Bind the hotkey about to be created to particular window, therefore
+			; it doesn't get run somewhere it shouldn't and also allows us to use
+			; the same hotkey in multiple places but for different things
+			; Restrict access to hotkey by defined window group
+			strGroup := this.id
+			; Add the Retype Toolbar to the allowed group otherwise it'll never
+			; allow hotkey activation from menu clicks
+			if ( objRetype.blnToolbar ) {
+	; @todo remove this once the rtp.activate code works in the toolbar
+				GroupAdd, %strGroup%, Retype ahk_class AutoHotkeyGUI
+			}
+			; Restruct the hotkey usage to the specified group
+	; @todo This doesn't work!  Can run hotkey with keyboard from toolbar, but not from menu click
+			Hotkey, IfWinActive, ahk_group %strGroup%
+			; Adds hotkey [The last "" param appears to be required otherwise the dynamic class.method call doesn't work]
+			Hotkey.add( this, "" )
 		}
-		; Restruct the hotkey usage to the specified group
-; @todo This doesn't work!  Can run hotkey with keyboard from toolbar, but not from menu click
-		Hotkey, IfWinActive, ahk_group %strGroup%
-		; Adds hotkey [The last "" param appears to be required otherwise the dynamic class.method call doesn't work]
-		Hotkey.add( this, "" )
 	}
 
 	/**

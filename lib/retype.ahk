@@ -42,18 +42,17 @@ intTimerCount := 0
  * @copyright	2014 Dominic Wrapson
  */
 class Retype {
-
+; @todo abstract main functionality, extend to RTP specific version
 
 	;static objRetype	= 
 	; Config
 	strFileConf			:= "retype.ini"
 	blnToolbar			:= false
-	idRtpClassNN		:= 
 	; Variables
 	arrTimers		:= {}
 	arrHotkeys		:= {}
 	objToolbar			:= {}
-	;objRTP				:= {}
+	objRTP				:= {}
 
 	__New() {
 		;global arrTimers
@@ -71,11 +70,9 @@ class Retype {
 ; 	this.refill( new %strRefill% )
 ; }
 
-; @todo Move to RTP class
-; Not currently being used anyway
-; this.objRTP := new RTP()
-		IniRead, idRtpClassNN, this.strFileConf, Conf, RtpClassNN, WindowsForms10.Window.8.app.0.30495d1_r11_ad1
-		this.idRtpClassNN := idRtpClassNN
+
+
+		this.objRTP := new RTP()
 	}
 
 
