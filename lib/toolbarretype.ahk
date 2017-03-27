@@ -9,50 +9,57 @@ class ToolbarRetype extends Toolbar {
 	}
 
 	p_prerender() {
-		this.add( new Button( "fnMenuGeneral", "G" ) )
-		this.add( new Button( "fnMenuAdmin", "A" ) )
-		this.add( new Button( "", "C" ) )
-		this.add( new Button( "", "O" ) )
-		this.add( new Button( "", "V" ) )
-		this.add( new Button( "fnMenuHelp", "?" ) )
+		objBtnGeneral := new Button( "General", "fnButton_Menu_Handle", "G" )
+		objBtnGeneral.addMenu( new Menu( "fnNull", "Menu Item" ) )
+		this.addButton( objBtnGeneral )
+		objBtnAdmin := new Button( "Admin", "fnButton_Menu_Handle", "A" )
+		this.addButton( objBtnAdmin )
+
+		objBtnAdmin.addMenu( new Menu( "fnNull", "Administration", false ) )
+		objBtnAdmin.addMenu( new Menu( "fnNull", "" ) )
+
+		objMenuAdminProduct := new Menu( "fnMenu_Handle", "Product" )
+		objBtnAdmin.addMenu( objMenuAdminProduct )
+		;objMenuAdminProduct.addChild( new Menu( "fnAbout", "Bulk Pricing" ) )
+		;objMenuAdminProduct.addChild( new Menu( "fnAbout", "Bulk Update", false ) )
+		;objMenuAdminProduct.addChild( new Menu( "fnAbout", "Bulk Third" ) )
+
+		objMenuAdminComponent := new Menu( "fnMenu_Handle", "Component" )
+		objBtnAdmin.addMenu( objMenuAdminComponent )
+		;objSub := new Menu( "fnNull", "Testing11" )
+		;objMenuAdminComponent.addChild( objSub )
+		; Depending on order of addMenu added cannot do third level menus
+		; They either just overwrite all previously added, or sub-menu not defined
+		;objSub.addChild( new Menu( "fnNull", "Third Level" ) )
+		;objMenuAdminComponent.addChild( objSub )
+
+		this.addButton( new Button( "Component", "", "C" ) )
+		this.addButton( new Button( "OneResort", "", "O" ) )
+		this.addButton( new Button( "Voucher", "", "V" ) )
+
+		objBtnHelp := new Button( "Help", "fnButton_Menu_Handle", "?" )
+		objBtnHelp.addMenu( new Menu( "fnNull", "&F1 Help", false ) )
+		objBtnHelp.addMenu( new Menu( "", "" ) )
+		objBtnHelp.addMenu( new Menu( "fnAbout", "About ReTyPe" ) )
+		this.addButton( objBtnHelp )
 
 
-		; ------- Build the menus -------
-		; --- GENERAL Menu
-		this.add( new Menu( "General", "fnMenuGeneral", "Menu Item" ) )
-		; --- ADMIN Menu
-		this.add( new Menu( "Admin", "fnHeaderNull", "Administration" ) )
-		this.add( new Menu( "Admin", "fnHeaderNull" ) )
-		objMenuAdminProduct := new Menu( "Admin", "fnMenuAdmin", "Product" )
-		objMenuAdminProduct.addMenu( new Menu( "Product", "fnAbout", "Bulk Pricing" ) )
-		objMenuAdminProduct.addMenu( new Menu( "Product", "fnHeaderNull", "Bulk Update" ) )
-		this.add( objMenuAdminProduct )
-		objMenuAdminComponent := new Menu( "Admin", "fnAbout", "Component" )
-		objSub := new Menu( "Component", "fnHeaderNull", "Testing11" )
-		objSub.addMenu( new Menu( "Component", "fnHeaderNull", "Third Level" ) )
-		objMenuAdminComponent.addMenu( objSub )
-		this.add( objMenuAdminComponent )
-		; --- HELP Menu
-		this.add( new Menu( "Help", "fnHeaderNull", "&F1 Help" ) )
-		this.add( new Menu( "Help" ) )
-		this.add( new Menu( "Help", "fnAbout", "About ReTyPe" ) )
+
+
+
+		;; ------- Build the menus -------
+		;; --- GENERAL Menu
+		;this.add( new Menu( "General", "fnNull", "Menu Item" ) )
+		;; --- ADMIN Menu
+
+
+
+		;; --- HELP Menu
+		;this.add( new Menu( "Help", "fnNull", "&F1 Help" ) )
+		;this.add( new Menu( "Help" ) )
+		;this.add( new Menu( "Help", "fnAbout", "About ReTyPe" ) )
 
 		; Get out now before we start activating menus
-		return
-
-		fnMenuGeneral:
-;msgbox % A_GuiControl " : " A_Gui " : " A_GuiEvent " : " A_EventInfo
-			Menu, MenuGeneral, Show
-		return
-
-		fnMenuAdmin:
-			;Menu, MenuAdmin, Disable, Administration
-			Menu, MenuAdmin, Show
-		return
-
-		fnMenuHelp:
-; @todo Singleton accessor on Toolbar to disable menu items by object
-			Menu, MenuHelp, Show
 		return
 
 		fnAbout:
@@ -64,15 +71,15 @@ class ToolbarRetype extends Toolbar {
 
 
 	p_postrender() {
-		Menu, MenuAdmin, Disable, Administration
-		Menu, MenuHelp, Disable, &F1 Help
+		;Menu, MenuAdmin, Disable, Administration
+		;Menu, MenuHelp, Disable, &F1 Help
 	}
 
 	/**
 	 * Check if menu being added to exists in list and exception if not
 	 */
-	p_addMenu( objMenu ) {
-		base.p_addMenu( objMenu )
+	addMenu( objMenu ) {
+		; Figure out hierarchy of button/menu and add to end
 	}
 
 

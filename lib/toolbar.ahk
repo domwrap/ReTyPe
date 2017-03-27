@@ -29,8 +29,8 @@
 class Toolbar {
 
 	static strToolbar := "retype"
-	static arrMenus := {}
-	arrButtons := {}
+	static arrButtons := {}
+	arrButtonOrder := {}
 
 	/**
 	 * Constructor
@@ -65,7 +65,7 @@ class Toolbar {
 				throw new Exception( "Invalid toolbar child")
 			}
 		} catch e {
-			Debug.log( e )
+			Debug.write( e )
 		}
 	}	
 
@@ -75,25 +75,10 @@ class Toolbar {
 	 * @protected
 	 * @param object Button Instance of Button class
 	 */
-	p_addButton( objButton ) {
-		this.arrButtons.insert( objButton )
-	}
-
-
-	/**
-	 * Add a menu to the toolbar
-	 * @protected
-	 * @param object Menu Instance of Menu class
-	 */
-	p_addMenu( objMenu ) {
-;@todo remove these now superfluous "protected" functions
-		;this.arrMenus[objMenu.strName] := objMenu
-		this.arrMenus.Insert( objMenu )
-	}
-
-
-	getMenu( strName ) {
-		return this.arrMenus[%strName%]
+	addButton( objButton ) {
+		objButton.setToolbar( this )
+		this.arrButtons[objButton.strName] := objButton
+		this.arrButtonOrder.Insert( objButton.strName )
 	}
 
 
@@ -119,30 +104,38 @@ class Toolbar {
 		; Set margins
 		Gui, %strToolbar%:Margin, 0, 0
 
-		; Add menus before buttons else cannot attach
-		for intMenu, objMenu in this.arrMenus {
-			objMenu.render()
-		}
-
 		; Add buttons that can now point to menus
-		for intButton, objButton in this.arrButtons {
+		for intOrder, strButton in this.arrButtonOrder {
 			strOptions := ( 1 = A_Index ) ? "x0, y0" : "ym"
-			objButton.render( strOptions )
+			this.arrButtons[strButton].render( strOptions )
 		}
 
 		; Strip off some crap from the ui we don't want, like titlebar, buttons, border, etc, and keep it up front (own dialogs doesn't seem to be working)
 		Gui, %strToolbar%:-SysMenu +ToolWindow -Caption -Border +AlwaysOnTop +OwnDialogs
-		; @todo +OwnDialogs (make dialogs modal)
+; @todo +OwnDialogs (make dialogs modal)
 
 		return
 
 
-		Menu_Handle:
-			Toolbar.arrMenus()
-			;A_ThisMenuItem
+		fnMenu_Handle:
+			global objRetype
+;msgbox % debug.exploreObj( Toolbar.arrButtons )
+;msgbox % debug.exploreObj( Toolbar.arrButtons["Admin"].arrMenus["Product"] )
+;msgbox % Toolbar.arrButtons["Admin"].arrMenus["Product"].strName
+;msgbox % A_ThisMenu " : " A_ThisMenuItem
+strHotkey := objRetype.arrHotKeys["FluidProductPricingBulkTransposeExcel"].strHotkey
+;msgbox % strHotKey
+;GoSub % strHotKey
+Send !^h
+;msgbox % debug.exploreObj( objRetype )
 		return
 
-		fnHeaderNull:
+		fnButton_Menu_Handle:
+			Menu, % "Menu" A_GuiControl, Show
+			;A_GuiControl
+		return
+
+		fnNull:
 			; Nothing here, placeholder for disabled menu items
 		return
 	}

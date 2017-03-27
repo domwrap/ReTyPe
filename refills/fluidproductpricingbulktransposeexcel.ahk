@@ -31,12 +31,15 @@ objRetype.refill( new FluidProductPricingBulkTransposeExcel() )
  */
 class FluidProductPricingBulkTransposeExcel extends Fluid {
 
-	hotkey := "!^h"
 
+	strHotkey := "!^h"
+	strMenuPath := "/Admin/Product"
+	strMenuText := "Bulk Pricing Transpose"
 
 	__New() {
 		strGroup := this.id
-		GroupAdd, %strGroup%, Product Header Pricing Bulk Update ahk_class WindowsForms10.Window.8.app.0.30495d1_r11_ad1, Selected Price Update Details
+		;GroupAdd, %strGroup%, Product Header Pricing Bulk Update ahk_class WindowsForms10.Window.8.app.0.30495d1_r11_ad1, Selected Price Update Details
+		GroupAdd, %strGroup%, ahk_class WindowsForms10.Window.8.app.0.30495d1_r11_ad1
 	}
 
 

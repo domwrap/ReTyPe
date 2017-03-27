@@ -12,7 +12,7 @@ class Debug {
 	}
 
 
-	log( e ) {
+	write( e ) {
 		if ( isObject( e ) ) {
 			strDebug := this.jsonEncode( e ) "`n"
 			;~ strDebug := % "Exception thrown{when:" A_Now "|what:" e.what "|file:" e.file "|line:" e.line "|message:" e.message "|extra:" e.extra "}`n"
@@ -31,6 +31,12 @@ class Debug {
 
 	jsonEncode( objObject ) {
 		return json_fromobj( objObject )
+	}
+
+	exploreObj(Obj, NewRow="`n", Equal="  =  ", Indent="`t", Depth=12, CurIndent="") {
+		for k,v in Obj
+			ToReturn .= CurIndent . "[ " . k . " ]" . (IsObject(v) && depth>1 ? NewRow . this.exploreObj(v, NewRow, Equal, Indent, Depth-1, CurIndent . Indent) : Equal . v) . NewRow
+		return RTrim(ToReturn, NewRow)
 	}
 
 }

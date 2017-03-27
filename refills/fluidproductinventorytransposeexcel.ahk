@@ -32,7 +32,7 @@ objRetype.refill( new FluidInventoryTransposeExcel() )
 class FluidInventoryTransposeExcel extends Fluid {
 
 
-	hotkey := "!^i"
+	strHotkey := "!^i"
 
 
 	__New() {

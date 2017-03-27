@@ -32,9 +32,9 @@ class Hotkey {
 		; Define class properties to work with label below
 		Static funs := {}, args := {}
 		; populate properties with method parameters
-		funs[objFluid.hotkey] := objFluid.id, args[objFluid.hotkey] := arg
+		funs[objFluid.strHotkey] := objFluid.id, args[objFluid.strHotkey] := arg
 		; Define hotkey with single-access label
-		Hotkey, % objFluid.hotkey, Hotkey_Handle
+		Hotkey, % objFluid.strHotkey, Hotkey_Handle
 		; reset hotkey context in case one was set before call
 		Hotkey, IfWinActive
 		; get out now before label

@@ -29,7 +29,9 @@
 class Fluid {
 
 	id := this.__Class
-	hotkey := ""
+	strHotkey := 
+	strMenu :=
+	strMenutext := 
 
 	/**
 	 * Prepares the Fluid for use (being "refilled")
@@ -50,6 +52,7 @@ class Fluid {
 	 *  UITimer     SendHotkey
 	 */
 	fill() {
+		global objRetype
 		; abstract out code for:
 		; - dynamic method
 		; - Hotkey scope (ifwinactive)
@@ -65,10 +68,15 @@ class Fluid {
 		; the same hotkey in multiple places but for different things
 		; Restrict access to hotkey by defined window group
 		strGroup := this.id
+		; Add the Retype Toolbar to the allowed group otherwise it'll never
+		; allow hotkey activation from menu clicks
+		if ( objRetype.blnToolbar ) {
+			GroupAdd, %strGroup%, Retype ahk_class AutoHotkeyGUI
+		}
+		; Restruct the hotkey usage to the specified group
+; @todo This doesn't work!  Can run hotkey with keyboard from toolbar, but not from menu click
 		Hotkey, IfWinActive, ahk_group %strGroup%
 		; Adds hotkey [The last "" param appears to be required otherwise the dynamic class.method call doesn't work]
-		;Hotkey.add( this.hotkey, strMethod, "" )
-
 		Hotkey.add( this, "" )
 	}
 
@@ -83,7 +91,7 @@ class Fluid {
 	 * Return Hotkey used to activate Fluid
 	 */
 	getHotkey() {
-		return this.hotkey
+		return this.strHotkey
 	}
 
 }
