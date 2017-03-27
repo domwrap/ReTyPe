@@ -1,13 +1,12 @@
+#Include %A_ScriptDir%\refills\_fluid.ahk
 
 objRetype.refill( new FluidProductDeletePricing() )
 
-class FluidProductDeletePricing {
-
-	static id			:= "FluidProductDeletePricing"
+class FluidProductDeletePricing extends Fluid {
 
 	fill() {
 		; build class.method to pass through (cannot do it inline)
-		strMethod := % this.id ".pour"
+		strMethod := % this.id() ".pour"
 
 		; Bind and add the hotkey
 Hotkey, IfWinActive, Update ahk_class Rtp.getClassNN(), Available Offline

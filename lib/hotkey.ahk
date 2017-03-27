@@ -1,6 +1,8 @@
 
 class Hotkey {
 
+	; Solution implemented from this reference
+	; @see http://stackoverflow.com/questions/12851677/dynamically-create-autohotkey-hotkey-to-function-subroutine
 	; @todo As I'm never(?) going to pass a parameter to a refill.pour, I should
 	; change last arg to a dynamically passed object and move the IfWinActive element
 	; inside this function to further abstract code from refill child

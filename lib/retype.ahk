@@ -66,6 +66,16 @@ class Retype {
 		; @todo build toolbar and menus
 		; if ( blnToolbar ) {
 			; build toolbar
+			;this.toolbar = new Toolbar()
+			;this.toolbar.add( new Button( "general", "G" ) )
+			; etc etc
+			;for idFluid, objFluid in arrFluidHotkeys {
+			;	this.toolbar.add( new MenuFluid( objFluid ) )
+			;}
+		;}
+
+		;for idFluid, objFluid in arrFluidHotkeys {
+			
 		;}
 
 		; Master timer for all refills

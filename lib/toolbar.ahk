@@ -6,6 +6,14 @@ class Toolbar {
 
 }
 
+button = new Button( "name", "label" )
+menu = new Menu( "btnName", "mnuGroup", "lblMenu" )
+fmenu = new MenuFluid( objFluid )
+;?button.addItem(  )
+toolbar.add( button )
+toolbar.add( menu )
+
+
 
 
 ; Build a UI

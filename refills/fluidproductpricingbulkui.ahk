@@ -1,9 +1,9 @@
+#Include %A_ScriptDir%\refills\_fluid.ahk
 
 objRetype.refill( new FluidProductPricingBulkUI() )
 
-class FluidProductPricingBulkUI {
+class FluidProductPricingBulkUI extends Fluid {
 
-	static id			:= "FluidProductPricingBulkUI"
 	static intTimer		:= 500
 
 	pour() {

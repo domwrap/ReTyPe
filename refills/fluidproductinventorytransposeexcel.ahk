@@ -1,5 +1,6 @@
 /**
- * Refill to transpose Inventory setup from Excel spreadsheet
+ * File containing Refill class to transpose Inventory
+ * Class will add itself to the parent retype instance
  *
  * AutoHotKey v1.1.13.01+
  *
@@ -15,15 +16,26 @@
  * @license		Creative Commons Attribution-ShareAlike 4.0 International License http://creativecommons.org/licenses/by-sa/4.0/deed.en_US
  */
 
+
+ ; Abstract fluid class
+#Include %A_ScriptDir%\refills\_fluid.ahk
+; Trigger my damn self (in a horrible way due to AHK limitations)
 objRetype.refill( new FluidInventoryTransposeExcel() )
 
-class FluidInventoryTransposeExcel {
 
-	static id			:= "FluidInventoryTransposeExcel"
+/**
+ * Refill to transpose Inventory setup from Excel spreadsheet
+ *
+ * @category	Automation
+ * @package		ReTyPe
+ * @author		Dominic Wrapson <dwrapson@whistlerblackcomb.com>
+ * @copyright	2013 Dominic Wrapson
+ */
+class FluidInventoryTransposeExcel extends Fluid {
 
 	fill() {
 		; build class.method to pass through (cannot do it inline)
-		strMethod := % this.id ".pour"
+		strMethod := % this.id() ".pour"
 		; Bind and add the hotkey
 		Hotkey, IfWinActive, Update ahk_class WindowsForms10.Window.8.app.0.30495d1_r11_ad1, Inventory Pool Type
 ; @todo Hotkey.restrict( "WinTitle", "WinText" )

@@ -1,6 +1,6 @@
 /**
- * Refill that transposes pricing from Excel spreadsheet in to RTP Bulk Pricing Window
- * File will add itself to the parent retype instance
+ * File containing class for transposing Pricing
+ * Class will add itself to the parent retype instance
  *
  * AutoHotKey v1.1.13.01+
  *
@@ -16,23 +16,41 @@
  * @license		Creative Commons Attribution-ShareAlike 4.0 International License http://creativecommons.org/licenses/by-sa/4.0/deed.en_US
  */
 
+
+ ; Abstract fluid class
+#Include %A_ScriptDir%\refills\_fluid.ahk
+; Trigger my damn self (in a horrible way due to AHK limitations)
 objRetype.refill( new FluidProductPricingBulkTransposeExcel() )
 
-class FluidProductPricingBulkTransposeExcel {
 
-	static id			:= "FluidProductPricingBulkTransposeExcel"
+/**
+ * Refill that transposes pricing from Excel spreadsheet in to RTP Bulk Pricing Window
+ *
+ * @category	Automation
+ * @package		ReTyPe
+ * @author		Dominic Wrapson <dwrapson@whistlerblackcomb.com>
+ * @copyright	2013 Dominic Wrapson
+ */
+class FluidProductPricingBulkTransposeExcel extends Fluid {
 
 	fill() {
 		; @todo code here to register menu
 
 		; ### Register hotkey
 		; build class.method to pass through (cannot do it inline)
-		strMethod := % this.id ".pour"
+		strMethod := % this.id() ".pour"
 		; Bind the hotkey about to be created to particular window, therefore it doesn't get run somewhere it shouldn't
 		; and also allows us to use the same hotkey in multiple places but for different things
 		Hotkey, IfWinActive, Product Header Pricing Bulk Update ahk_class WindowsForms10.Window.8.app.0.30495d1_r11_ad1, Selected Price Update Details
 		; Adds hotkey [The last "" param appears to be required otherwise the dynamic class.method call doesn't work]
 		Hotkey.add( "!^h", strMethod, "" )
+		; return here so we don't action the label beneath
+		return
+
+		lblFluidProductPricingBulkTransposeExcel:
+			;Gosub ^!s
+			Gosub this.hotkey
+		return
 	}
 
 
