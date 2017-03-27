@@ -45,7 +45,9 @@ class FluidComponentAccessRuleCode extends Fluid {
 		GroupAdd, %strGroup%, ahk_class %strRTP%, Access Code Procedure
 	}
 
-	; BULK PRICING:	Resize the pricing season drop-down
+	/**
+	 * Add text-searching for access codes to components
+	 */
 	pour() {
 		Global
 

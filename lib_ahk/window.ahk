@@ -297,7 +297,11 @@ class Window extends _returnableClass {
 	 * @return String strControl string of matched control, if found
 	 */
 	getControlFromContents( strSearch, idWindow ) {
-		WinGet, arrControls, ControlList, ahk_id %idWindow%
+		;if ( !idWindow ) {
+			;WinGet, arrControls, ControlList, A
+		;} else {
+			WinGet, arrControls, ControlList, ahk_id %idWindow%
+		;}
 
 		Loop, Parse, arrcontrols, `n
 		{

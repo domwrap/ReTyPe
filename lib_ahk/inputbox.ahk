@@ -39,8 +39,16 @@ class InputBox extends _returnableClass {
 	 * @return mixed Mixed value of user-input
 	 */
 	show( strMessage, mixDefault="" ) {
+		global objRetype
+
+		; Position within parent window
+		; 375x189 are default starting values
+		intX := objRetype.objRTP.getPos("X") + ( objRetype.objRTP.getPos("W") / 2 ) - ( 375 / 2 )
+		intY := objRetype.objRTP.getPos("Y") + ( objRetype.objRTP.getPos("H") / 2 ) - ( 189 / 2 )
+
+		; Show the actual box
 		strTitle := % this.title
-		InputBox, mixVar, %strTitle%, %strMessage%, , , , , , , , %mixDefault%
+		InputBox, mixVar, %strTitle%, %strMessage%, , , , %intX% , %intY% , , , %mixDefault%
 
 		if ErrorLevel {
 			if ( True != this._RETURN_ON_USER_CANCEL() )

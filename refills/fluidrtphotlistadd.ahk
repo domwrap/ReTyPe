@@ -32,15 +32,17 @@ class FluidRTPHotlistAdd extends Fluid {
 		IfWinActive, ahk_group %strGroup%
 		{
 			; WinActive check isn't good enough in this case, so need to make a visual search too
-			ImageSearch intActiveX, intActiveY, 20, 60, 60, 100, %A_ScriptDir%\img\search_icon_customermanager.png
+			ImageSearch intActiveX, intActiveY, 20, 60, 60, 100, *10 %A_ScriptDir%\img\search_icon_customermanager.png
 			if ( ErrorLevel ) {
 				; At this point we are not in customer manager
 				MsgBox.error( "Can only be run from within Customer Manager" )
 			} else {
+msgbox.stop( "Functionality still under construction!" )
 				; In customer manager, let's rock
+				intIP 			:= InputBox.show( "Enter IP code on which to comment" )
 
 				; Hunt down the customer
-				objRetype.objRTP.CustomerSearchAndSelect( idIPCode )
+				objRetype.objRTP.CustomerSearchAndSelect( intIP )
 return
 ; @todo SOME CHECKS: Make sure customer is an adult, etc, if PassAdmin want to, else let them decide first and just hit hotlist as appropriate
 /*
@@ -103,13 +105,13 @@ return
 				;
 				; Select hotlist reason
 				strControl := objRetype.objRTP.formatClassNN( "COMBOBOX", this.getConf( "ComboBox", 16 ) )
-				Control, ChooseString, Autocharge Problem, WindowsForms10.COMBOBOX.app.0.30495d1_r11_ad11
+				Control, ChooseString, Autocharge Problem, %strControl%
 
 				;intTomorrow := A_MM . "/" . A_DD+1 . "/" . A_YYYY
 				;SendInput {Tab 5}%intTomorrow%
 
 				SendInput {Tab 5}{Right}{Up}
-				SendInput {Tab}Pass hotlisted – problem processing charges – please see comments on file.  %strUsername% x7055
+				SendInput {Tab}Pass hotlisted, problem processing charges. Please see comments on file. %A_UserName% x7055
 
 
 			; @todo Add timeout 5? seconds, if no input, close and save

@@ -49,7 +49,8 @@ class Retype {
 
 	;static objRetype	= 
 	; Config
-	strFileConf		:= "conf\retype.ini"
+	strDirConf		:= A_AppData "\ReTyPe\"
+	strFileConf		:= this.strDirConf "retype.ini"
 	blnToolbar		:= false
 	; Variables
 	arrTimers		:= {}

@@ -41,7 +41,9 @@ class Fluid {
 		this.id := this.__Class
 
 		; Build config filename based on classname
-		strFileConf := "conf\" this.id ".ini"
+		strFileConf			:= objRetype.strDirConf this.id ".ini"
+		this.strFileConf	:= strFileConf
+
 		StringLower, strFileConf, strFileConf
 		this.strFileConf := strFileConf
 	}

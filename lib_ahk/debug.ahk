@@ -17,6 +17,10 @@ class Debug {
 
 	log( e ) {
 		if ( isObject( e ) ) {
+			; Add Date and Time to exception to log
+			e.date := Date
+
+			; Encode exception
 			strDebug := this.jsonEncode( e ) "`n"
 			;~ strDebug := % "Exception thrown{when:" A_Now "|what:" e.what "|file:" e.file "|line:" e.line "|message:" e.message "|extra:" e.extra "}`n"
 			strFile := this.strFileLog

@@ -101,13 +101,19 @@ class ToolbarRetype extends Toolbar {
 		objMenuHelp := new Menu( "fnNull", "&Help`tWin+F1", false )
 		objMenuHelp.setIcon( A_WinDir "\System32\shell32.dll", 24 )
 		objBtnHelp.addMenu( objMenuHelp )
+		objMenuAbout := new Menu( "fnAbout", "&About ReTyPe" )
+		objMenuAbout.setIcon( A_WinDir "\System32\shell32.dll", 278 )
+		objBtnHelp.addMenu( objMenuAbout )
 		objBtnHelp.addMenu( new Menu( "", "" ) )
 		objMenuUpdate := new Menu( "fnNull", "Check for &Updates", false )
 		objMenuUpdate.setIcon( A_WinDir "\System32\shell32.dll", 123 ) ;Alt icons 81,163,167,239,280
 		objBtnHelp.addMenu( objMenuUpdate )
-		objMenuAbout := new Menu( "fnAbout", "&About ReTyPe" )
-		objMenuAbout.setIcon( A_WinDir "\System32\shell32.dll", 278 )
-		objBtnHelp.addMenu( objMenuAbout )
+		objMenuReload := new Menu( "fnReload", "&Reload ReTyPe" )
+		objMenuReload.setIcon( A_WinDir "\System32\shell32.dll", 81 )
+		objBtnHelp.addMenu( objMenuReload )
+		objMenuExit := new Menu( "fnExit", "E&xit" )
+		objMenuExit.setIcon( A_WinDir "\System32\shell32.dll", 28 )
+		objBtnHelp.addMenu( objMenuExit )
 		;A_WinDir
 		this.addButton( objBtnHelp )
 	}
@@ -137,6 +143,13 @@ class ToolbarRetype extends Toolbar {
 			MsgBox % "ReTyPe`nRTP: Emending Your Errors`n`n" . chr(169) . " Dominic Wrapson, 2014"
 		return
 
+		fnReload:
+			Reload
+		return
+
+		fnExit:
+			ExitApp
+		return
 	}
 
 	/**
@@ -178,9 +191,9 @@ class ToolbarRetype extends Toolbar {
 		; Label declaration to handle above timer
 		; Declared after the method return so as to be compiled, but not executed automatically
 		fnToolbarRetype:
-		global objRetype
-		strRTP := % objRetype.objRTP.classNN()
-		strToolbar := ToolbarRetype.strToolbar
+			global objRetype
+			strRTP := % objRetype.objRTP.classNN()
+			strToolbar := ToolbarRetype.strToolbar
 
 			; Get RTP window for later reference
 			;WinGet, idWinRTP, ID, RTP|ONE Container ahk_class %strRTP%

@@ -22,6 +22,9 @@ class FluidRTPCommentAddChargeDeclineDTL extends Fluid {
 		GroupAdd, %strGroup%, ahk_class %strRTP%
 	}
 
+	/**
+	 * Make the magic happen
+	 */
 	pour() {
 		global objRetype
 
@@ -32,37 +35,42 @@ class FluidRTPCommentAddChargeDeclineDTL extends Fluid {
 		IfWinActive, ahk_group %strGroup%
 		{
 			; WinActive check isn't good enough in this case, so need to make a visual search too
-			ImageSearch intActiveX, intActiveY, 20, 60, 60, 100, %A_ScriptDir%\img\search_icon_customermanager.png
+			ImageSearch intActiveX, intActiveY, 20, 60, 60, 100, *10 %A_ScriptDir%\img\search_icon_customermanager.png
 			if ( ErrorLevel ) {
 				; At this point we are not in customer manager
 				MsgBox.error( "Can only be run from within Customer Manager" )
 			} else {
-				; In customer manager, let's rock
-idIPCode = 2993249
+				; In customer manager, let's get IP code input
+				intIP 			:= InputBox.show( "Enter IP code on which to comment" )
+				; IP Validation
+; @todo Validation
+				; 6 <= Len( IP ) <= 7
 
+				; Get sale date, format (mm/dd/yyyy)
+				intSaleDate		:= InputBox.show( "Enter charge date", "mm/dd/yyyy" )
+				; isDate( )
+
+				; Get total owed (decimal)
+				intAmountOwed	:= InputBox.show( "Enter charge amount (without $ prefix)" )
+				; substr( intAmountOwed, 0, 1 ) = "$"
+				; isFloat || isInt
+				; 2 decimal places
+
+
+				; Make sure in RTP, then find customer
 				objRetype.objRTP.Activate()
-				objRetype.objRTP.CustomerSearchAndSelect( idIPCode )
-/*
-				Window.ActivateRestore( idWinExcel )
+				objRetype.objRTP.CustomerSearchAndSelect( intIP )
 
-				; Reset row
-				Send {Home}
-				; Grab info
-				Send {Right 7}^c
-				StringReplace, intSaleDate, clipboard, `r`n
-				Send {Right}^c
-				StringReplace, intAmountOwed, clipboard, `r`n
-				Send {Right}^c
-				StringReplace, strCreditCard, clipboard, `r`n
-*/
-				objRetype.objRTP.Activate()
-				objRetype.objRTP.CustomerSearchAndSelect( idIPCode )
+				; Construct subject and comment
+				strSubject = Owes $%intAmountOwed% (DTL charge)
+				strComment = For %intSaleDate%. Need to check CC on file. Emailed guest. %A_UserName% x7055
 
-				strSubject = Owes %intAmountOwed% (DTL charge)
-				strComment = For %intSaleDate%. Need to check CC %strCreditCard% on file.  Emailed guest.  %strUsername% x7055
+				; Add comment to profile
 				objRetype.objRTP.CustomerAddComment( strSubject, strComment )
 			}
 		}
 	}
 
 }
+
+; McWrap: 2993249

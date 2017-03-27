@@ -116,8 +116,8 @@ class Toolbar {
 
 		return
 
-		/**
-		 * MENU HANDLE
+		/*
+*		 * MENU HANDLE
 		 */
 		fnMenu_Handle:
 			global objRetype

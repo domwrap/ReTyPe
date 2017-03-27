@@ -39,6 +39,8 @@
 #Persistent
 ; Only allow one copy to run at once.  More would be bad
 #SingleInstance Force
+; Ensure coord mode correct
+CoordMode, Pixel, Relative
 
 #Include %A_ScriptDir%
 #Include lib_ahk\debug.ahk
@@ -48,8 +50,10 @@
 
 
 ; UI changes
-Menu, tray, icon, retype.ico
+Menu, tray, icon, retype.ico, , 1
 Menu, Tray, Tip, ReTyPe
+;Menu, tray, NoStandard
+;Menu, tray, add, RetypeExit
 
 
 ; Build the retype!

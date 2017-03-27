@@ -32,21 +32,30 @@ class FluidRTPCommentAddDeclineChargeGuestEmail extends Fluid {
 		IfWinActive, ahk_group %strGroup%
 		{
 			; WinActive check isn't good enough in this case, so need to make a visual search too
-			ImageSearch intActiveX, intActiveY, 20, 60, 60, 100, %A_ScriptDir%\img\search_icon_customermanager.png
+			ImageSearch intActiveX, intActiveY, 20, 60, 60, 100, *10 %A_ScriptDir%\img\search_icon_customermanager.png
 			if ( ErrorLevel ) {
 				; At this point we are not in customer manager
 				MsgBox.error( "Can only be run from within Customer Manager" )
 			} else {
-				; In customer manager, let's rock
-				; ( "Nothing happening here yet" )
-return
-/*
-	_windowActivateRestore( idWinRTP )
-	_rtpCustomerSearchAndSelect( idIPCode )
+				; In customer manager, let's get IP code input
+				intIP 			:= InputBox.show( "Enter IP code on which to comment" )
+				; IP Validation
+; @todo Validation
+				; 6 <= Len( IP ) <= 7
 
+				; Make sure in RTP, then find customer
+				objRetype.objRTP.Activate()
+				objRetype.objRTP.CustomerSearchAndSelect( intIP )
+
+				; Construct subject and comment
+				strSubject = Emailed guest
+				strComment = Re: RC/DTL charges owing. %A_UserName% x7055
+
+				; Add comment to profile
+				objRetype.objRTP.CustomerAddComment( strSubject, strComment )
+/*
 	strSubject = Emailed guest
 	strComment = Re: RC/DTL charges owing.  %strUsername% x7055
-	_rtpCustomerAddComment( strSubject, strComment )
 */
 			}
 		}

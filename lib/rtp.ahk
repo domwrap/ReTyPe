@@ -24,9 +24,9 @@
  * @copyright	2014 Dominic Wrapson
  */
 class RTP {
-
 	; Config file
-	strFileConf		:= "conf\rtp.ini"
+	strDirConf		:= A_AppData "\ReTyPe\"
+	strFileConf		:= this.strDirConf "rtp.ini"
 
 	; Instance config
 	strProcess		:= "rtponecontainer"
@@ -62,7 +62,7 @@ class RTP {
 		IniRead, intElement, % this.strFileConf, Conf, Element, 1
 		this.intElement := intElement
 		; Window Title to match
-		IniRead, strTitle, % this.strFileConf, Conf, Title, 1
+		IniRead, strTitle, % this.strFileConf, Conf, Title, RTP|ONE Container
 		this.strTitle := strTitle
 		; Construction for RTP identification
 		strRTP := this.ClassNN()
@@ -127,9 +127,14 @@ class RTP {
 			; ( "Invalid dimension requested" )
 		}
 
-		strTitle := this.strTitle
-		strClass := this.ClassNN()
-		WinGetPos, intX, intY, intW, intH, %strTitle% ahk_class %strClass%
+		;if ( idRTP ) {
+			; For some reason, this doesn't work as expected, even though ID is valid
+			;WinGetPos, intX, intY, intW, intH, ahk_id %idRTP%
+		;} else {
+			strTitle := this.strTitle
+			strClass := this.ClassNN()
+			WinGetPos, intX, intY, intW, intH, %strTitle% ahk_class %strClass%
+		;}
 
 		if ( chrDimension = "X" ) {
 			intReturn := intX
@@ -258,6 +263,11 @@ class RTP {
 		SendMessage, 0x1330, 1,, %strCustomerTab%, ahk_id %idWinRTP%  ; 0x1330 is TCM_SETCURFOCUS
 	}
 
+	/**
+	 * Add Comment to customer profile
+	 *
+	 * @return void
+	 */
 	CustomerAddComment( strSubject, strComment, blnSave=true ) {
 		; Switch to comment view
 		While !blnComments AND A_Index < 5 {

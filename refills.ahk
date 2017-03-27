@@ -10,6 +10,7 @@
 #Include refills\fluidrtpautorecharge.ahk
 #Include refills\fluidrtpcommentaddchargedeclinedtl.ahk
 #Include refills\fluidrtpcommentaddchargedeclinerc.ahk
+#Include refills\fluidrtpcommentaddchargesuccess.ahk
 #Include refills\fluidrtpcommentadddeclinechargeguestemail.ahk
 #Include refills\fluidrtpcommentadddeclinechargeguestspoken.ahk
 #Include refills\fluidrtpcommentadddeclinechargeguestvoicemail.ahk
