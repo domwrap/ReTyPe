@@ -1,33 +1,40 @@
 /**
+ * Here be object for facilitating message popup boxes
+ *
+ * AutoHotKey v1.1.13.01+
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published
+ * by the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ * 
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * @category	Automation
+ * @package		ReTyPe
+ * @author		Dominic Wrapson <dwrapson@whistlerblackcomb.com>
+ * @copyright	2014 Dominic Wrapson
+ * @license		GNU AFFERO GENERAL PUBLIC LICENSE Version 3, 19 November 2007 http://www.gnu.org/licenses/
+ */
 
-Function	Decimal Value	Hex Value
-OK (that is, only an OK button is displayed)	0	0x0
-OK/Cancel	1	0x1
-Abort/Retry/Ignore	2	0x2
-Yes/No/Cancel	3	0x3
-Yes/No	4	0x4
-Retry/Cancel	5	0x5
-Cancel/Try Again/Continue (2000/XP+)	6	0x6
-Adds a Help button (see remarks below)	16384	0x4000
- 	 	 
-Icon Hand (stop/error)	16	0x10
-Icon Question	32	0x20
-Icon Exclamation	48	0x30
-Icon Asterisk (info)	64	0x40
- 	 	 
-Makes the 2nd button the default	256	0x100
-Makes the 3rd button the default	512	0x200
- 	 	 
-System Modal (always on top)	4096	0x1000
-Task Modal	8192	0x2000
-Shows the MsgBox on default desktop
-(Windows NT/2000/XP or later)	131072	0x20000
-Always-on-top (style WS_EX_TOPMOST)
-(like System Modal but omits title bar icon)	262144	0x40000
- 	 	 
-Make the text right-justified	524288	0x80000
-Right-to-left reading order for Hebrew/Arabic	1048576	0x100000
-*/
+ /**
+ * Class wrapper for AHK msgbox
+ * Facilitates message boxes for certain types (error, retry, yes/no, etc)
+ * Whether program should exit after a stop error
+ * Also does some fancy stuff to center the message against the parent window, which
+ *		is particilarly nice on 39" 4K screens like we use as small windows are easily lost
+ *
+ * @category	Automation
+ * @package		ReTyPe
+ * @author		Dominic Wrapson <dwrapson@whistlerblackcomb.com>
+ * @copyright	2014 Dominic Wrapson
+ */
 class MsgBox {
 
 	static blnConf		:= false
@@ -120,3 +127,35 @@ WM_COMMNOTIFY(wParam) {
 
 ; Message icon use 
 ; http://ux.stackexchange.com/questions/52727/what-are-the-the-best-error-message-icons-to-use-for-each-type-of-error-in-net
+
+
+/**
+
+Function	Decimal Value	Hex Value
+OK (that is, only an OK button is displayed)	0	0x0
+OK/Cancel	1	0x1
+Abort/Retry/Ignore	2	0x2
+Yes/No/Cancel	3	0x3
+Yes/No	4	0x4
+Retry/Cancel	5	0x5
+Cancel/Try Again/Continue (2000/XP+)	6	0x6
+Adds a Help button (see remarks below)	16384	0x4000
+ 	 	 
+Icon Hand (stop/error)	16	0x10
+Icon Question	32	0x20
+Icon Exclamation	48	0x30
+Icon Asterisk (info)	64	0x40
+ 	 	 
+Makes the 2nd button the default	256	0x100
+Makes the 3rd button the default	512	0x200
+ 	 	 
+System Modal (always on top)	4096	0x1000
+Task Modal	8192	0x2000
+Shows the MsgBox on default desktop
+(Windows NT/2000/XP or later)	131072	0x20000
+Always-on-top (style WS_EX_TOPMOST)
+(like System Modal but omits title bar icon)	262144	0x40000
+ 	 	 
+Make the text right-justified	524288	0x80000
+Right-to-left reading order for Hebrew/Arabic	1048576	0x100000
+*/
