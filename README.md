@@ -57,6 +57,12 @@ The best way to see what it can do is to have a nosey through the file header co
 
 - Swipe/login using RFID passes rather than mag-stripe cards
 
+### Configuration
+
+Configuration `.ini` files read from `%A_AppData%\ReTyPe\`. These are per-user as RTP's window and object IDs can change user-to-user on the same machine. A directory named `ReTyPe` should be created manually at `C:\Users\username\appdata\Roaming\` and then populated with the example set of files from the `conf` directory. Quite often the only required changed user-to-user is the main RTP instance identifier `Element=1`, though there are many more settings if required.
+
+As well as config for latching on RTP, ReTyPe can be configured here whether or not to have a toolbar, which buttons to show, etc. Furthermore, many individual refills can also be configured with here with a corresponding file. Details are within each individual class file.
+
 ## Installation
 ### AutoHotKey
 ### Run from source
@@ -65,6 +71,8 @@ The best way to see what it can do is to have a nosey through the file header co
 The entire ReTyPe suite can be compiled to a distributable `.exe` file removing the requirement to install AHK on client machines on which you wish to run it. Just point the [AHK2EXE](https://github.com/fincs/Ahk2Exe) compiler at the `retype.ahk` script, enter `retype.exe` for the output file, choose the included `retype.ico`, and it'll do the rest. I have built for both x86 (32 bit) and ia64 (64 bit) successfully.
 
 ![Compiler settings](https://snag.gy/8GOMx4.jpg)
+
+The compiled `.exe` will still read `.ini` files from user settings (see above).
 
 ## Configuration
 
