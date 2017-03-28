@@ -21,7 +21,7 @@ However, my time with RTP is soon coming to an end and I realise if I don't do i
 
 ## Compatibility
 
-The features in this software were built against RTP|One 2013.1.1 so YMMV against future versions. We were never able to upgrade beyond that version due to regression issues and eStore/tStore compatibility.
+The features in this software were built using `AutoHotKey v1.1.13.01` against `RTP|One 2013.1.1` so YMMV against future versions. We were never able to upgrade beyond that RTP version due to regression issues and eStore/tStore compatibility. Any later (or backward compatible) version of AHK should work fine.
 
 ## Features
 
@@ -61,6 +61,10 @@ The best way to see what it can do is to have a nosey through the file header co
 ### AutoHotKey
 ### Run from source
 ### Compilation
+
+The entire ReTyPe suite can be compiled to a distributable `.exe` file removing the requirement to install AHK on client machines on which you wish to run it. Just point the [AHK2EXE](https://github.com/fincs/Ahk2Exe) compiler at the `retype.ahk` script, enter `retype.exe` for the output file, choose the included `retype.ico`, and it'll do the rest. I have built for both x86 (32 bit) and ia64 (64 bit) successfully.
+
+![Compiler settings](https://snag.gy/8GOMx4.jpg)
 
 ## Configuration
 
