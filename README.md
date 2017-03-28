@@ -11,8 +11,6 @@ RTP: emending your errors
 
 ReTyPe is my solution to many of the frustrations I had when using RTP full-time for a year, which was then expanded to incorporate requests from colleagues within my team, before expanding further to facilitate and automate tasks company-wide for different departments.
 
-The best way to see what it can do is to have a nosey through the file header comments in the [refills](https://github.com/Hwulex/ReTyPe/tree/master/refills]) directory, but here's a few of some of my (our) favourites
-
 #### Release
 
 I imagine anyone else spending a lot of time in RTP probably getting as frustrated with it as I did, so I wanted to release this software as [FOSS ](https://en.wikipedia.org/wiki/Free_and_open-source_software) in the hope I may make the time they do spending using RTP that little more tolerable.
@@ -26,6 +24,8 @@ However, my time with RTP is soon coming to an end and I realise if I don't do i
 The features in this software were built against RTP|One 2013.1.1 so YMMV against future versions. We were never able to upgrade beyond that version due to regression issues and eStore/tStore compatibility.
 
 ## Features
+
+The best way to see what it can do is to have a nosey through the file header comments in the [refills](https://github.com/Hwulex/ReTyPe/tree/master/refills]) directory, but here's a few of some of my (our) favourites
 
 #### Administration
 
