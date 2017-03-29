@@ -1,6 +1,8 @@
 # ReTyPe
 RTP: emending your errors
 
+[![AutoHotkey](https://img.shields.io/badge/Language-AutoHotkey-yellowgreen.svg)](https://autohotkey.com/) ![](https://img.shields.io/badge/State-Stable-green.svg)
+
 ---
 
 ## Introduction
@@ -22,6 +24,11 @@ However, my time with RTP is soon coming to an end and I realise if I don't do i
 ## Compatibility
 
 The features in this software were built using `AutoHotKey v1.1.13.01` against `RTP|One 2013.1.1` so YMMV against future versions. We were never able to upgrade beyond that RTP version due to regression issues and eStore/tStore compatibility. Any later (or backward compatible) version of AHK should work fine.
+
+## Pre-requisites
+
+[AutoHotKey v1.1.x](https://autohotkey.com/download/)
+Nothing will work without the client in stall of RTP|One
 
 ## Features
 
