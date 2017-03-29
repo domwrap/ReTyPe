@@ -89,10 +89,6 @@ class FluidCommentAddDeclineChargeGuestEmail extends Fluid {
 
 				; Add comment to profile
 				objRetype.objRTP.CustomerAddComment( strSubject, strComment )
-/*
-	strSubject = Emailed guest
-	strComment = Re: RC/DTL charges owing.  %strUsername% x7055
-*/
 			}
 		}
 	}

@@ -92,10 +92,6 @@ class FluidCommentAddDeclineChargeGuestSpoken extends Fluid {
 
 				; Add comment to profile
 				objRetype.objRTP.CustomerAddComment( strSubject, strComment )
-/*
-	strSubject = Phoned guest, spoke to %strGuest%
-	strComment = Re: RC charge owing.  Guest says they will contact their CC company and remove the hold.  Will call us back when we can retry CC.  %strUsername% x7055
-*/
 			}
 		}
 	}

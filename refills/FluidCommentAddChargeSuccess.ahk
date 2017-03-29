@@ -73,36 +73,16 @@ class FluidCommentChargeSuccess extends Fluid {
 				; At this point we are not in customer manager
 				MsgBox.error( "Can only be run from within Customer Manager" )
 			} else {
-				; In customer manager, let's get IP code input
-				intIP 			:= InputBox.show( "Enter IP code on which to comment" )
-				; IP Validation
-; @todo Validation
-				; 6 <= Len( IP ) <= 7
-
-				; Get sale date, format (mm/dd/yyyy)
-				intSaleDate		:= InputBox.show( "Enter charge date", "mm/dd/yyyy" )
-				; isDate( )
-
-				; Get total owed (decimal)
-				intAmountOwed	:= InputBox.show( "Enter charge amount (without $ prefix)" )
-				; substr( intAmountOwed, 0, 1 ) = "$"
-				; isFloat || isInt
-				; 2 decimal places
-
-				; Make sure in RTP, then find customer
+				; Make sure in RTP
 				objRetype.objRTP.Activate()
-				objRetype.objRTP.CustomerSearchAndSelect( intIP )
 
 				; Construct subject and comment
-				strSubject = Paid $%intAmountOwed% (RC Charge)
-				strComment = For %intSaleDate%. CC updated and charges cleared. %A_UserName% x7055
+				; Changed 4/19/15 as per Kristen
+				strSubject = No outstanding charges 
+				strComment = Guest updated cc on file. %A_UserName% x7055
 
 				; Add comment to profile
 				objRetype.objRTP.CustomerAddComment( strSubject, strComment )
-/*
-	strSubject = Paid $xx.xx - RC charge
-	strComment = For 09.05.10 – CC updated online and charges cleared. #Name#-7055
-*/
 			}
 		}
 	}

@@ -72,23 +72,20 @@ class FluidCommentAddChargeDeclineRC extends Fluid {
 				; At this point we are not in customer manager
 				MsgBox.error( "Can only be run from within Customer Manager" )
 			} else {
-				; In customer manager, let's get IP code input
-				intIP 			:= InputBox.show( "Enter IP code on which to comment" )
-				; IP Validation
-; @todo Validation
-				; 6 <= Len( IP ) <= 7
-
 				; Get sale date, format (mm/dd/yyyy)
-				intSaleDate		:= InputBox.show( "Enter charge date", "mm/dd/yyyy" )
-				; isDate( )
+				strTime := A_Now
+				strTime += -1, days
+				FormatTime, strTime, %strTime%, MM/dd/yyyy
+				intSaleDate		:= InputBox.show( "Enter charge date`n`nFormat: mm/dd/yyyy", strTime )
 
 				; Get total owed (decimal)
 				intAmountOwed	:= InputBox.show( "Enter charge amount (without $ prefix)" )
 
+				; Make sure in RTP
 				objRetype.objRTP.Activate()
-				objRetype.objRTP.CustomerSearchAndSelect( intIP )
 
-				strSubject = Owes $%intAmountOwed% (RC charge)
+				strSubject = Owes $%intAmountOwed% - RC charge
+
 				strComment = For %intSaleDate%. Need to check CC on file. Emailed guest. %A_UserName% x7055
 				objRetype.objRTP.CustomerAddComment( strSubject, strComment )
 			}

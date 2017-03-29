@@ -79,7 +79,8 @@ class FluidComponentVoucherOutputCopy extends Fluid {
 				idWinRTP	:= WinActive("A")
 
 				; This searches the screen for a VISUAL match against an image to check it can be seen!
-				ImageSearch intX, intY, 170, 20, 350, 70, *100 img\component_tab_voucherproduct.png
+				ImageSearch intX, intY, 170, 20, 350, 70, *100 %A_ScriptDir%\img\component_tab_voucherproduct.png
+
 				if ( !intX or !intY ) {
 					MsgBox.error( "Execution error: Attempted in wrong window or panel." )
 					return

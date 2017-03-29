@@ -49,6 +49,8 @@
 #SingleInstance Force
 ; Ensure coord mode correct
 CoordMode, Pixel, Relative
+; Ensure title match mode set
+SetTitleMatchMode, 1
 
 #Include %A_ScriptDir%
 #Include lib_ahk\debug.ahk
@@ -84,6 +86,7 @@ if ( !A_IsCompiled ) {
 	{
 		FileAppend, #Include refills\%A_LoopFileName%`n, %A_ScriptDir%\refills.ahk
 	}
+
 	; This include is actually evaluated before any other code (all Include commands are)
 	; meaning that if you change the name of a refill, you must empty the existing file
 	; rather than deleting it else it will try to be included before it is created

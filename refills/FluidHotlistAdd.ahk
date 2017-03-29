@@ -38,6 +38,7 @@ objRetype.refill( new FluidHotlistAdd() )
  * @copyright	2015 Dominic Wrapson
  */
 class FluidHotlistAdd extends Fluid {
+; @todo Make generic commenting class (with prompt), and extend to pass admin / config file editable sub-class
 
 	;strHotkey		:= "^!+c"
 	strMenuPath		:= "/CusMan"

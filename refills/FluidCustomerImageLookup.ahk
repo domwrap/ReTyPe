@@ -56,7 +56,9 @@ class FluidCustomerImageLookup extends Fluid {
 	 */
 	pour() {
 		intIP := InputBox.show( "Enter IP code to find image" )
-		Run, http://wbwebapps/wbphonelist/grabimage.aspx?RTPImage=True&ID=%intIP%
+
+		;Run, http://wbwebapps/wbphonelist/grabimage.aspx?RTPImage=True&ID=%intIP% ; Doesn't work in Chrome
+		Run, http://wbapps/RTPImageFetch/?ipcode=%intIP%
 	}
 
 }

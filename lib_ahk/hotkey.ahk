@@ -37,22 +37,32 @@ class Hotkey {
 	; Solution implemented from this reference
 	; @see http://stackoverflow.com/questions/12851677/dynamically-create-autohotkey-hotkey-to-function-subroutine
 	add(objFluid, arg*) {
-		; Define class properties to work with label below
-		Static funs := {}, args := {}
-		; populate properties with method parameters
-		funs[objFluid.strHotkey] := objFluid.id, args[objFluid.strHotkey] := arg
-		; Restrict hotkey to group of windows as defined in objFluid constructor
-		;strGroup := objFluid.id
-; @TODO Figure out how to restrict hotkeys to their window groups, also @see _fluid.ahk
-		;Hotkey, IfWinActive ahk_group %strGroup%
-;#If WinActive( "ahk_group " strGroup )
-		;#IfWinActive, ahk_group %strGroup%
-		; Define hotkey with single-access label
-		Hotkey, % objFluid.strHotkey, Hotkey_Handle
-		; reset hotkey context in case one was set before call
-		Hotkey, IfWinActive
-		;#IfWinActive
-;#If
+		If ( InStr( objFluid.strHotkey, "," ) ) {
+			strHotkey := objFluid.strHotkey
+			Loop, Parse, strHotkey, `,
+			{
+				objFluid.strHotkey := A_LoopField
+				this.add( objFluid, "" )
+			}
+		} else {
+			; Define class properties to work with label below
+			Static funs := {}, args := {}
+			; populate properties with method parameters
+			funs[objFluid.strHotkey] := objFluid.id, args[objFluid.strHotkey] := arg
+			; Restrict hotkey to group of windows as defined in objFluid constructor
+			;strGroup := objFluid.id
+	; @TODO Figure out how to restrict hotkeys to their window groups, also @see _fluid.ahk
+			;Hotkey, IfWinActive ahk_group %strGroup%
+	;#If WinActive( "ahk_group " strGroup )
+			;#IfWinActive, ahk_group %strGroup%
+			; Define hotkey with single-access label
+			Hotkey, % objFluid.strHotkey, Hotkey_Handle
+			; reset hotkey context in case one was set before call
+			Hotkey, IfWinActive
+			;#IfWinActive
+	;#If
+		}
+
 		; get out now before label
 		return
 

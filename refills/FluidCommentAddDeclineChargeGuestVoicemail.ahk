@@ -89,10 +89,6 @@ class FluidCommentAddDeclineChargeGuestVoicemail extends Fluid {
 
 				; Add comment to profile
 				objRetype.objRTP.CustomerAddComment( strSubject, strComment )
-/*
-	strSubject = Phoned guest, left msg
-	strComment = Re: DTL charge owing and hotlist.  %strUsername% x7055
-*/
 			}
 		}
 	}

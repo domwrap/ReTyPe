@@ -16,6 +16,8 @@
 #Include refills\FluidHotlistAdd.ahk
 #Include refills\FluidInventoryTransposeExcel.ahk
 #Include refills\FluidListItemDelete.ahk
+#Include refills\FluidLoginSwipe.ahk
+#Include refills\FluidLoginSwipeButtonDisable.ahk
 #Include refills\FluidProductAccountingCopy.ahk
 #Include refills\FluidProductAccountingCopyDown.ahk
 #Include refills\FluidProductCategoryOrdering.ahk
@@ -32,4 +34,5 @@
 #Include refills\FluidProductPricingUpdate.ahk
 #Include refills\FluidRentalInventoryPostPrint.ahk
 #Include refills\FluidRTPActiveWindow.ahk
+#Include refills\FluidRTPAutoLogin.ahk
 #Include refills\_Fluid.ahk

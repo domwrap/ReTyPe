@@ -79,8 +79,9 @@ class FluidComponentMediaOutputCopy extends Fluid {
 				idWinRTP	:= WinActive("A")
 
 				; This searches the screen for a VISUAL match against an image to check it can be seen!
-				ImageSearch intXa, intYa, 170, 20, 260, 70, *100 img\component_tab_output.png
-				ImageSearch intXf, intYf, 170, 20, 260, 70, *100 img\component_tab_output_flat.png
+				ImageSearch intXa, intYa, 170, 20, 260, 70, *100 %A_ScriptDir%\img\component_tab_output.png
+				ImageSearch intXf, intYf, 170, 20, 260, 70, *100 %A_ScriptDir%\img\component_tab_output_flat.png
+
 				if ( !intXa AND !intXf ) {
 					MsgBox.error( "Execution error: Attempted in wrong window or panel." )
 					return

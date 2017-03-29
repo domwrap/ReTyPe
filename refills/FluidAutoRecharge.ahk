@@ -208,6 +208,8 @@ class FluidAutoRecharge extends Fluid {
 		; Open charges in Sales Transaction
 		ControlClick, OK
 
+		/* ===== No need to get this complicated, we'll just use the QuickPayment option as requested by Kristen @ PassAdmin
+
 		; Switch to Payment tab
 		Sleep 500
 	 	idRTP := objRetype.objRTP.getID()
@@ -225,14 +227,16 @@ class FluidAutoRecharge extends Fluid {
 		strRetrieveCard := Window.getControlFromContents( "Retrieve", idPay )
 		ControlFocus, %strRetrieveCard%, ahk_id %idPay%
 		Send {Enter}
+		*/
+
+		; Use QuickPayment option
+		;strControlQuickPay := Window.getControlFromContents( "Quick Payment", idPay )
+		Sleep 500
+		ControlClick, Select a Quick Payment, A
+		Send {Up 2}
 	 }
 
 }
 
 ; WindowsForms10.SysListView32.app.0.30495d1_r11_ad13
 
-
-
-; 1120196 Jamieson, Gillian - 3
-; 1197120 Johnstone, Dan - 2
-; 1455812 Jones, Nicole - 2
