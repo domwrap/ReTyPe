@@ -32,6 +32,7 @@
 #Include refills\FluidProductPricingSeasonEditEnable.ahk
 #Include refills\FluidProductPricingTransposeExcel.ahk
 #Include refills\FluidProductPricingUpdate.ahk
+#Include refills\FluidProductWindowWiden.ahk
 #Include refills\FluidRentalInventoryPostPrint.ahk
 #Include refills\FluidRTPActiveWindow.ahk
 #Include refills\FluidRTPAutoLogin.ahk

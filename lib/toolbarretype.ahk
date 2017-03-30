@@ -164,17 +164,15 @@ class ToolbarRetype extends Toolbar {
 		; Get out now before we start activating menus
 		return
 
-		fnAbout:
-;msgbox % A_ThisMenu ":" A_ThisMenuItem
-			MsgBox % "ReTyPe`nRTP: Emending Your Errors`n`n" . chr(169) . " Dominic Wrapson, 2014"
-		return
+		; Already defined in root retype.ahk
+		; fnAbout:
 
-		fnReload:
-			Reload
-		return
+		; Already defined in root retype.ahk
+		; fnReload:
 
-		fnExit:
-			ExitApp
+		; Already defined in root retype.ahk
+		; fnExit:
+
 		return
 	}
 
@@ -206,7 +204,7 @@ class ToolbarRetype extends Toolbar {
 		base.render()
 
 		; Load timer
-		SetTimer, fnToolbarRetype, 100
+		SetTimer, fnToolbarRetype, 1000
 
 		; Any post-rendering stuff
 		this.p_postrender()
@@ -240,7 +238,7 @@ class ToolbarRetype extends Toolbar {
 					WinGet, idWinRTPParent, ID, %strParentTitle% ahk_class %strParentClass%
 
 					WinGetPos, intWinX, intWinY, intWinW, intWinH, ahk_id %idWinRTPParent%
-					intGuiX := intWinX + intWinW - ( intWinW / 2 ) + 50
+					intGuiX := intWinX + intWinW - ( intWinW / 4 ) ;+ 50
 					intGuiY := intWinY + 2
 
 					; Either of these appear to work, though the latter doesn't actually color anything

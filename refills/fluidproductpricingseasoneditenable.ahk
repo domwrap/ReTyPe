@@ -62,6 +62,7 @@ return
 
 		; BULK PRICING:	Resize the pricing season drop-down
 		strGroup := this.__Class
+		GroupAdd, %strGroup%, Pricing ahk_class WindowsForms10.Window.8.app.0.30495d1_r11_ad1, Price Allocation
 
 		IfWinActive, ahk_group %strGroup%
 		{

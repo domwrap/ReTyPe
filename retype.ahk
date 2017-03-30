@@ -59,11 +59,14 @@ SetTitleMatchMode, 1
 #Include %A_ScriptDir%\refills\_fluid.ahk
 
 
-; UI changes
+; SysTray and menu config
+Menu, tray, NoStandard
 Menu, tray, icon, %A_ScriptDir%\retype.ico, , 1
 Menu, Tray, Tip, ReTyPe
-;Menu, tray, NoStandard
-;Menu, tray, add, RetypeExit
+Menu, tray, add, &Reload, fnReload
+Menu, tray, add, &About, fnAbout
+Menu, tray, add  ; Creates a separator line.
+Menu, tray, add, E&xit, fnExit
 
 
 ; Build the retype!
@@ -86,15 +89,29 @@ if ( !A_IsCompiled ) {
 	{
 		FileAppend, #Include refills\%A_LoopFileName%`n, %A_ScriptDir%\refills.ahk
 	}
-
-	; This include is actually evaluated before any other code (all Include commands are)
-	; meaning that if you change the name of a refill, you must empty the existing file
-	; rather than deleting it else it will try to be included before it is created
-	; The first execution after an empty refills.ahk will be broken as it would have
-	; been included empty.  The second execution will work as expected as the file will
-	; have been populated with the correct files on execution one.  Comprendes?
-	#Include %A_ScriptDir%\refills.ahk
 }
+; This include is actually evaluated before any other code (all Include commands are)
+; meaning that if you change the name of a refill, you must empty the existing file
+; rather than deleting it else it will try to be included before it is created
+; The first execution after an empty refills.ahk will be broken as it would have
+; been included empty.  The second execution will work as expected as the file will
+; have been populated with the correct files on execution one.  Comprendes?
+#Include %A_ScriptDir%\refills.ahk
+
 
 ; Make stuff happen!
 objRetype.go()
+
+Return
+
+fnAbout:
+	MsgBox % "ReTyPe`nRTP: Emending Your Errors`n`n" . chr(169) . " Dominic Wrapson, 2014"
+return
+
+fnReload:
+	Reload
+return
+
+fnExit:
+	ExitApp
+return

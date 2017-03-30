@@ -1,6 +1,5 @@
 /**
- * File containing Refill class to automate pass admin commenting
- * Class will add itself to the parent retype instance
+ * File containing Refill class to add RTP comment
  *
  * AutoHotKey v1.1.13.01+
  *
@@ -30,7 +29,7 @@ objRetype.refill( new FluidCommentAddDeclineChargeGuestVoicemail() )
 
 
 /**
- * Refill to automate pass admin commenting
+ * Refill for RTP commenting
  *
  * @category	Automation
  * @package		ReTyPe
@@ -73,18 +72,11 @@ class FluidCommentAddDeclineChargeGuestVoicemail extends Fluid {
 				; At this point we are not in customer manager
 				MsgBox.error( "Can only be run from within Customer Manager" )
 			} else {
-				; In customer manager, let's get IP code input
-				intIP 			:= InputBox.show( "Enter IP code on which to comment" )
-				; IP Validation
-; @todo Validation
-				; 6 <= Len( IP ) <= 7
-
 				; Make sure in RTP, then find customer
 				objRetype.objRTP.Activate()
-				objRetype.objRTP.CustomerSearchAndSelect( intIP )
 
 				; Construct subject and comment
-				strSubject = Phoned guest, left msg
+				strSubject = Phoned guest, left message.
 				strComment = Re: DTL charge owing and hotlist. %A_UserName% x7055
 
 				; Add comment to profile
