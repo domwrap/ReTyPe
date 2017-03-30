@@ -36,4 +36,5 @@
 #Include refills\FluidRentalInventoryPostPrint.ahk
 #Include refills\FluidRTPActiveWindow.ahk
 #Include refills\FluidRTPAutoLogin.ahk
+#Include refills\FluidToolbarButtonContext.ahk
 #Include refills\_Fluid.ahk
