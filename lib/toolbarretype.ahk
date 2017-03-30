@@ -247,6 +247,37 @@ class ToolbarRetype extends Toolbar {
 			}
 		return
 
+
+		/*
+*		 * MENU HANDLE
+		 */
+		fnMenu_Handle:
+			global objRetype
+
+			strTab := "`t"
+			strMenuItem := A_ThisMenu SubStr( A_ThisMenuItem, 1, InStr( A_ThisMenuItem, strTab )-1 )
+			StringReplace, strMenuItem, strMenuItem, %A_Space%,, All
+			StringReplace, strMenuItem, strMenuItem, Menu
+; @todo Make < and > hotkey modifiers work
+			;strHotkey := objRetype.arrMenuHotkeys[strMenuItem].strHotKey
+			;Send %strHotkey%
+			objRetype.arrMenuHotkeys[strMenuItem].pour()
+		return
+
+		/**
+		 * BUTTON MENU HANDLE
+		 */
+		fnButton_Menu_Handle:
+			Menu, % "Menu" A_GuiControl, Show, 0, 23
+			;A_GuiControl
+		return
+
+		/**
+		 * NULL HANDLER
+		 */
+		fnNull:
+			; Nothing here, placeholder for disabled menu items
+		return
 	}
 
 }

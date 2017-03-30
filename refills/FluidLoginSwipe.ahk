@@ -70,8 +70,8 @@ class FluidLoginSwipe extends Fluid {
 			; Check if it's not a login swipe (no % symbol)
 			If ( "%" != SubStr( StrLogin, 1, 1 ) ) {
 				; SQL Server Connection string
+; @todo move to config file
 				strConnect := "Provider=SQLOLEDB.1;Password=***PASSWORD***;Persist Security Info=True;User ID=***USERID***;Initial Catalog=***DBNAME***;Data Source=***DBSERVER***;Use Procedure for Prepare=1;Auto Translate=True;Packet Size=4096;Use Encryption for Data=False;Tag with column collation when possible=False"
-				;strConnect := "Provider=SQLOLEDB.1;Password=***PASSWORD***;Persist Security Info=True;User ID=***USERID***;Initial Catalog=***DBNAME***;Data Source=***DBSERVER***;Use Procedure for Prepare=1;Auto Translate=True;Packet Size=4096;Use Encryption for Data=False;Tag with column collation when possible=False"
 
 				; Query to execute stored procedure to lookup USERID from DTA
 				strQuery = EXEC [dbo].[iwb_proc_publicGetUserIDFromDTANumber] @SearchValue = N'%strLogin%'

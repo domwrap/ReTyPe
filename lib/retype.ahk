@@ -28,7 +28,6 @@
 ; Dependencies
 #Include %A_ScriptDir%\lib_ahk
 #include window.ahk
-#Include msgbox.ahk
 #Include inputbox.ahk
 #Include hotkey.ahk
 #Include send.ahk
@@ -36,6 +35,7 @@
 #Include %A_ScriptDir%\lib
 #Include rtp.ahk
 #Include toolbarretype.ahk
+#Include %A_ScriptDir%\lib\msgbox.ahk
 
 ; Global variables so they can be used within labels
 ;arrTimers := {}
@@ -88,7 +88,12 @@ class Retype {
 ; 	this.refill( new %strRefill% )
 ; }
 
+		; Branding for input message titles
+		InputBox.title 			:= "ReTyPe"
+		; Change config location for progress bar
+		Progress.strFileConf	:= A_AppData "\ReTyPe\app.ini"
 
+		; Instantiate RTP handling object
 		this.objRTP := new RTP()
 	}
 
