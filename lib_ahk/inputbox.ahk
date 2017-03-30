@@ -35,7 +35,7 @@
  */
 class InputBox extends _returnableClass {
 
-	static title := "ReTyPe"
+	static title := "InputBox"
 
 	/**
 	 * Displays an input box to ask the user to enter a string

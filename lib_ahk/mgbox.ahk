@@ -35,7 +35,7 @@
  * @author		Dominic Wrapson <dwrapson@whistlerblackcomb.com>
  * @copyright	2014 Dominic Wrapson
  */
-class MsgBox {
+class MgBox {
 
 	static blnConf		:= false
 	static strTitle 	:= "Message"
@@ -88,10 +88,10 @@ class MsgBox {
 
 		; Build title
 		strTitle := ( 0 < StrLen( strTitle ) ) ? this.strTitle ": " strTitle : this.strTitle
-		; Allows repositioning of msgbox
-		OnMessage(0x44, "WM_COMMNOTIFY")
+
 		; Make popups always on top
 		intType += 4096
+
 		; Show the actual box
 		MsgBox, % intType, %strTitle%, % strMessage	
 		return ErrorLevel
@@ -104,26 +104,6 @@ class MsgBox {
 	}
 
 }
-
-
-/**
- * Allows MsgBox to be moved from center of screen to center of parent window
- */
-WM_COMMNOTIFY(wParam) {
-	global objRetype
-
-    if (wParam = 1027) { ; AHK_DIALOG
-        Process, Exist
-        DetectHiddenWindows, On
-        if WinExist("ahk_class #32770 ahk_pid " . ErrorLevel) {
-            WinGetPos,,,w,h
-			intX := objRetype.objRTP.getPos("X") + ( objRetype.objRTP.getPos("W") / 2 ) - ( w / 2 )
-			intY := objRetype.objRTP.getPos("Y") + ( objRetype.objRTP.getPos("H") / 2 ) - ( h / 2 )
-            WinMove, %intX%, %intY%
-        }
-    }
-}
-
 
 ; Message icon use 
 ; http://ux.stackexchange.com/questions/52727/what-are-the-the-best-error-message-icons-to-use-for-each-type-of-error-in-net

@@ -33,7 +33,7 @@
  */
 class Progress {
 
-	strFileConf		:= A_AppData "\ReTyPe\app.ini"
+	strFileConf		:= "conf\app.ini"
 	strTitle 		:= "Progress"
 	strMainText 	:= ""
 	strSubText 		:= ""

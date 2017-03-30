@@ -123,37 +123,6 @@ class Toolbar {
 ; @todo +OwnDialogs (make dialogs modal)
 
 		return
-
-		/*
-*		 * MENU HANDLE
-		 */
-		fnMenu_Handle:
-			global objRetype
-
-			strTab := "`t"
-			strMenuItem := A_ThisMenu SubStr( A_ThisMenuItem, 1, InStr( A_ThisMenuItem, strTab )-1 )
-			StringReplace, strMenuItem, strMenuItem, %A_Space%,, All
-			StringReplace, strMenuItem, strMenuItem, Menu
-; @todo Make < and > hotkey modifiers work
-			;strHotkey := objRetype.arrMenuHotkeys[strMenuItem].strHotKey
-			;Send %strHotkey%
-			objRetype.arrMenuHotkeys[strMenuItem].pour()
-		return
-
-		/**
-		 * BUTTON MENU HANDLE
-		 */
-		fnButton_Menu_Handle:
-			Menu, % "Menu" A_GuiControl, Show, 0, 23
-			;A_GuiControl
-		return
-
-		/**
-		 * NULL HANDLER
-		 */
-		fnNull:
-			; Nothing here, placeholder for disabled menu items
-		return
 	}
 
 
@@ -163,64 +132,3 @@ class Toolbar {
 	}
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-;button = new Button( "name", "label" )
-;menu = new Menu( "btnName", "mnuGroup", "lblMenu" )
-;fmenu = new MenuFluid( objFluid )
-;;?button.addItem(  )
-;toolbar.add( button )
-;toolbar.add( menu )
-
-;new fToolbar.add( objFluid )
-
-
-
-;; Build a UI
-;Gui, Retype:Margin, 0, 0
-;Gui, Retype:Add, Button, x0 y0 gfnMenuGeneral, G
-;Gui, Retype:Add, Button, ym gfnMenuAdmin, A
-;Gui, Retype:Add, Button, ym, C
-;Gui, Retype:Add, Button, ym, O
-;Gui, Retype:Add, Button, ym, V
-;Gui, Retype:Add, Button, ym gfnMenuHelp, ?
-;; Strip off some crap from the ui we don't want, like titlebar, buttons, border, etc, and keep it up front (own dialogs doesn't seem to be working)
-;Gui, Retype:-SysMenu +ToolWindow -Caption -Border +AlwaysOnTop +OwnDialogs
-;; @todo +OwnDialogs (make dialogs modal)
-;; ------- Build the menus -------
-;; --- GENERAL Menu
-;; First add all the menu items
-;Menu, MenuGeneral, Add, First section, fnRtpGuiCancel
-;Menu, MenuGeneral, Add  ; Add a separator line.
-;Menu, MenuGeneralSub, Add, Second section, fnRtpGuiCancel
-;; Then string them all together
-;Menu, MenuGeneral, Add, Second item, :MenuGeneralSub
-;; --- ADMIN Menu
-;; First add all the menu items
-;; ------ Product
-;Menu, MenuAdminProduct, Add, Bulk Pricing, fnRtpGuiCancel
-;Menu, MenuAdmin, Add, Product, :MenuAdminProduct
-;Menu, MenuAdmin, Add, Component, :MenuAdminComponent
-;Menu, MenuAdmin, Add, Discount, :MenuAdminDiscount
-;Menu, MenuAdmin, Add, Inventory, :MenuAdminInventory
-;Menu, MenuAdmin, Add, Bstore, :MenuAdminBstore
-;; ------ Component
-;Menu, MenuAdminComponent, Add, First section, fnRtpGuiCancel
-;; ------ Discount
-;Menu, MenuAdminDiscount, Add, First section, fnRtpGuiCancel
-;; ------ Inventory
-;Menu, MenuAdminInventory, Add, Auto-populate, fnRtpGuiCancel
-;; ------ bStore
-;Menu, MenuAdminBstore, Add, Second section, fnRtpGuiCancel
-;; --- HELP menu
-
