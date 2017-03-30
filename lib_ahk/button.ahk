@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @category	Automation
- * @package		ReTyPe
+ * @package		lib_ahk
  * @author		Dominic Wrapson <hwulex[åt]gmail[dõt]com>
  * @copyright	2014 Dominic Wrapson
  * @license		GNU AFFERO GENERAL PUBLIC LICENSE Version 3, 19 November 2007 http://www.gnu.org/licenses/
@@ -27,7 +27,7 @@
  * Class for building and rendering UI toolbar buttons
  *
  * @category	Automation
- * @package		ReTyPe
+ * @package		lib_ahk
  * @author		Dominic Wrapson <hwulex[åt]gmail[dõt]com>
  * @copyright	2014 Dominic Wrapson
  */

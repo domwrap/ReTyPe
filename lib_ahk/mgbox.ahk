@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @category	Automation
- * @package		ReTyPe
+ * @package		lib_ahk
  * @author		Dominic Wrapson <hwulex[åt]gmail[dõt]com>
  * @copyright	2014 Dominic Wrapson
  * @license		GNU AFFERO GENERAL PUBLIC LICENSE Version 3, 19 November 2007 http://www.gnu.org/licenses/
@@ -31,7 +31,7 @@
  *		is particilarly nice on 39" 4K screens like we use as small windows are easily lost
  *
  * @category	Automation
- * @package		ReTyPe
+ * @package		lib_ahk
  * @author		Dominic Wrapson <hwulex[åt]gmail[dõt]com>
  * @copyright	2014 Dominic Wrapson
  */
