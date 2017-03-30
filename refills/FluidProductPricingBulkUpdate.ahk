@@ -45,20 +45,6 @@ class FluidProductPricingBulkUpdate extends Fluid {
 	strMenuText		:= "Bulk Pricing Update"
 	intMenuIcon		:= 306
 
-
-	/**
-	 * Setup controls, window group, etc
-	 */
-	__New() {
-		global objRetype
-		base.__New()
-
-		strGroup 	:= this.id
-		strRTP		:= % objRetype.objRTP.classNN()
-		GroupAdd, %strGroup%, Product Header Pricing Bulk Update ahk_class %strRTP%
-	}
-
-
 	/**
 	 * Where the magic happens
 	 * @param bool blnDown Determines whether we move down X rows after updating pricing (useful when there's components to skip, like P2P)
@@ -67,11 +53,15 @@ class FluidProductPricingBulkUpdate extends Fluid {
 		global objRetype
 		static intIterate := 3
 
+		strGroup	:= this.__Class
+		strRTP		:= % objRetype.objRTP.classNN()
+		GroupAdd, %strGroup%, Product Header Pricing Bulk Update ahk_class %strRTP%
+
 		; Activate RTP (after toolbar has been clicked)
 		objRetype.objRTP.Activate()
 ; @todo Check needs to be removed once I've managed to wall-in shortcuts in to the RTP only window
+
 		; Run if it's ready!
-		strGroup := this.__Class
 		IfWinActive, ahk_group %strGroup%
 		{
 			; Did you execute from an RTP window?

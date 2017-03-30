@@ -47,25 +47,15 @@ class FluidLoginSwipe extends Fluid {
 	strMenuText		:= ""
 	intMenuIcon		:= ""
 
-	/**
-	 * Setup controls, window group, etc
-	 */
-	__New() {
-		global objRetype
-		base.__New()
-
-		; Create window group for places we want this hotkey active
-		strGroup := this.id
-		strRTP		:= % objRetype.objRTP.classNN()
-		GroupAdd, %strGroup%, On-Screen Keyboard ahk_class %strRTP%, Login
-	}
-
-
 	pour() {
 		global objRetype
 
+		; Create window group for places we want this hotkey active
+		strGroup	:= this.__Class
+		strRTP		:= % objRetype.objRTP.classNN()
+		GroupAdd, %strGroup%, On-Screen Keyboard ahk_class %strRTP%, Login
+
 		; On-Screen login keyboard is active
-		strGroup := this.__Class
 		IfWinActive, ahk_group %strGroup%
 		{
 			; Text control on the login page

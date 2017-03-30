@@ -45,21 +45,6 @@ class FluidProductDiscountUpdate extends Fluid {
 	strMenuText		:= "Discount Update"
 	intMenuIcon		:= 214
 
-
-	/**
-	 * Setup controls, window group, etc
-	 */
-	__New() {
-		global objRetype
-		base.__New()
-
-		strGroup 	:= this.id
-		strRTP		:= % objRetype.objRTP.classNN()
-		GroupAdd, %strGroup%, Add A Discount ahk_class %strRTP%, Added Product Discounts
-		GroupAdd, %strGroup%, Update ahk_class %strRTP%, Added Product Discounts
-	}
-
-
 	/**
 	 * Where the magic happens
 	 */
@@ -68,11 +53,16 @@ class FluidProductDiscountUpdate extends Fluid {
 		; Static variable that maintains its value between executions, so can be used as the new default value in the Iterate prompt
 		static intIterate 		:= 1
 
+		strGroup	:= this.__Class
+		strRTP		:= % objRetype.objRTP.classNN()
+		GroupAdd, %strGroup%, Add A Discount ahk_class %strRTP%, Added Product Discounts
+		GroupAdd, %strGroup%, Update ahk_class %strRTP%, Added Product Discounts
+
 		; Activate RTP (after toolbar has been clicked)
 		objRetype.objRTP.Activate()
 ; @todo Check needs to be removed once I've managed to wall-in shortcuts in to the RTP only window
+
 		; Run if it's ready!
-		strGroup := this.__Class
 		IfWinActive, ahk_group %strGroup%
 		{
 			; Did you execute from an RTP window?

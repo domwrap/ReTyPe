@@ -47,6 +47,7 @@ class RTP {
 	intWindow		:= 11
 	intElement		:= 1
 	strTitle		:= "RTP|ONE Container"
+	strWinGroup		:= "RTP"
 
 	; Implemenatation variables
 	idIPCodeSearchLastMatched :=
@@ -77,17 +78,45 @@ class RTP {
 		WinGet, idWinRTP, ID, ahk_class %strRTP%
 		this.idProcess := idWinRTP
 
+		this._regroup()
+
 		; Treeview config
 		; iniread intTreeCustomerCommon
 		; iniread intTreeCustomerAccess
 	}
 
-	setID( idWin ) {
-		this.idProcess := idWin
-	}
-
 	getID() {
 		return this.idProcess
+	}
+
+	setID( idWin ) {
+		this.idProcess := idWin
+		WinGetClass, strClass, ahk_id %idWin%
+		intPos := InStr( strClass, "_r" )
+		intWindow := SubStr( strClass, intPos+2, 2 )
+		this.intWindow := intWindow
+
+		this._regroup()
+	}
+
+	/**
+	 * Internal method for group management
+	 * When RTP Window is switched, need a way to reset the window grouping
+	 */
+	_regroup() {
+		static strGroup :=
+		strGroup := "RTP"
+
+		; First empty group if it already exists
+		window.GroupInit( strGroup )
+
+		; Get RTP ClassNN reference
+		strClassRTP		:= % this.classNN()
+
+		; Now populate new group with windows
+		window.GroupInit( strGroup )
+		GroupAdd, %strGroup%, ahk_class %strClassRTP%
+		this.strWinGroup := strGroup
 	}
 
 	/**
@@ -171,7 +200,7 @@ class RTP {
 
 		; Control definition (in case they change later because let's be honest, they probably will!)
 		IniRead, strCustomerListViewControl, % this.strFileConf, Controls, CustomerListView, 11
-		strCustomerListView := this.formatClassNN( "SysListView32", strCustomerListViewControl ) ; Well yeah, or is it actually the comments? Who the hell knows
+		strCustomerListView := this.formatClassNN( "SysListView32", strCustomerListViewControl ) ; Well yeah, or is it actually the comments? Who the fuck knows
 		IniRead, strCustomerTabControl, % this.strFileConf, Controls, CustomerTab, 11
 		strCustomerTab := this.formatClassNN( "SysTabControl32", strCustomerTabControl )
 		IniRead, strSearchEditControl, % this.strFileConf, Controls, SearchEdit, 11

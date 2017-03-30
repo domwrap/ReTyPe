@@ -45,28 +45,18 @@ class FluidInventoryTransposeExcel extends Fluid {
 	intMenuIcon		:= 250 ;134
 
 	/**
-	 * Setup controls, window group, etc
-	 */
-	__New() {
-		global objRetype
-		base.__New()
-
-		strGroup	:= this.id
-		strRTP		:= % objRetype.objRTP.classNN()
-		GroupAdd, %strGroup%, Update ahk_class %strRTP%, Inventory Pool Type
-		;GroupAdd, %strGroup%, Retype ahk_class AutoHotkeyGUI
-	}
-
-	/**
 	 *
 	 */
 	pour() {
 		global objRetype
 
+		strGroup	:= this.__Class
+		strRTP		:= % objRetype.objRTP.classNN()
+		GroupAdd, %strGroup%, Update ahk_class %strRTP%, Inventory Pool Type
+
 		; Activate RTP (after toolbar has been clicked)
 		objRetype.objRTP.Activate()
 
-		strGroup := this.__Class
 		IfWinActive, ahk_group %strGroup%
 		{
 			if ( objRetype.objRTP.isActive() ) {

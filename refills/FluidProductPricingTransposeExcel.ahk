@@ -44,28 +44,19 @@ class FluidProductPricingTransposeExcel extends Fluid {
 	strMenuText		:= "Transpose from Excel"
 	intMenuIcon		:= 250
 
-	/**
-	 * Setup controls, window group, etc
-	 */
-	__New() {
-		global objRetype
-		base.__New()
-
-		strGroup	:= this.id
-		strRTP		:= % objRetype.objRTP.classNN()
-		GroupAdd, %strGroup%, Product Header Pricing Bulk Update ahk_class %strRTP%, Selected Price Update Details
-	}
-
 	pour() {
 		global objRetype
 		static intIterate := 1
 		static intChannels := 3
 
+		strGroup	:= this.__Class
+		strRTP		:= % objRetype.objRTP.classNN()
+		GroupAdd, %strGroup%, Product Header Pricing Bulk Update ahk_class %strRTP%, Selected Price Update Details
+
 		; Activate RTP (after toolbar has been clicked)
 		objRetype.objRTP.Activate()
 
 		; Run if it's ready!
-		strGroup := this.__Class
 		IfWinActive, ahk_group %strGroup%
 		{
 			if ( objRetype.objRTP.isActive() ) {

@@ -41,26 +41,15 @@ class FluidAdminTreeViewSelect extends Fluid {
 
 	static intTimer		:= 500
 
-	/**
-	 * Setup controls, window group, etc
-	 */
-	__New() {
-		global objRetype
-		base.__New()
-
-		;this.strFileConf := "fluidadmintreeviewselect.ini"
-		strGroup := this.id
-		strRTP		:= % objRetype.objRTP.classNN()
-		GroupAdd, %strGroup%, ahk_class %strRTP%, Browse
-	}
-
-
 	pour() {
 		global objRetype
 ; @todo Goes a bit nuts if you open the Go Menu (and always thereafter even if you close it again)
 ; @todo Change "Browse" to "Browse Bigger" to be an indicator it's already been changed?
 		; Administration select listview
-		strGroup := this.__Class
+		strGroup	:= this.__Class
+		strRTP		:= % objRetype.objRTP.classNN()
+		GroupAdd, %strGroup%, ahk_class %strRTP%, Browse
+
 		IfWinActive, ahk_group %strGroup%
 		{
 			; WinActive check isn't good enough in this case, so need to make a visual search too

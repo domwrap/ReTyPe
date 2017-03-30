@@ -45,13 +45,6 @@ class FluidCustomerImageLookup extends Fluid {
 	intMenuIcon		:= 265 ;272
 
 	/**
-	 * Setup controls, window group, etc
-	 */
-	__New() {
-		base.__New()
-	}
-
-	/**
 	 * Where the magic happens
 	 */
 	pour() {

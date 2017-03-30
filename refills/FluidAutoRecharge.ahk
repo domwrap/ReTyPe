@@ -46,29 +46,19 @@ class FluidAutoRecharge extends Fluid {
 	intMenuIcon		:= 166
 
 	/**
-	 * Setup controls, window group, etc
-	 */
-	__New() {
-		global objRetype
-		base.__New()
-
-		strRTP		:= % objRetype.objRTP.classNN()
-		strGroup	:= this.id
-
-		GroupAdd, %strGroup%, ahk_class %strRTP%
-	}
-
-	/**
 	 * 
 	 */
 	pour() {
 		global objRetype
 
+		strRTP		:= % objRetype.objRTP.classNN()
+		strGroup	:= this.__Class
+		GroupAdd, %strGroup%, ahk_class %strRTP%
+
 		; Activate RTP (after toolbar has been clicked)
 		objRTP := objRetype.objRTP
 		objRTP.Activate()
 
-		strGroup := this.__Class
 		IfWinActive, ahk_group %strGroup%
 		{
 			; Get IP code input
@@ -209,7 +199,6 @@ class FluidAutoRecharge extends Fluid {
 		ControlClick, OK
 
 		/* ===== No need to get this complicated, we'll just use the QuickPayment option as requested by Kristen @ PassAdmin
-
 		; Switch to Payment tab
 		Sleep 500
 	 	idRTP := objRetype.objRTP.getID()
@@ -239,4 +228,3 @@ class FluidAutoRecharge extends Fluid {
 }
 
 ; WindowsForms10.SysListView32.app.0.30495d1_r11_ad13
-

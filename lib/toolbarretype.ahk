@@ -139,6 +139,9 @@ class ToolbarRetype extends Toolbar {
 		objMenuReload := new Menu( "fnReload", "&Reload ReTyPe" )
 		objMenuReload.setIcon( RootDirectory "\System32\shell32.dll", 152 )
 		objBtnHelp.addMenu( objMenuReload )
+		objMenuSwitch := new Menu( "fnSwitch", "&Switch RTP" )
+		objMenuSwitch.setIcon( RootDirectory "\System32\shell32.dll", 47 )
+		objBtnHelp.addMenu( objMenuSwitch )
 		objMenuExit := new Menu( "fnExit", "E&xit" )
 		objMenuExit.setIcon( RootDirectory "\System32\shell32.dll", 28 )
 		objBtnHelp.addMenu( objMenuExit )
@@ -151,6 +154,15 @@ class ToolbarRetype extends Toolbar {
 	 * @return void
 	 */
 	p_prerender() {
+		return
+
+		fnSwitch:
+			global objRetype
+
+			idWinRTP := window.GetID( "RTP|ONE", "RTP" )
+			objRetype.objRTP.setID( idWinRTP )
+; msgbox.show( objRetype.objRTP.getID() )
+		return
 	}
 
 	/**
@@ -179,7 +191,7 @@ class ToolbarRetype extends Toolbar {
 		base.render()
 
 		; Load timer
-		SetTimer, fnToolbarRetype, 1000
+		SetTimer, fnToolbarRetype, 100
 
 		; Any post-rendering stuff
 		this.p_postrender()

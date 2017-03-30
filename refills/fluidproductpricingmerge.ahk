@@ -46,24 +46,16 @@ class FluidProductPricingMerge extends Fluid {
 	intMenuIcon		:= 81 ;25 ; 88 ; 306
 
 	/**
-	 * Setup controls, window group, etc
-	 */
-	__New() {
-		global objRetype
-		base.__New()
-
-		strGroup	:= this.id
-		strRTP		:= % objRetype.objRTP.classNN()
-		GroupAdd, %strGroup%, Update ahk_class %strRTP%, Sales Report Group
-	}
-
-	/**
 	 * Where the magic happens
 	 */
 	pour() {
 		global objRetype
 		static intIterate := 1
 		static intChannels := 3
+
+		strGroup	:= this.__Class
+		strRTP		:= % objRetype.objRTP.classNN()
+		GroupAdd, %strGroup%, Update ahk_class %strRTP%, Sales Report Group
 
 		; Activate RTP (after toolbar has been clicked)
 		objRetype.objRTP.Activate()
@@ -72,7 +64,6 @@ class FluidProductPricingMerge extends Fluid {
 		strSelected := objRetype.objRTP.formatClassNN( "COMBOBOX", this.getConf( "ComboPriceType", 18 ) )
 
 		; Run if it's ready!
-		strGroup := this.__Class
 		IfWinActive, ahk_group %strGroup%
 		{
 			if ( objRetype.objRTP.isActive() ) {

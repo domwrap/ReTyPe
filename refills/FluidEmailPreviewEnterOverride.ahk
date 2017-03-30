@@ -46,25 +46,16 @@ class FluidEmailPreviewEnterOverride extends Fluid {
 	intMenuIcon		:= ""
 
 	/**
-	 * Setup controls, window group, etc
-	 */
-	__New() {
-		global objRetype
-		base.__New()
-
-		strGroup 	:= this.id
-		strRTP		:= % objRetype.objRTP.classNN()
-		GroupAdd, %strGroup%, Send Email ahk_class %strRTP%, PDF attachment
-	}
-
-	/**
 	 * Where the magic happens
 	 */
 	pour() {
 		global objRetype
 
+		strGroup	:= this.__Class
+		strRTP		:= % objRetype.objRTP.classNN()
+		GroupAdd, %strGroup%, Send Email ahk_class %strRTP%, PDF attachment
+
 		; Only run if we're in the appropriate window
-		strGroup := this.__Class
 		IfWinActive, ahk_group %strGroup%
 		{
 			; Did you execute from an RTP window?

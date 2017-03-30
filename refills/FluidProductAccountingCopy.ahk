@@ -45,28 +45,20 @@ class FluidProductAccountingCopy extends Fluid {
 	intMenuIcon		:= 167
 
 	/**
-	 * Setup controls, window group, etc
-	 */
-	__New() {
-		global objRetype
-		base.__New()
-
-		strGroup 	:= this.id
-		strRTP		:= % objRetype.objRTP.classNN()
-		GroupAdd, %strGroup%, Accounting ahk_class %strRTP%, Revenue Business Unit
-	}
-
-	/**
 	 * Where the magic happens
 	 */
 	pour() {
 		global objRetype
 
+		strGroup	:= this.__Class
+		strRTP		:= % objRetype.objRTP.classNN()
+		GroupAdd, %strGroup%, Accounting ahk_class %strRTP%, Revenue Business Unit
+
 		; Activate RTP (after toolbar has been clicked)
 		objRetype.objRTP.Activate()
+
 ; @todo Check needs to be removed once I've managed to wall-in shortcuts in to the RTP only window
 		; Run if it's ready!
-		strGroup := this.__Class
 		IfWinActive, ahk_group %strGroup%
 		{
 			; Did you execute from an RTP window?

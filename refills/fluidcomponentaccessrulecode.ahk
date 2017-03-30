@@ -42,29 +42,19 @@ class FluidComponentAccessRuleCode extends Fluid {
 	static intTimer		:= 200
 
 	/**
-	 * Setup controls, window group, etc
-	 */
-	__New() {
-		global objRetype
-		base.__New()
-
-		strGroup	:= this.id
-		strRTP		:= % objRetype.objRTP.classNN()
-		GroupAdd, %strGroup%, ahk_class %strRTP%, Access Code Procedure
-	}
-
-	/**
 	 * Add text-searching for access codes to components
 	 */
 	pour() {
 		Global
 
-		; Get RTP window for later reference
 		strRTP		:= % objRetype.objRTP.classNN()
+		strGroup	:= this.__Class
+		GroupAdd, %strGroup%, ahk_class %strRTP%, Access Code Procedure
+
+		; Get RTP window for later reference
 		WinGet, idWinRTP, ID, ahk_class %strRTP%, Access Code Procedure
 
 		; Build the GUI and do stuff
-		strGroup := this.__Class
 		IfWinActive, ahk_group %strGroup%
 		{
 			; WinActive check isn't good enough in this case, so need to make a visual search too

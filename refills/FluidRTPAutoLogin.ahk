@@ -46,13 +46,6 @@ class FluidRTPAutoLogin extends Fluid {
 	strPassword	:= false
 
 	/**
-	 * Fluid setup
-	 */
-	__New() {
-		base.__New()
-	}
-
-	/**
 	 * If lock-out window appears in RTP, prompt user to enter their password the first-time
 	 * Use this non-persistent password thereon to auto-unlock RTP after timeout
 	 */

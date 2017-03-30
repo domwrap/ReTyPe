@@ -45,21 +45,6 @@ class FluidProductDiscountClone extends Fluid {
 	strMenuText		:= "Discount Clone"
 	intMenuIcon		:= 66
 
-
-	/**
-	 * Setup controls, window group, etc
-	 */
-	__New() {
-		global objRetype
-		base.__New()
-
-		strGroup 	:= this.id
-		strRTP		:= % objRetype.objRTP.classNN()
-		GroupAdd, %strGroup%, Add A Discount ahk_class %strRTP%, Added Product Discounts
-		GroupAdd, %strGroup%, Update ahk_class %strRTP%, Added Product Discounts
-	}
-
-
 	/**
 	 * Where the magic happens
 	 */
@@ -69,11 +54,16 @@ class FluidProductDiscountClone extends Fluid {
 		static intExpiration 	:= 
 		static intIterate 		:= 1
 
+		strGroup	:= this.__Class
+		strRTP		:= % objRetype.objRTP.classNN()
+		GroupAdd, %strGroup%, Add A Discount ahk_class %strRTP%, Added Product Discounts
+		GroupAdd, %strGroup%, Update ahk_class %strRTP%, Added Product Discounts
+
 		; Activate RTP (after toolbar has been clicked)
 		objRetype.objRTP.Activate()
+
 ; @todo Check needs to be removed once I've managed to wall-in shortcuts in to the RTP only window
 		; Run if it's ready!
-		strGroup := this.__Class
 		IfWinActive, ahk_group %strGroup%
 		{
 			; Did you execute from an RTP window?

@@ -1,6 +1,5 @@
 /**
- * File containing Refill class to track current RTP instance
- * Class will add itself to the parent retype instance
+ * File containing Refill class to track active RTP window
  *
  * AutoHotKey v1.1.13.01+
  *
@@ -30,7 +29,8 @@ objRetype.refill( new FluidRTPActiveWindow() )
 
 
 /**
- * Refill for tracking the active RTP instance
+ * Refill for tracking active RTP window to prevent possible jumping between instances
+ * when running multiple RTP windows at once
  *
  * @category	Automation
  * @package		ReTyPe
@@ -42,23 +42,12 @@ class FluidRTPActiveWindow extends Fluid {
 	static intTimer	:= 50
 	intComboBox		:=
 
-
-	__New() {
-		global objRetype
-		base.__New()
-
-		strClassRTP		:= % objRetype.objRTP.classNN()
-		strTitleRTP		:= % objRetype.objRTP.strTitle
-		strGroup		:= this.id
-		GroupAdd, %strGroup%, ahk_class %strClassRTP%
-		;GroupAdd, %strGroup%, %strTitleRTP% ahk_class %strClassRTP%
-	}
-
 	pour() {
 		global objRetype
 
-		; BULK PRICING:	Resize the pricing season drop-down
-		strGroup := this.id
+		; Find active RTP window and store its ID for use
+		strGroup := objRetype.objRTP.strWinGroup
+
 		IfWinActive, ahk_group %strGroup%
 		{
 			objRetype.objRTP.setID( WinActive( ahk_group %strGroup% ) )

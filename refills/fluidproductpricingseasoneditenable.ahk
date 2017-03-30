@@ -42,18 +42,6 @@ class FluidProductPricingSeasonEditEnable extends Fluid {
 
 	static intTimer		:= 500
 
-
-	__New() {
-		strGroup := this.id
-		GroupAdd, %strGroup%, Pricing ahk_class WindowsForms10.Window.8.app.0.30495d1_r11_ad1, Price Allocation
-	}
-
-
-	fill() {
-
-	}
-
-
 	pour() {
 return
 ; DISABLE THIS REFILL UNTIL WE KNOW ENABLING THE COMBO AND SAVING DOESN'T BREAK A HEAP OF STUFF

@@ -45,30 +45,22 @@ class FluidProductPricingDelete extends Fluid {
 	intMenuIcon		:= 132 ;272
 
 	/**
-	 * Setup controls, window group, etc
-	 */
-	__New() {
-		global objRetype
-		base.__New()
-
-		strGroup 	:= this.id
-		strRTP		:= % objRetype.objRTP.classNN()
-		GroupAdd, %strGroup%, Add ahk_class %strRTP%, Sales Report Group
-		GroupAdd, %strGroup%, Update ahk_class %strRTP%, Sales Report Group
-	}
-
-	/**
 	 * Where the magic happens
 	 */
 	pour() {
 		global objRetype
 		static intIterate := 1
 
+		; Add current RTP instance to group
+		strGroup 	:= this.__Class
+		strRTP		:= % objRetype.objRTP.classNN()
+		GroupAdd, %strGroup%, Add ahk_class %strRTP%, Sales Report Group
+		GroupAdd, %strGroup%, Update ahk_class %strRTP%, Sales Report Group
+
 		; Activate RTP (after toolbar has been clicked)
 		objRetype.objRTP.Activate()
 ; @todo Check needs to be removed once I've managed to wall-in shortcuts in to the RTP only window
 		; Run if it's ready!
-		strGroup := this.__Class
 		IfWinActive, ahk_group %strGroup%
 		{
 			; Did you execute from an RTP window?
@@ -107,6 +99,7 @@ class FluidProductPricingDelete extends Fluid {
 						IfMsgBox, No
 							return
 					}
+
 					; If we made it this far, let's nuke some stuff
 					Loop %intIterate%
 					{

@@ -45,21 +45,6 @@ class FluidRentalInventoryPostPrint extends Fluid {
 	strTitle 			:= "Choose an Inventory Transfer Task"
 
 	/**
-	 * Setup controls, window group, etc
-	 */
-	__New() {
-		global objRetype
-		base.__New()
-
-		strGroup		:= this.id
-		strRTP			:= % objRetype.objRTP.classNN()
-		this.strRTP 	:= strRTP
-		strTitle 	 	:= % this.strTitle
-		GroupAdd, %strGroup%, ahk_class %strRTP%, %strTitle%
-	}
-
-
-	/**
 	 * Destructor
 	 */
 	__Delete() {
@@ -73,11 +58,13 @@ class FluidRentalInventoryPostPrint extends Fluid {
 	pour() {
 		Global ; all vars are global
 
-		; Get RTP window for later reference
-		strRTP		:= % objRetype.objRTP.classNN()
+		strGroup		:= this.__Class
+		strRTP			:= % objRetype.objRTP.classNN()
+		this.strRTP 	:= strRTP
+		strTitle 	 	:= % this.strTitle
+		GroupAdd, %strGroup%, ahk_class %strRTP%, %strTitle%
 
 		; Build the GUI and do stuff
-		strGroup := this.__Class
 		IfWinActive, ahk_group %strGroup%
 		{
 			; WinActive check isn't good enough in this case, so need to make a visual search too
@@ -117,7 +104,7 @@ class FluidRentalInventoryPostPrint extends Fluid {
 					WinActivate, ahk_group %strGroup%
 				} else {
 					; If View/Edit wasn't found, hide our button
-					;( "CtlX: " intCtlX  "`nCtlY: " intCtlY "`nWinX: " intWinX "`nWinY: " intWinY "`nGuiX: " intGuiX "`nGuiY: " intGuiY )
+					;debug.msg( "CtlX: " intCtlX  "`nCtlY: " intCtlY "`nWinX: " intWinX "`nWinY: " intWinY "`nGuiX: " intGuiX "`nGuiY: " intGuiY )
 					Gui, PostPrint:Hide
 				}
 			} else {

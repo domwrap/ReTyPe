@@ -251,6 +251,9 @@ class Window extends _returnableClass {
 		global strProgramName
 		idWin = 
 
+		; Remove focus from existing window doesn't instantly find itself
+		WinActivate, ahk_class Shell_TrayWnd
+
 		; If Window class provided, use it!
 		if ( 0 < StrLen(strWinClass) ) {
 			WinGet, arrWin, List, %strWinTitle% ahk_class %strWinClass%
@@ -343,6 +346,41 @@ class Window extends _returnableClass {
 		}
 
 		return strControl
+	}
+
+	/**
+	 * Replacement for GroupAdd function which was missing ability to clear/delete a window group
+	 *
+	 * @example
+	 * GroupAdd(MyGroup, "Untitled")       ; You have to use expression syntax in functions
+	 * WinWaitActive ahk_group %MyGroup%   ; and ahk_group %MyGroup% in Win-commands
+	 * WinMinimize % "ahk_group" MyGroup   ; or "ahk_group" MyGroup in expression mode
+	 * MyGroup =                           ; "Deletes" the group
+	 *
+	 * @link https://autohotkey.com/board/topic/71695-is-there-any-way-to-destroy-delete-a-window-group/#entry455084
+	 */
+	GroupAdd( ByRef GroupName, p1="", p2="", p3="", p4="", p5="" ){
+		static g:= 1
+
+		If (GroupName = "") {
+			GroupName:= "AutoName" g++
+		}
+
+		GroupAdd %GroupName%, ahk_class %p1%, %p2%, %p3%, %p4%, %p5%
+	}
+
+	/**
+	 *
+	 * @Example
+	 * GroupInit(MyGroup)               ; You have to initialize the group before first GroupAdd
+	 * GroupAdd %MyGroup%, Notepad      ; You have to use [color=black]%MyGroup%[/color] in GroupAdd
+	 * WinWait ahk_group %MyGroup%      ; and [color=black]ahk_group %MyGroup%[/color] in Win-commands
+	 * WinClose % "ahk_group" MyGroup   ; or [color=black]"ahk_group" MyGroup[/color] in expression mode
+	 * GroupInit(MyGroup)               ; "Deletes" the group (creates new empty group)
+	 */
+	GroupInit( ByRef GroupName ) {    ; Stores new name
+	  static g:= 1                 ; of an empty window group
+	  GroupName:= "Group" g++      ; into the passed variable
 	}
 
 }

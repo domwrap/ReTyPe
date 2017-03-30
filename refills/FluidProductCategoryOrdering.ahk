@@ -45,21 +45,6 @@ class FluidProductCategoryOrdering extends Fluid {
 	strMenuText		:= "Category Display Ordering"
 	intMenuIcon		:= 214
 
-
-	/**
-	 * Setup controls, window group, etc
-	 */
-	__New() {
-		global objRetype
-		base.__New()
-
-		strGroup 	:= this.id
-		strRTP		:= % objRetype.objRTP.classNN()
-		GroupAdd, %strGroup%, Create A Display Category ahk_class %strRTP%, eStore Display Type
-		GroupAdd, %strGroup%, Update ahk_class %strRTP%, eStore Display Type
-	}
-
-
 	/**
 	 * Where the magic happens
 	 */
@@ -69,11 +54,16 @@ class FluidProductCategoryOrdering extends Fluid {
 		static intIterate 		:= 1
 		static intIncrement 	:= 10
 
+		strGroup	:= this.__Class
+		strRTP		:= % objRetype.objRTP.classNN()
+		GroupAdd, %strGroup%, Create A Display Category ahk_class %strRTP%, eStore Display Type
+		GroupAdd, %strGroup%, Update ahk_class %strRTP%, eStore Display Type
+
 		; Activate RTP (after toolbar has been clicked)
 		objRetype.objRTP.Activate()
+
 ; @todo Check needs to be removed once I've managed to wall-in shortcuts in to the RTP only window
 		; Run if it's ready!
-		strGroup := this.__Class
 		IfWinActive, ahk_group %strGroup%
 		{
 			; Did you execute from an RTP window?

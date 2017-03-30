@@ -43,26 +43,16 @@ class FluidCommentAddDeclineChargeGuestSpoken extends Fluid {
 	strMenuText		:= "Guest Spoken To"
 	intMenuIcon		:= 161
 
-	/**
-	 * Setup controls, window group, etc
-	 */
-	__New() {
-		global objRetype
-		base.__New()
-
-		strRTP		:= % objRetype.objRTP.classNN()
-		strGroup	:= this.id
-
-		GroupAdd, %strGroup%, ahk_class %strRTP%
-	}
-
 	pour() {
 		global objRetype
+
+		strRTP		:= % objRetype.objRTP.classNN()
+		strGroup	:= this.__Class
+		GroupAdd, %strGroup%, ahk_class %strRTP%
 
 		; Activate RTP (after toolbar has been clicked)
 		objRetype.objRTP.Activate()
 
-		strGroup := this.__Class
 		IfWinActive, ahk_group %strGroup%
 		{
 			; WinActive check isn't good enough in this case, so need to make a visual search too

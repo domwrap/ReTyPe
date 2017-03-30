@@ -45,20 +45,6 @@ class FluidCommissionProductAdd extends Fluid {
 	intMenuIcon		:= 29
 
 	/**
-	 * Setup controls, window group, etc
-	 */
-	__New() {
-		global objRetype
-		base.__New()
-
-		strGroup 	:= this.id
-		strRTP		:= % objRetype.objRTP.classNN()
-		GroupAdd, %strGroup%, Create a Commission Class ahk_class %strRTP%
-		GroupAdd, %strGroup%, Update ahk_class %strRTP%, Receipt Label
-		GroupAdd, %strGroup%, Add Product Header ahk_class %strRTP% Receipt Label
-	}
-
-	/**
 	 * Where the magic happens
 	 */
 	pour() {
@@ -66,11 +52,17 @@ class FluidCommissionProductAdd extends Fluid {
 		static intIterate := 1
 		static intCommission := 25
 
+		strGroup	:= this.__Class
+		strRTP		:= % objRetype.objRTP.classNN()
+		GroupAdd, %strGroup%, Create a Commission Class ahk_class %strRTP%
+		GroupAdd, %strGroup%, Update ahk_class %strRTP%, Receipt Label
+		GroupAdd, %strGroup%, Add Product Header ahk_class %strRTP% Receipt Label
+
 		; Activate RTP (after toolbar has been clicked)
 		objRetype.objRTP.Activate()
+
 ; @todo Check needs to be removed once I've managed to wall-in shortcuts in to the RTP only window
 		; Run if it's ready!
-		strGroup := this.__Class
 		IfWinActive, ahk_group %strGroup%
 		{
 			; Did you execute from an RTP window?

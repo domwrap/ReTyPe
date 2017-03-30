@@ -45,21 +45,6 @@ class FluidListItemDelete extends Fluid {
 	strMenuText		:= "Delete List Item"
 	intMenuIcon		:= 132
 
-
-	/**
-	 * Setup controls, window group, etc
-	 */
-	__New() {
-		global objRetype
-		base.__New()
-
-		strGroup 	:= this.id
-		strRTP		:= % objRetype.objRTP.classNN()
-		GroupAdd, %strGroup%, Add ahk_class %strRTP%
-		GroupAdd, %strGroup%, Update ahk_class %strRTP%
-	}
-
-
 	/**
 	 * Where the magic happens
 	 * 
@@ -73,11 +58,16 @@ class FluidListItemDelete extends Fluid {
 		; Static variable that maintains its value between executions, so can be used as the new default value in the Iterate prompt
 		static intIterate 		:= 1
 
+		strGroup	:= this.__Class
+		strRTP		:= % objRetype.objRTP.classNN()
+		GroupAdd, %strGroup%, Add ahk_class %strRTP%
+		GroupAdd, %strGroup%, Update ahk_class %strRTP%
+
 		; Activate RTP (after toolbar has been clicked)
 		objRetype.objRTP.Activate()
+
 ; @todo Check needs to be removed once I've managed to wall-in shortcuts in to the RTP only window
 		; Run if it's ready!
-		strGroup := this.__Class
 		IfWinActive, ahk_group %strGroup%
 		{
 			; Did you execute from an RTP window?
