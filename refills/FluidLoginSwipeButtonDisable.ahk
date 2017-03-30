@@ -20,7 +20,7 @@
  *
  * @category  	Automation
  * @package   	ReTyPe
- * @author    	Dominic Wrapson <dwrapson@whistlerblackcomb.com>
+ * @author    	Dominic Wrapson <hwulex[åt]gmail[dõt]com>
  * @copyright	Copyright (C) 2015 Dominic Wrapson
  * @license 	GNU AFFERO GENERAL PUBLIC LICENSE http://www.gnu.org/licenses/agpl-3.0.txt
  */
@@ -35,7 +35,7 @@ objRetype.refill( new FluidLoginSwipeButtonDisable() )
  *
  * @category	Automation
  * @package		ReTyPe
- * @author		Dominic Wrapson <dwrapson@whistlerblackcomb.com>
+ * @author		Dominic Wrapson <hwulex[åt]gmail[dõt]com>
  * @copyright	2015 Dominic Wrapson
  */
 class FluidLoginSwipeButtonDisable extends Fluid {

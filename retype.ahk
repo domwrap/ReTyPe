@@ -35,7 +35,7 @@
  *
  * @category   UI
  * @package    ReTyPe
- * @author     Dominic Wrapson <dwrapson@whistlerblackcomb.com>
+ * @author     Dominic Wrapson <hwulex[åt]gmail[dõt]com>
  * @copyright  2014 Dominic Wrapson
  * @license    Creative Commons Attribution-ShareAlike 4.0 International License http://creativecommons.org/licenses/by-sa/4.0/deed.en_US
  */
