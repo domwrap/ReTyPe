@@ -33,7 +33,7 @@
  * @author		Dominic Wrapson <dwrapson@whistlerblackcomb.com>
  * @copyright	2014 Dominic Wrapson
  */
-class InputBox extends _returnableClass {
+class InpBox extends _returnableClass {
 
 	static title := "InputBox"
 
@@ -47,18 +47,11 @@ class InputBox extends _returnableClass {
 	 * @return mixed Mixed value of user-input
 	 */
 	show( strMessage, mixDefault="", blnHide=0 ) {
-		global objRetype
-
-		; Position within parent window
-		; 375x189 are default starting values
-		intX := objRetype.objRTP.getPos("X") + ( objRetype.objRTP.getPos("W") / 2 ) - ( 375 / 2 )
-		intY := objRetype.objRTP.getPos("Y") + ( objRetype.objRTP.getPos("H") / 2 ) - ( 189 / 2 )
-
 		mixHide := ( 1 = blnHide ) ? "HIDE" : ""
 
 		; Show the actual box
 		strTitle := % this.title
-		InputBox, mixVar, %strTitle%, %strMessage%, %mixHide%, , , %intX% , %intY% , , , %mixDefault%
+		InputBox, mixVar, %strTitle%, %strMessage%, %mixHide%, , , , , , , %mixDefault%
 
 		if ErrorLevel {
 			if ( True != this._RETURN_ON_USER_CANCEL() )
