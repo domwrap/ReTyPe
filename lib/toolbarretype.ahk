@@ -36,6 +36,8 @@
  */
 class ToolbarRetype extends Toolbar {
 
+	static strToolbar := "retype"
+
 	/**
 	 * Constructor
 	 */
@@ -149,31 +151,6 @@ class ToolbarRetype extends Toolbar {
 	 * @return void
 	 */
 	p_prerender() {
-		;; ------- Build the menus -------
-		;; --- GENERAL Menu
-		;this.add( new Menu( "General", "fnNull", "Menu Item" ) )
-		;; --- ADMIN Menu
-
-
-
-		;; --- HELP Menu
-		;this.add( new Menu( "Help", "fnNull", "&F1 Help" ) )
-		;this.add( new Menu( "Help" ) )
-		;this.add( new Menu( "Help", "fnAbout", "About ReTyPe" ) )
-
-		; Get out now before we start activating menus
-		return
-
-		; Already defined in root retype.ahk
-		; fnAbout:
-
-		; Already defined in root retype.ahk
-		; fnReload:
-
-		; Already defined in root retype.ahk
-		; fnExit:
-
-		return
 	}
 
 	/**
@@ -181,8 +158,6 @@ class ToolbarRetype extends Toolbar {
 	 * @return void
 	 */
 	p_postrender() {
-		;Menu, MenuAdmin, Disable, Administration
-		;Menu, MenuHelp, Disable, &F1 Help
 	}
 
 	/**

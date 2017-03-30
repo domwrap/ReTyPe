@@ -23,8 +23,8 @@
  * @license		GNU AFFERO GENERAL PUBLIC LICENSE Version 3, 19 November 2007 http://www.gnu.org/licenses/
  */
 
-#Include AHK-Lib-JSON\JSON_FromObj.ahk
-#Include AHK-Lib-JSON\JSON_ToObj.ahk
+#Include %A_ScriptDir%\lib_ahk\AHK-Lib-JSON\JSON_FromObj.ahk
+#Include %A_ScriptDir%\lib_ahk\AHK-Lib-JSON\JSON_ToObj.ahk
 
  /**
  * Class for debug information and writing to log file

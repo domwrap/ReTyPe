@@ -36,7 +36,7 @@
  */
 class Toolbar {
 
-	static strToolbar := "retype"
+	static strToolbar := "toolbar"
 	static arrButtons := {}
 	arrButtonOrder := {}
 
