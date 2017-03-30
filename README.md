@@ -75,7 +75,7 @@ As well as config for latching on RTP, ReTyPe can be configured here whether or 
 ### Run from source
 ### Compilation
 
-The entire ReTyPe suite can be compiled to a distributable `.exe` file removing the requirement to install AHK on client machines on which you wish to run it. Just point the [AHK2EXE](https://github.com/fincs/Ahk2Exe) compiler at the `retype.ahk` script, enter `retype.exe` for the output file, choose the included `retype.ico`, and it'll do the rest. I have built for both x86 (32 bit) and ia64 (64 bit) successfully.
+The entire ReTyPe suite can be compiled to a distributable `.exe` file removing the requirement to install AHK on client machines on which you wish to run it. Just point the [AHK2EXE](https://github.com/fincs/Ahk2Exe) compiler at the `retype.ahk` script, enter `retype.exe` for the output file, choose the included `retype.ico`, and it'll do the rest. I have built for both x86 (32 bit) and x64 (64 bit) successfully.
 
 ![Compiler settings](https://snag.gy/8GOMx4.jpg)
 
