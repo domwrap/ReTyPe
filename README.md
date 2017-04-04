@@ -79,11 +79,11 @@ Depending on how you want your setup, all of these steps are optional.
 1. Create somewhere for the code to belong
  - We use: `c:\Program Files\ReTyPe\`
  - The scripts or compiled `.exe` can be run from anywhere, but we keep it with all other installed software
-1. Create a Start Menu shortcut
+2. Create a Start Menu shortcut
  - Per-user: `C:\Users\username\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup`
  - All users: `C:\ProgramData\Microsoft\Windows\Start Menu\Programs\StartUp`
  - Only required if you want it loaded at boot
-1. Create the per-user config repository
+3. Create the per-user config repository
  - `c:\Users\username\AppData\Roaming\ReTyPe`
  - Run the program before you create this as everything might work without any changes (but I doubt it)
 
@@ -92,6 +92,12 @@ Depending on how you want your setup, all of these steps are optional.
 1. Run `retype.ahk`
 
 Hopefully that's it. Open, or focus, RTP and you should see a toolbar in its titlebar
+
+![ReTyPe Loaded](https://snag.gy/RsN2MZ.jpg)
+
+If all the button menus are empty the first time, just re-load ReTyPe (through the `?` menu)
+
+![ReTyPe Menus](https://snag.gy/3Iscyw.jpg)
 
 
 ### Compilation
