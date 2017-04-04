@@ -15,24 +15,24 @@ ReTyPe is my solution to many of the frustrations I had when using RTP full-time
 
 #### Release
 
-I imagine anyone else spending a lot of time in RTP probably getting as frustrated with it as I did, so I wanted to release this software as [FOSS ](https://en.wikipedia.org/wiki/Free_and_open-source_software) in the hope I may make the time they do spending using RTP that little more tolerable.
+I imagine anyone else spending a lot of time in RTP having similar frustrations so I wanted to release this software as [FOSS](https://en.wikipedia.org/wiki/Free_and_open-source_software) in the hope it will make RTP a little more user-friendly.
 
-I first started writing this code four years ago and over the course of a year, built it in to a fully object oriented modular framework, in to which you can plugin any RTP fixing improvements you want. I had wished to release this a long long time ago, but work priorities kinda got in the way of spending the time to clean it up for public release.
+The project first started around four years ago as a bunch of simple procedural scripts, but over the course of a year became a fully object oriented modular framework, in to which you can plugin any RTP fixing improvements you want. I had wished to release this a long long time ago, but work priorities kinda got in the way of spending the time to clean it up for public release.
 
 However, my time with RTP is soon coming to an end and I realise if I don't do it now, I won't be able to help anyone install and use ReTyPe as I soon won't have an instance against which to test.
 
 ## Compatibility
 
-The features in this software were built using `AutoHotKey v1.1.13.01` against `RTP|One 2013.1.1` so YMMV against future versions. We were never able to upgrade beyond that RTP version due to regression issues and eStore/tStore compatibility. Any later (or backward compatible) version of AHK should work fine.
+The features in this software were built using `AutoHotKey v1.1.13.01` against `RTP|One 2013.1.1` so YMMV against future versions. We were never able to upgrade beyond that RTP version due to compatibility issues. Any later (or backward compatible) version of AHK should work fine.
 
 ## Pre-requisites
 
-[AutoHotKey v1.1.x](https://autohotkey.com/download/)
-Nothing will work without the client in stall of RTP|One
+- [AutoHotKey v1.1.x](https://autohotkey.com/download/)
+- Nothing will work without the client in stall of RTP|One
 
 ## Features
 
-The best way to see what it can do is to have a nosey through the file header comments in the [refills](https://github.com/Hwulex/ReTyPe/tree/master/refills]) directory, but here's a few of some of my (our) favourites
+The best way to see what it can do is to have a nosey through the file header comments in the [refills](https://github.com/Hwulex/ReTyPe/tree/master/refills]) directory, but here's a few of some of the favourites
 
 #### Administration
 
@@ -46,6 +46,10 @@ The best way to see what it can do is to have a nosey through the file header co
 - Bulk update product component pricing
 - AccessCode lookup box on components
 
+#### Food and Beverage
+
+- Swipe/login using RFID passes rather than mag-stripe cards
+
 #### ONE Resort
 
 - Automate credit card recharges (failed DTL, resort charge, etc)
@@ -53,16 +57,12 @@ The best way to see what it can do is to have a nosey through the file header co
 
 #### Rental Tools
 
-- Remove next-to-useless Print button on batch transfer (as only works with serial printers) and replace with a Post & Print that auto-fires a transfer report
+- Remove next-to-useless Print button on batch transfer (only works with serial printers) and replace with a Post & Print that auto-fires a transfer report
 
 #### Customer Manager
 
 - Automate adding pre-defined comments
 - Automate adding hotlists
-
-#### Food and Beverage
-
-- Swipe/login using RFID passes rather than mag-stripe cards
 
 ### Configuration
 
@@ -71,8 +71,29 @@ Configuration `.ini` files read from `%A_AppData%\ReTyPe\`. These are per-user a
 As well as config for latching on RTP, ReTyPe can be configured here whether or not to have a toolbar, which buttons to show, etc. Furthermore, many individual refills can also be configured with here with a corresponding file. Details are within each individual class file.
 
 ## Installation
-### AutoHotKey
+
+I've never spent the time to build a proper installer. For development I run the scripts as-is with AutoHotKey, but for production  the script is compiled and distributed on our VM array.
+
+Depending on how you want your setup, all of these steps are optional.
+
+1. Create somewhere for the code to belong
+ - We use: `c:\Program Files\ReTyPe\`
+ - The scripts or compiled `.exe` can be run from anywhere, but we keep it with all other installed software
+1. Create a Start Menu shortcut
+ - Per-user: `C:\Users\username\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup`
+ - All users: `C:\ProgramData\Microsoft\Windows\Start Menu\Programs\StartUp`
+ - Only required if you want it loaded at boot
+1. Create the per-user config repository
+ - `c:\Users\username\AppData\Roaming\ReTyPe`
+ - Run the program before you create this as everything might work without any changes (but I doubt it)
+
 ### Run from source
+
+1. Run `retype.ahk`
+
+Hopefully that's it. Open, or focus, RTP and you should see a toolbar in its titlebar
+
+
 ### Compilation
 
 The entire ReTyPe suite can be compiled to a distributable `.exe` file removing the requirement to install AHK on client machines on which you wish to run it. Just point the [AHK2EXE](https://github.com/fincs/Ahk2Exe) compiler at the `retype.ahk` script, enter `retype.exe` for the output file, choose the included `retype.ico`, and it'll do the rest. I have built for both x86 (32 bit) and x64 (64 bit) successfully.
