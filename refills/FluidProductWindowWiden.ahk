@@ -57,7 +57,7 @@ class FluidProductWindowWiden extends Fluid {
 			WinGetPos, intX, intY, intW, intH, A
 			if ( intW = 800 || intW = 792 )
 			{
-				WinMove, A, , % intX-200, , 1100	
+				WinMove, A, , % intX-200, , 1100
 			}
 		}
 

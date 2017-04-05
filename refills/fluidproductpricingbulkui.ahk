@@ -58,13 +58,18 @@ class FluidProductPricingBulkUI extends Fluid {
 	pour() {
 		global objRetype
 
-		; BULK PRICING:	Resize the pricing season drop-down
 		strGroup := this.__Class
 		IfWinActive, ahk_group %strGroup%
 		{
-			if ( Window.CheckActiveProcess( "rtponecontainer" ) ) {
-				strControl := objRetype.objRTP.formatClassNN( "COMBOBOX", this.getConf( "ComboBox", 11 ) )
-				ControlMove, %strControl%, , , 400, , A
+			; BULK PRICING:	Resize the pricing season drop-down
+			strControl := objRetype.objRTP.formatClassNN( "COMBOBOX", this.getConf( "ComboBox", 11 ) )
+			ControlMove, %strControl%, , , 400, , A
+
+			; Resize window
+			WinGetPos, intX, intY, intW, intH, A
+			if ( intW = 618 || intW = 610 )
+			{
+				WinMove, A, , % intX-150, , 950
 			}
 		}
 	}
