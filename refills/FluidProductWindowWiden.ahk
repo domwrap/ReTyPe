@@ -55,7 +55,7 @@ class FluidProductWindowWiden extends Fluid {
 		IfWinActive, ahk_group %strGroup%
 		{
 			WinGetPos, intX, intY, intW, intH, A
-			if intW = 800
+			if ( intW = 800 || intW = 792 )
 			{
 				WinMove, A, , % intX-200, , 1100	
 			}

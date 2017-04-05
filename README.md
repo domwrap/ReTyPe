@@ -7,6 +7,10 @@ RTP: emending your errors
 
 ## Introduction
 
+#### About
+
+An automation and UI improvement suite written in AutoHotKey to improve the RTP|One user experience.
+
 #### Origins
 
 [RTP|One](http://www.activenetwork.com/solutions/rtp-one) by [Active Network](http://www.activenetwork.com/) is "_Ski & Attractions Management Software_". Whilst the software is undoubtedly extensive and powerful, not much focus was put on UI or Ux, and I found it incredibly frustrating to work with. Furthermore, the particular way in which RTP had been configured for my place of work meant there was large amounts of monotonous repetitive tasks.
