@@ -32,7 +32,7 @@ The features in this software were built using `AutoHotKey v1.1.13.01` against `
 ## Pre-requisites
 
 - [AutoHotKey v1.1.x](https://autohotkey.com/download/)
-- Nothing will work without the client in stall of RTP|One
+- Nothing will work without the client install of RTP|One
 
 ## Features
 
@@ -52,7 +52,7 @@ The best way to see what it can do is to have a nosey through the file header co
 
 #### Food and Beverage
 
-- Swipe/login using RFID passes rather than mag-stripe cards
+- Swipe/login using RFID passes rather than mag-stripe cards (only need to carry one card)
 
 #### ONE Resort
 

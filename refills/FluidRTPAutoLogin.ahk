@@ -50,6 +50,8 @@ class FluidRTPAutoLogin extends Fluid {
 	 */
 	__New() {
 		base.__New()
+
+		this.blnShow := this.getConf( "Active", 1 ) = 1 ? true : false
 	}
 
 	/**
@@ -66,13 +68,13 @@ class FluidRTPAutoLogin extends Fluid {
 		If %WinID%
 		{
 			; Check if user has previously cancelled
-			If this.blnShow = false
+			If ( this.blnShow = false )
 			{
 				Return
 			}
 
 			; Prompt for user-password first time and store only in memory for future logins
-			if this.strPassword = false
+			if ( this.strPassword = false )
 			{
 				this.strPassword := InputBox.Show( "Enter your password once only and press OK to auto-login locked sessions, or press Cancel to not see this again (this session)", "", 1 )
 				IfMsgBox, Cancel
