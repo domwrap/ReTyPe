@@ -72,6 +72,15 @@ Menu, tray, add, E&xit, fnExit
 ; Build the retype!
 objRetype := new Retype()
 
+
+; Debug console creation
+IniRead, strEnv, % objRetype.strFileConf, Conf, Environment
+if ( "dev" = strEnv AND 1 != A_IsCompiled ) {
+	Class_Console( "_d", 100, 100, 800, 600, "ReTyPe Console")
+	_d.show()
+}
+
+
 ; Only do all the following if we're not compiled
 if ( !A_IsCompiled ) {
 	; #Include can't recurse or accept loop parameters (apparently?!)

@@ -403,6 +403,8 @@ class RTP {
 	 * Depending on if you are changing an effective-date or an expiration date,
 	 * you will need to specify either to increment or decrement the year first
 	 * 
+	 * @todo leap year handling
+	 * @todo also see send class for input dates
 	 * 
 	 * @param bool blnUp Control whether to increment or decrement a date input year before transposing
 	 *
