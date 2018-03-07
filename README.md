@@ -9,7 +9,7 @@ RTP: emending your errors
 
 #### About
 
-An automation and UI improvement suite written in AutoHotKey to improve the RTP|One user experience.
+A [Robotic Process Automation](https://en.wikipedia.org/wiki/Robotic_process_automation) (RPA) and UI improvement suite written in AutoHotKey to improve the RTP|One user experience.
 
 #### Origins
 
