@@ -36,7 +36,7 @@ The features in this software were built using `AutoHotKey v1.1.13.01` against `
 
 ## Features
 
-The best way to see what it can do is to have a nosey through the file header comments in the [refills](https://github.com/Hwulex/ReTyPe/tree/master/refills]) directory, but here's a few of some of the favourites
+The best way to see what it can do is to have a nosey through the file header comments in the [refills](https://github.com/Hwulex/ReTyPe/tree/master/refills) directory, but here's a few of some of the favourites
 
 #### Administration
 
