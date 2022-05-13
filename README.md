@@ -11,6 +11,10 @@ RTP: emending your errors
 
 A [Robotic Process Automation](https://en.wikipedia.org/wiki/Robotic_process_automation) (RPA) and UI improvement suite written in AutoHotKey to improve the RTP|One user experience.
 
+#### Disclaimer
+
+The ReTyPe package and this guide are provided as-is with limited testing (beyond what worked for us), and no support or warranty. This document is a _guide_ and not comprehensive instructions: you will need initiative and basic Windows file-management knowledge to get it working. If this guide doesn't get you there, some added curiosity, tenacity, and experimentation to figure some config stuff out may be required. You _should not_ need to modify any actual code (`.ahk` files, unless you _want_ to), only some file-structure and config-file tweaks.
+
 #### Origins
 
 [RTP|One](http://www.activenetwork.com/solutions/rtp-one) by [Active Network](http://www.activenetwork.com/) is "_Ski & Attractions Management Software_". Whilst the software is undoubtedly extensive and powerful, not much focus was put on UI or Ux, and I found it incredibly frustrating to work with. Furthermore, the particular way in which RTP had been configured for my place of work meant there was large amounts of monotonous repetitive tasks.
@@ -40,14 +44,13 @@ The best way to see what it can do is to have a nosey through the file header co
 
 #### Administration
 
-- @@TODO@@ Insert wiki links
 - Treeview menu resizing (so you can see more than 10 things!)
-- Bulk price multiple products by transposing a grid from Excel
-- Bulk delete items from ANY list view
-- Synchronise product media output
-- Bulk create inventory pools
+- Bulk-price multiple products by transposing a grid from Excel
+- Bulk-delete items from ANY list view
+- Bulk-create inventory pools
+- Bulk-update product component pricing
+- Synchronise product media-output
 - Clone discounts (with options)
-- Bulk update product component pricing
 - AccessCode lookup box on components
 
 #### Food and Beverage
@@ -68,12 +71,6 @@ The best way to see what it can do is to have a nosey through the file header co
 - Automate adding pre-defined comments
 - Automate adding hotlists
 
-### Configuration
-
-Configuration `.ini` files read from `%A_AppData%\ReTyPe\`. These are per-user as RTP's window and object IDs can change user-to-user on the same machine. A directory named `ReTyPe` should be created manually at `C:\Users\username\appdata\Roaming\` and then populated with the example set of files from the `conf` directory. Quite often the only required changed user-to-user is the main RTP instance identifier `Element=1`, though there are many more settings if required.
-
-As well as config for latching on RTP, ReTyPe can be configured here whether or not to have a toolbar, which buttons to show, etc. Furthermore, many individual refills can also be configured with here with a corresponding file. Details are within each individual class file.
-
 ## Installation
 
 I've never spent the time to build a proper installer. For development I run the scripts as-is with AutoHotKey, but for production the script is compiled and distributed on our VM array.
@@ -90,6 +87,12 @@ Depending on how you want your setup, **all of these steps are optional**.
 3. Create the per-user config repository
  - `c:\Users\username\AppData\Roaming\ReTyPe`
  - Try running ReTyPe before you create this as everything might work without it and any changes (but I doubt it)
+
+### Configuration
+
+Expanding on 3. above: Configuration `.ini` files are read from `%A_AppData%\ReTyPe\`. These are per-user as RTP's window and object IDs can change user-to-user on the same machine. If ReTyPe is not working out-of-the-box, a directory named `ReTyPe` should be created manually at `C:\Users\username\appdata\Roaming\` and then populated with the example set of files from the `conf` directory. Quite often the only required changed user-to-user is the main RTP instance identifier `Element=1`, though there are many more settings if required.
+
+As well as the config settings for "latching" on to RTP, ReTyPe can be configured whether or not to have a toolbar, which buttons to show, etc. Furthermore, many individual refills can also be configured with here with a corresponding file. Details are within each individual class file.
 
 ### Run from source
 
