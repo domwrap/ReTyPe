@@ -76,9 +76,9 @@ As well as config for latching on RTP, ReTyPe can be configured here whether or 
 
 ## Installation
 
-I've never spent the time to build a proper installer. For development I run the scripts as-is with AutoHotKey, but for production  the script is compiled and distributed on our VM array.
+I've never spent the time to build a proper installer. For development I run the scripts as-is with AutoHotKey, but for production the script is compiled and distributed on our VM array.
 
-Depending on how you want your setup, all of these steps are optional.
+Depending on how you want your setup, **all of these steps are optional**.
 
 1. Create somewhere for the code to belong
  - We use: `c:\Program Files\ReTyPe\`
@@ -89,7 +89,7 @@ Depending on how you want your setup, all of these steps are optional.
  - Only required if you want it loaded at boot
 3. Create the per-user config repository
  - `c:\Users\username\AppData\Roaming\ReTyPe`
- - Run the program before you create this as everything might work without any changes (but I doubt it)
+ - Try running ReTyPe before you create this as everything might work without it and any changes (but I doubt it)
 
 ### Run from source
 
